@@ -1,4 +1,5 @@
-# APKXHunter
+# APKXHunter   [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)
+
 
 **APKXHunter** is an Android Static Analysis Framework written entirely in **C**, purpose-built for Android security assessments, reverse engineering, bug bounty hunting, malware analysis, and penetration testing.
 
@@ -9,8 +10,6 @@ APKXHunter also integrates a lightweight **Machine Learning-based Secret Classif
 - 🔗 **GitHub:** https://github.com/SyscallX-18113/Apkx-Hunter
 - 👤 **Developed by:** SyscallX-18113
 - 🏷️ **Version:** v1.0.0
-
-[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)
 
 ---
 ![Apkx-Hunter-Tool](./apkxhunter.JPG)
