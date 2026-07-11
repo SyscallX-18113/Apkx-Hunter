@@ -1,4 +1,4 @@
-# APKXHunter   [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)
+# APKXHunter              [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)
 
 
 **APKXHunter** is an Android Static Analysis Framework written entirely in **C**, purpose-built for Android security assessments, reverse engineering, bug bounty hunting, malware analysis, and penetration testing.
