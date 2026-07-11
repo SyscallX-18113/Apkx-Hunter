@@ -36,10 +36,10 @@ APKXHunter also integrates a lightweight **Machine Learning-based Secret Classif
 
 Project Statistics
 
-Language: C
-Codebase: 3,300+ lines
-Architecture: Modular
-Platform: Linux
+- Language: C
+- Codebase: 3,300+ lines
+- Architecture: Modular
+- Platform: Linux
 
 ---
 
