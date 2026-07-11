@@ -10,7 +10,7 @@ APKXHunter also integrates a lightweight **Machine Learning-based Secret Classif
 - 👤 **Developed by:** SyscallX-18113
 - 🏷️ **Version:** v1.0.0
 
-[![Support me on Ko-fi](https://storage.ko-fi.com/cdn/kofi1.png?v=6)](https://ko-fi.com/S2Y5230RHH)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)
 
 ---
 ![Apkx-Hunter-Tool](./apkxhunter.JPG)
