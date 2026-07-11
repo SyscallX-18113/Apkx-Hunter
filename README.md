@@ -6,9 +6,10 @@ It combines multiple static analysis techniques — decompilation, secret detect
 
 APKXHunter also integrates a lightweight **Machine Learning-based Secret Classification Engine**, written entirely in C, which automatically classifies detected secrets by confidence and severity, helping researchers prioritize findings instead of manually reviewing every result.
 
-🔗 **GitHub:** https://github.com/SyscallX-18113/Apkx-Hunter
-👤 **Developed by:** SyscallX-18113
-🏷️ **Version:** v1.0.0
+- 🔗 **GitHub:** https://github.com/SyscallX-18113/Apkx-Hunter
+- 👤 **Developed by:** SyscallX-18113
+- 🏷️ **Version:** v1.0.0
+
 [![Support me on Ko-fi](https://storage.ko-fi.com/cdn/kofi1.png?v=6)](https://ko-fi.com/S2Y5230RHH)
 
 ---
