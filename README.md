@@ -34,6 +34,54 @@ APKXHunter also integrates a lightweight **Machine Learning-based Secret Classif
 
 ---
 
+Project Statistics
+
+Language: C
+Codebase: 3,300+ lines
+Architecture: Modular
+Platform: Linux
+
+---
+
+## Platform Support
+
+- ✅ Linux (Supported)
+- ❌ Windows (Not Supported)
+- ❌ macOS (Not Supported)
+
+---
+
+## Performance
+
+The following results are based on testing performed during development.
+
+| Metric | Tested Value |
+|---------|-------------:|
+| Operating System | Kali Linux |
+| RAM Used for Testing | 8 GB |
+| CPU | Intel Core i3-2120 |
+| Largest APK Successfully Decompiled or Scanned| 85 MB |
+| Average Decompilation Time | ~50 - 60 seconds |
+
+---
+
+## System Requirements
+
+Minimum:
+- Linux
+- 4 GB RAM
+- JADX
+- APKTool
+- unzip
+
+Recommended:
+- Linux
+- 8 GB RAM or higher
+- Quad-core CPU
+- SSD storage
+
+---
+
 ## ⚙️ Installation
 
 APKXHunter ships with an automated installer that checks for and installs only the dependencies that are missing on your system.
