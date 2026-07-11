@@ -11,6 +11,9 @@ APKXHunter also integrates a lightweight **Machine Learning-based Secret Classif
 🏷️ **Version:** v1.0.0
 
 ---
+![Apkx-Hunter-Tool](./apkxhunter.JPG)
+
+---
 
 ## ✨ Features
 
@@ -36,6 +39,7 @@ APKXHunter also integrates a lightweight **Machine Learning-based Secret Classif
 APKXHunter ships with an automated installer that checks for and installs only the dependencies that are missing on your system.
 
 ```bash
+cd Apkx-Hunter
 chmod +x install.sh
 ./install.sh
 ```
