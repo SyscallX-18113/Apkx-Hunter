@@ -87,6 +87,8 @@ Recommended:
 APKXHunter ships with an automated installer that checks for and installs only the dependencies that are missing on your system.
 
 ```bash
+git https://github.com/SyscallX-18113/Apkx-Hunter.git
+cd Apkx-Hunter
 cd Apkx-Hunter
 chmod +x install.sh
 ./install.sh
