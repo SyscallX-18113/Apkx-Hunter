@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
          strcmp(argv[2], DEEP) != 0 &&
          strcmp(argv[2], FOLDER_SCAN) != 0 &&
          strcmp(argv[2], APKTOOL) != 0 &&
+         strcmp(argv[2], DECOMPILE) != 0 &&
          strcmp(argv[2], APKTOOL_SCAN) != 0 &&
          strcmp(argv[2], EXTRACT) != 0))
     {
