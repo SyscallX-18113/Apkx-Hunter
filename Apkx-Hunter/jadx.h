@@ -31,6 +31,16 @@ int run_jadx(char *argv[], char *output_dir, int argc)
         system(cmd);
     }
 
+    else if (argc >= 3 && strcmp(argv[2], DECOMPILE) == 0)
+    {
+
+        snprintf(cmd, sizeof(cmd), "jadx -d %s/%s --deobf --deobf-min 3 --show-bad-code --escape-unicode --respect-bytecode-access-modifiers --threads-count 8 %s", Half_path, output_dir, full_path);
+
+        system(cmd);
+        printf(HACKER_WHITE "\nDecompilation successful\n" COLOR_RESET);
+        return 0;
+    }
+
     else if (argc >= 4 && strcmp(argv[2], DEEP) == 0 && strcmp(argv[3], DECOMPILE) == 0)
     {
 
