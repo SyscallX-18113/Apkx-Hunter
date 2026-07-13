@@ -29,6 +29,13 @@ APKXHunter also integrates a lightweight **Machine Learning-based Secret Classif
 - 📚 **Native (.so) Library Detection** — Detect native libraries bundled in the app
 - 🗂️ **File Inventory Generation** — Generate a complete file inventory report
 - 🤖 **Machine Learning-based Secret Classification** *(Highlighted Feature)* — ML-assisted confidence scoring for detected secrets to accelerate triage and reducing false positive in secrets finding
+
+Machine Learning Model
+APKXHunter uses an offline machine learning classifier. `model.bin` contains only trained numerical weights used to calculate the confidence score of detected secrets.
+It is NOT executable.
+It contains no code.
+It is loaded as binary data only.
+
 - 📡 **Offline ML Inference** — All model inference runs locally, with no cloud APIs or internet connection required
 - 📊 **Confidence Probability Scoring** — Each detected secret receives a confidence probability from the trained model
 - 🧮 **Feature Extraction Engine** — Extracts statistical features (entropy, character distribution, length, case ratios, digits, symbols) from every detected secret
