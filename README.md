@@ -38,7 +38,6 @@ It is loaded as binary data only.
 
 - 📡 **Offline ML Inference** — All model inference runs locally, with no cloud APIs or internet connection required
 - 📊 **Confidence Probability Scoring** — Each detected secret receives a confidence probability from the trained model
-- 🧮 **Feature Extraction Engine** — Extracts statistical features (entropy, character distribution, length, case ratios, digits, symbols) from every detected secret
 
 ---
 
