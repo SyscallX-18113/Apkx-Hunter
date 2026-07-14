@@ -382,6 +382,26 @@ APKX-Hunter v2.0 is planned to include **OWASP MASVS static security scanning**,
 
 ---
 
+## 📬 Feedback & Support
+
+APKXHunter is an actively maintained open-source project.
+
+If you:
+
+- 🐞 Found a bug
+- 💡 Have a feature request
+- ⚙️ Want to suggest improvements
+- 🔒 Found a security issue
+- 📝 Have documentation suggestions
+
+Please open a GitHub Issue or contact me directly:
+
+📧 support@syscallx-18113.zendesk.com
+
+Your feedback helps improve APKXHunter for everyone.
+
+---
+
 ## ⚠️ Disclaimer
 
 APKXHunter is intended strictly for:
