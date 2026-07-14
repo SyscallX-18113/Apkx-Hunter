@@ -377,7 +377,7 @@ APKXHunter depends on the following external tools:
 
 ## 🚀 Next Update
 
-APKX-Hunter v2.0 is planned to include **OWASP MASVS static security scanning**, bringing advanced Android security checks such as weak cryptography detection, certificate pinning analysis, root detection identification, insecure WebView detection, and an enhanced `advanced_findings.txt` report.
+APKX-Hunter v2.0 is planned to include **OWASP MASVS static security scanning**, bringing advanced Android security checks such as weak cryptography detection, certificate pinning analysis, root detection identification, insecure WebView detection, and an enhanced `masvs_findings.txt` report.
 
 ---
 
