@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
     if (argc >= 4 &&
         (argv[3] != NULL &&
          strcmp(argv[3], SECRETS) != 0 &&
+         strcmp(argv[3], MASVS) != 0 &&
          strcmp(argv[3], PERMISSIONS) != 0 &&
          strcmp(argv[3], PATTERNS) != 0 &&
          strcmp(argv[3], DECOMPILE) != 0 &&
@@ -86,7 +87,7 @@ int main(int argc, char *argv[])
     }
 
     // FOLDER SCAN MODE (IMPORTANT: NO APK LOGIC HERE)
-    if ((strstr(argv[1], ".apk") == NULL) && (argc >= 3 && strcmp(argv[2], FOLDER_SCAN) == 0 || strcmp(argv[2], SECRETS) == 0 || strcmp(argv[2], PERMISSIONS) == 0 || strcmp(argv[2], PATTERNS) == 0))
+    if ((strstr(argv[1], ".apk") == NULL) && (argc >= 3 && strcmp(argv[2], FOLDER_SCAN) == 0 || strcmp(argv[2], SECRETS) == 0 || strcmp(argv[2], PERMISSIONS) == 0 || strcmp(argv[2], PATTERNS) == 0 || strcmp(argv[2], MASVS) == 0))
     {
         file_making(argv[1], argv, argc);
         cleanup_bucket_regexes();
