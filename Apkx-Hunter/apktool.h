@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include "define.h"
 #include "file_making.h"
+#include "functions.h"
 
 
 
@@ -25,6 +26,7 @@ int run_apktool(char *argv[], char *output_dir, int argc)
     snprintf(Half_path, sizeof(Half_path), "%s", cwd);
 
     check_apk(full_path);
+    compute_hashes(full_path);
    
 
     if (argc == 3)
