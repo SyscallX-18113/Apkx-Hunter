@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include "define.h"
 #include "file_making.h"
+#include "functions.h"
 
 int run_jadx(char *argv[], char *output_dir, int argc)
 {
@@ -22,7 +23,10 @@ int run_jadx(char *argv[], char *output_dir, int argc)
     snprintf(full_path, sizeof(full_path), "%s/%s", cwd, argv[1]);
     snprintf(Half_path, sizeof(Half_path), "%s", cwd);
 
+    
+
     check_apk(full_path);
+    compute_hashes(full_path);
 
     if (argv[2] == NULL)
     {
