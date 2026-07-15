@@ -1,4 +1,4 @@
-# APKXHunter              [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)
+# APKX-Hunter v2.0.0             [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)
 
 
 **APKXHunter** is an Android Static Analysis Framework written entirely in **C**, purpose-built for Android security assessments, reverse engineering, bug bounty hunting, malware analysis, and penetration testing.
@@ -9,15 +9,46 @@ APKXHunter also integrates a lightweight **Machine Learning-based Secret Classif
 
 - 🔗 **GitHub:** https://github.com/SyscallX-18113/Apkx-Hunter
 - 👤 **Developed by:** SyscallX-18113
-- 🏷️ **Version:** v1.0.0
+- 🏷️ **Version:** v2.0.0
 
 ---
-![Apkx-Hunter-Tool](./apkxhunter.JPG)
+![Apkx-Hunter-Tool](./apkx-hunter_v2.0.0.jpg)
+
+---
+
+## 🛡️ OWASP MASVS Scanning Support
+
+Apkx-Hunter now includes **OWASP MASVS** security scanning with **15 categories** and **166 detection patterns**:
+
+| # | Category | Patterns |
+| :--- | :--- | :--- |
+| 1 | Weak Cryptography | 28 |
+| 2 | Certificate Pinning | 13 |
+| 3 | Root Detection | 20 |
+| 4 | Anti Debugging | 9 |
+| 5 | Anti Tamper | 3 |
+| 6 | SharedPreferences | 8 |
+| 7 | SQLite | 9 |
+| 8 | External Storage | 11 |
+| 9 | Dynamic Code Loading | 10 |
+| 10 | Reflection | 9 |
+| 11 | Runtime Command Execution | 9 |
+| 12 | WebView Security | 13 |
+| 13 | Network Security | 10 |
+| 14 | SSL Validation | 10 |
+| 15 | Native Library Loading | 9 |
+| | **TOTAL** | **166** |
+
+### OWASP Validation
+APKXHunter has been tested against the OWASP UnCrackable Level 4 application. The scan successfully identified multiple security findings, demonstrating the effectiveness of its OWASP MASVS scanning engine and Android static analysis capabilities.
+
+![OWASP_VALIDATION](./Apkx-Hunter-Scan.JPG)
 
 ---
 
 ## ✨ Features
 
+- 🛡️ **OWASP MASVS Support** — Apkx-Hunter now includes comprehensive **OWASP MASVS** security scanning with **14+ categories** and **160+ detection patterns**: 
 - 🔍 **JADX Decompilation** — Fast and deep decompilation modes
 - 🛠️ **APKTool Decompilation** — Full APKTool-based decompilation and scanning
 - 📦 **Archive Extraction** — Support for APK, AAB, APKM, APKS, XAPK, and ZIP formats
@@ -44,7 +75,7 @@ It is loaded as binary data only.
 Project Statistics
 
 - Language: C
-- Codebase: 3,300+ lines
+- Codebase: 3,800+ lines
 - Architecture: Modular
 - Platform: Linux
 
@@ -166,6 +197,7 @@ USAGE
 ./apkxhunter <folder_name> --folder-scan
 ./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan
 ./apkxhunter <folder_name> --folder-scan --secrets
+./apkxhunter <folder_name> --folder-scan --masvs 
 ./apkxhunter <folder_name> --folder-scan --permissions
 ./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --secrets
 ./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --files
@@ -181,6 +213,7 @@ USAGE
 | `--permissions` | Analyze Android permissions or exported activity. |
 | `--endpoints` | Discover URLs, endpoints, and patterns. |
 | `--files` | Generate a file inventory report with .so name files extraction. |
+| `--masvs` | OWASP MASVS Scan. |
 
 > **Note:** Use these flags only after scanning modes flags or folder analysis flags
 
@@ -189,6 +222,7 @@ USAGE
 ./apkxhunter app.apk --deep --secrets
 ./apkxhunter app.apk --deep --permissions
 ./apkxhunter app.apk --deep --endpoints
+./apkxhunter app.apk --deep --masvs
 ./apkxhunter <folder_name> --folder-scan --secrets
 ./apkxhunter <folder_name> --folder-scan --permissions
 ./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --endpoints
@@ -270,6 +304,7 @@ Result_Jadx_output_<apk_name>/
   |- pattern_findings.txt        -> URLs, endpoints and security patterns
   |- files.txt                   -> File inventory report
   |- native_library_files.txt    -> Detected native (.so) libraries
+  |- masvs_findings.txt          -> OWASP MASVS Scann Result
 ```
 
 ### Folder Scan Result
@@ -282,6 +317,7 @@ Folder-scan_Result_<folder_name>/
   |- pattern_findings.txt
   |- files.txt
   |- native_library_files.txt
+  |- masvs_findings.txt     
 ```
 
 ### APKTool Analysis
@@ -298,6 +334,7 @@ Apktool_Result_<apk_name>/
   |- endpoint_findings.txt
   |- files.txt
   |- native_library_files.txt
+  |- masvs_findings.txt      
 ```
 
 ### APKTOOL Folder Scan Result
@@ -310,6 +347,7 @@ Apktool-folder-scan_Result_<folder_name>/
   |- endpoint_findings.txt
   |- files.txt
   |- native_library_files.txt
+  |- masvs_findings.txt       
 ```
 
 ### Archive Extraction
@@ -331,6 +369,7 @@ extracted_output_<package_name>/
 | `endpoint_findings.txt` | URLs, endpoints and security patterns (APKTool output) |
 | `files.txt` | File inventory report |
 | `native_library_files.txt` | Detected native (.so) libraries |
+| `masvs_findings.txt` | OWASP MASVS Scann Result |
 
 ---
 
@@ -369,6 +408,7 @@ APKXHunter depends on the following external tools:
 ./apkxhunter app.apk --deep --endpoints
 ./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --endpoints
 ./apkxhunter app.apk --deep --files
+./apkxhunter app.apk --deep --masvs
 ./apkxhunter app.apk --deep --decompile
 ./apkxhunter app.apk --fast --decompile
 ./apkxhunter app.apk --apktool --decompile
@@ -377,7 +417,13 @@ APKXHunter depends on the following external tools:
 
 ## 🚀 Next Update
 
-APKX-Hunter v2.0 is planned to include **OWASP MASVS static security scanning**, bringing advanced Android security checks such as weak cryptography detection, certificate pinning analysis, root detection identification, insecure WebView detection, and an enhanced `masvs_findings.txt` report.
+The following features are planned for the next major release:
+
+Advanced CLI with flexible command parsing.
+Automatic update checking from GitHub.
+One-click self-update (--update).
+Dependency compatibility verification for JADX and APKTool.
+Improved error handling and stability.
 
 ---
 
