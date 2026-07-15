@@ -42,7 +42,7 @@ Apkx-Hunter now includes **OWASP MASVS** security scanning with **15 categories*
 ### OWASP Validation
 APKXHunter has been tested against the OWASP UnCrackable Level 4 application. The scan successfully identified multiple security findings, demonstrating the effectiveness of its OWASP MASVS scanning engine and Android static analysis capabilities.
 
-![OWASP_VALIDATION](./Apkx-Hunter-Scan.JPG)
+![OWASP_VALIDATION](./Apkx-hunter_scan.JPG)
 
 ---
 
