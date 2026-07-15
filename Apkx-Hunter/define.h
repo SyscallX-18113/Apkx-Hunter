@@ -39,5 +39,6 @@
 #define APKTOOL "--apktool"
 #define APKTOOL_SCAN "--apktool-folder-scan"
 #define EXTRACT "--extract"
+#define MASVS "--masvs"
 
 #endif
