@@ -1,5 +1,6 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
+#define OPENSSL_SUPPRESS_DEPRECATED
 
 #include <stdio.h>
 #include <string.h>
@@ -9,6 +10,8 @@
 #include <sys/stat.h>
 #include <regex.h>
 #include <sys/types.h>
+#include <openssl/md5.h>
+#include <openssl/sha.h>
 
 void scan_buckets(const char *filepath, FILE *for_regex, char *line, int bucket_count, int line_no);
 void scan_patterns(const char *filepath, FILE *for_patterns, char *line, int line_no);
@@ -24,6 +27,8 @@ int pattern_count = sizeof(patterns) / sizeof(patterns[0]);
 int permission_count = sizeof(permission) / sizeof(permission[0]);
 int manifest_count = sizeof(manifest_scan) / sizeof(manifest_scan[0]);
 int strings_count = sizeof(string_patterns) / sizeof(string_patterns[0]);
+
+
 
 regex_t bucket_regexes[sizeof(Bucket) / sizeof(Bucket[0])];
 regex_t secret_regexes[sizeof(secrets) / sizeof(secrets[0])];
@@ -203,6 +208,9 @@ void scan_strings_xml(const char *filepath, FILE *for_regex, char *line, int lin
     printf(COLOR_RESET);
 }
 
+
+
+
 void cleanup_bucket_regexes(void)
 {
     int count_patterns =
@@ -302,6 +310,60 @@ int check_apk(char *apk_path)
 
     printf(HACKER_WHITE "APK Size: %.2f MB\n\n"COLOR_RESET, size_mb);
     return 1;
+}
+
+void compute_hashes(const char *filepath) {
+    FILE *file = fopen(filepath, "rb");
+    if (!file) {
+        perror("Error opening file");
+        return;
+    }
+
+    unsigned char md5_digest[MD5_DIGEST_LENGTH];
+    unsigned char sha1_digest[SHA_DIGEST_LENGTH];
+    unsigned char sha256_digest[SHA256_DIGEST_LENGTH];
+    unsigned char buffer[8192];
+    size_t bytes;
+    MD5_CTX md5_ctx;
+    SHA_CTX sha1_ctx;
+    SHA256_CTX sha256_ctx;
+
+    MD5_Init(&md5_ctx);
+    SHA1_Init(&sha1_ctx);
+    SHA256_Init(&sha256_ctx);
+
+    while ((bytes = fread(buffer, 1, sizeof(buffer), file)) > 0) {
+        MD5_Update(&md5_ctx, buffer, bytes);
+        SHA1_Update(&sha1_ctx, buffer, bytes);
+        SHA256_Update(&sha256_ctx, buffer, bytes);
+    }
+
+    MD5_Final(md5_digest, &md5_ctx);
+    SHA1_Final(sha1_digest, &sha1_ctx);
+    SHA256_Final(sha256_digest, &sha256_ctx);
+
+    fclose(file);
+    printf(HACKER_WHITE);
+
+    printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+    printf("APK HASHES\n");
+    
+    printf("MD5:    ");
+    for (int i = 0; i < MD5_DIGEST_LENGTH; i++)
+        printf("%02x", md5_digest[i]);
+    printf("\n");
+
+    printf("SHA-1:  ");
+    for (int i = 0; i < SHA_DIGEST_LENGTH; i++)
+        printf("%02x", sha1_digest[i]);
+    printf("\n");
+
+    printf("SHA-256:");
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+        printf("%02x", sha256_digest[i]);
+    printf("\n");
+    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
+    printf(COLOR_RESET);
 }
 
 #endif
