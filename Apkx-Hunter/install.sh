@@ -1,33 +1,15 @@
 #!/usr/bin/env bash
-#
-# install.sh — Dependency installer for APKXHunter
-#
-# Checks for JADX, APKTool and unzip. Installs only what is missing.
-# Does NOT touch build tools, compilers, Git, Docker, Java, Python, etc.
-# Does NOT compile APKXHunter or clone any repository.
-#
-# Tested target: Debian/Ubuntu-based Linux distributions.
-#
-# Exit codes:
-#   0 - success (all dependencies present/installed)
-#   1 - a download failed
-#   2 - an installation/verification step failed
-#   3 - unsupported environment / missing prerequisite tool
-#
+
 set -euo pipefail
 
-# ---------------------------------------------------------------------------
-# Colors / formatting
-# ---------------------------------------------------------------------------
+
 readonly COLOR_GREEN='\033[0;32m'
 readonly COLOR_RED='\033[0;31m'
 readonly COLOR_YELLOW='\033[1;33m'
 readonly COLOR_BLUE='\033[0;34m'
 readonly COLOR_RESET='\033[0m'
 
-# ---------------------------------------------------------------------------
-# Install locations
-# ---------------------------------------------------------------------------
+
 readonly JADX_INSTALL_DIR="/opt/jadx"
 readonly JADX_BIN_LINK="/usr/local/bin/jadx"
 readonly APKTOOL_WRAPPER="/usr/local/bin/apktool"
@@ -36,9 +18,6 @@ readonly APKTOOL_WRAPPER_URL="https://raw.githubusercontent.com/iBotPeaches/Apkt
 
 TMP_DIR="$(mktemp -d)"
 
-# ---------------------------------------------------------------------------
-# Logging helpers
-# ---------------------------------------------------------------------------
 log_ok()    { echo -e "${COLOR_GREEN}[✓]${COLOR_RESET} $1"; }
 log_fail()  { echo -e "${COLOR_RED}[✗]${COLOR_RESET} $1"; }
 log_info()  { echo -e "${COLOR_BLUE}[*]${COLOR_RESET} $1"; }
@@ -57,9 +36,6 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# ---------------------------------------------------------------------------
-# Privilege helper — use sudo only if not already root
-# ---------------------------------------------------------------------------
 if [[ "$(id -u)" -eq 0 ]]; then
     SUDO=""
 else
@@ -69,11 +45,7 @@ else
     SUDO="sudo"
 fi
 
-# ---------------------------------------------------------------------------
-# Prerequisite check — a downloader must be available.
-# We do not install curl/wget ourselves (that would be a dev-tool install);
-# we simply require one of them to already exist on the system.
-# ---------------------------------------------------------------------------
+
 DOWNLOADER=""
 if command -v curl >/dev/null 2>&1; then
     DOWNLOADER="curl"
@@ -83,7 +55,7 @@ else
     die 3 "Neither curl nor wget is available. Please install one of them and re-run."
 fi
 
-# download <url> <output_path>
+
 download() {
     local url="$1"
     local output="$2"
@@ -105,7 +77,7 @@ download() {
     fi
 }
 
-# fetch_json <url>  -> prints response body to stdout
+
 fetch_json() {
     local url="$1"
     if [[ "$DOWNLOADER" == "curl" ]]; then
@@ -115,8 +87,7 @@ fetch_json() {
     fi
 }
 
-# latest_asset_url <owner/repo> <grep_pattern>
-# Extracts the first matching browser_download_url from the latest release.
+
 latest_asset_url() {
     local repo="$1"
     local pattern="$2"
@@ -137,9 +108,6 @@ latest_asset_url() {
     echo "$url"
 }
 
-# ---------------------------------------------------------------------------
-# unzip
-# ---------------------------------------------------------------------------
 install_unzip() {
     log_info "Installing unzip via apt-get..."
 
@@ -167,9 +135,6 @@ check_unzip() {
     fi
 }
 
-# ---------------------------------------------------------------------------
-# JADX
-# ---------------------------------------------------------------------------
 install_jadx() {
     log_info "Fetching latest JADX release info..."
     local asset_url
@@ -208,9 +173,7 @@ check_jadx() {
     fi
 }
 
-# ---------------------------------------------------------------------------
-# APKTool
-# ---------------------------------------------------------------------------
+
 install_apktool() {
     log_info "Fetching latest APKTool release info..."
     local jar_url
@@ -242,9 +205,6 @@ check_apktool() {
     fi
 }
 
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
 main() {
     echo -e "${COLOR_BLUE}=====================================${COLOR_RESET}"
     echo -e "${COLOR_BLUE}  APKX-Hunter Dependency Installer${COLOR_RESET}"
