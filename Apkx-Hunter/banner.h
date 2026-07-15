@@ -53,7 +53,7 @@ void print_banner(void)
     printf("\t    Android Reverse Engineering And APK Static Analysis Framework\n");
     printf("\t                                                              \n");
     printf("\t                                                              \n");
-    printf("\t                      • jadx • apktool                           \n");
+    printf("\t           • OWASP MASVS Detection • jadx • apktool                           \n");
     printf("\t                                                              \n");
     printf("\t                 Developed by SyscallX-18113                     \n");
     printf("\t                                                              \n");
@@ -67,7 +67,7 @@ void help_func()
     printf(
         "\n"
         "══════════════════════════════════════════════════════════════\n"
-        "                         APKX-Hunter v1.0.0\n\n"
+        "                         APKX-Hunter v2.0.0\n\n"
         "           Github: https://github.com/SyscallX-18113/Apkx-Hunter\n\n"
         "               - Android Static Analysis Framework written in C\n"
         "══════════════════════════════════════════════════════════════\n"
@@ -114,6 +114,7 @@ void help_func()
         "./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan\n"
         "./apkxhunter <folder_name> --folder-scan --secrets\n"
         "./apkxhunter <folder_name> --folder-scan --permissions\n"
+        "./apkxhunter <folder_name> --folder-scan --masvs\n"
         "./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --secrets\n"
         "./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --files\n"
         "-------------------------------------------------------------\n"
@@ -125,6 +126,7 @@ void help_func()
         "  --permissions          Analyze Android permissions or exported activity.\n"
         "  --endpoints            Discover URLs, endpoints, and patterns.\n"
         "  --files                Generate a file inventory report with .so name files extraction.\n"
+        "  --masvs                OWASP MASVS Scan.\n"
         "\n"
         "Note: Use these flags only after scanning modes flags or folder analysis flags\n"
         "\n"
@@ -132,6 +134,7 @@ void help_func()
         "./apkxhunter app.apk --deep --secrets\n"
         "./apkxhunter app.apk --deep --permissions\n"
         "./apkxhunter app.apk --deep --endpoints\n"
+        "./apkxhunter app.apk --deep --masvs\n"
         "./apkxhunter <folder_name> --folder-scan --secrets\n"
         "./apkxhunter <folder_name> --folder-scan --permissions\n"
         "./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --endpoints\n"
@@ -170,9 +173,10 @@ void help_func()
         "    Result_Jadx_output_<apk_name>/\n"
         "      |- secrets_findings.txt      -> Embedded API keys, tokens, secrets\n"
         "      |- permissions.txt           -> Android permission analysis\n"
-        "      |- pattern_findings.txt     -> URLs, endpoints and security patterns\n"
+        "      |- pattern_findings.txt      -> URLs, endpoints and security patterns\n"
         "      |- files.txt                 -> File inventory report\n"
-        "      |- native_library_files.txt      -> Detected native (.so) libraries\n\n"
+        "      |- native_library_files.txt  -> Detected native (.so) libraries\n"
+        "      |- masvs_findings.txt        -> OWASP MASVS Scann Result\n\n"
 
         "Folder Scan Result:\n"
         "\n"
@@ -182,7 +186,8 @@ void help_func()
         "      |- permissions.txt\n"
         "      |- pattern_findings.txt\n"
         "      |- files.txt\n"
-        "      |- native_library_files.txt\n\n"
+        "      |- native_library_files.txt\n"
+        "      |- masvs_findings.txt\n\n"
 
 
         "APKTool Analysis:\n"
@@ -195,7 +200,8 @@ void help_func()
         "      |- permissions.txt\n"
         "      |- endpoint_findings.txt\n"
         "      |- files.txt\n"
-        "      |- native_library_files.txt\n\n"
+        "      |- native_library_files.txt\n"
+        "      |- masvs_findings.txt\n"
 
         "APKTOOL Folder Scan Result:\n"
         "\n"
@@ -205,7 +211,8 @@ void help_func()
         "      |- permissions.txt\n"
         "      |- endpoint_findings.txt\n"
         "      |- files.txt\n"
-        "      |- native_library_files.txt\n\n"
+        "      |- native_library_files.txt\n"
+        "      |- masvs_findings.txt\n"
 
         "Archive Extraction:\n"
         "  extracted_output_<package_name>/\n"
@@ -214,7 +221,7 @@ void help_func()
         
         "\n"
         "══════════════════════════════════════════════════════════════\n"
-        "  APKX Hunter v1.0.0\n"
+        "  APKX Hunter v2.0.0\n"
         "  Developed by SyscallX-18113\n"
         "══════════════════════════════════════════════════════════════\n");
 
