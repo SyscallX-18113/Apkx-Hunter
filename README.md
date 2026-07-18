@@ -456,3 +456,9 @@ APKXHunter is intended strictly for:
 - Defensive security research
 
 Users are solely responsible for ensuring they have proper authorization before analyzing any application. Unauthorized use of this tool against applications or systems you do not own or have explicit permission to test may be illegal.
+
+## License
+
+APKXHunter is licensed under the Apache License 2.0.
+
+Copyright © 2026 Devesh Kachhawaha (SyscallX-18113).
