@@ -7,16 +7,16 @@ It combines multiple static analysis techniques — decompilation, secret detect
 
 APKXHunter also integrates a lightweight **Machine Learning-based Secret Classification Engine**, written entirely in C, which automatically classifies detected secrets by confidence and severity, helping researchers prioritize findings instead of manually reviewing every result.
 
-- 🔗 **GitHub:** https://github.com/SyscallX-18113/Apkx-Hunter
-- 👤 **Developed by:** SyscallX-18113
-- 🏷️ **Version:** v2.0.0
+- **GitHub:** https://github.com/SyscallX-18113/Apkx-Hunter
+- **Developed by:** SyscallX-18113
+- **Version:** v2.0.0
 
 ---
 ![Apkx-Hunter-Tool](./apkx-hunter_v2.0.0.jpg)
 
 ---
 
-## 🛡️ OWASP MASVS Scanning Support
+## OWASP MASVS Scanning Support
 
 Apkx-Hunter now includes **OWASP MASVS** security scanning with **15 categories** and **166 detection patterns**:
 
@@ -46,20 +46,20 @@ APKXHunter has been tested against the OWASP UnCrackable Level 4 application. Th
 
 ---
 
-## ✨ Features
+## Features
 
-- 🛡️ **OWASP MASVS Support** — Apkx-Hunter now includes comprehensive **OWASP MASVS** security scanning with **14+ categories** and **160+ detection patterns**: 
-- 🔍 **JADX Decompilation** — Fast and deep decompilation modes
-- 🛠️ **APKTool Decompilation** — Full APKTool-based decompilation and scanning
-- 📦 **Archive Extraction** — Support for APK, AAB, APKM, APKS, XAPK, and ZIP formats
-- 📁 **Decompiled Folder Scanning** — Scan any already-decompiled JADX source directory
-- 📁 **APKTool Folder Scanning** — Scan any already-decompiled APKTool directory
-- 🔑 **Secret Detection** — Discover API keys, tokens, passwords, and embedded secrets
-- 🌐 **Endpoint Discovery** — Identify URLs, endpoints, and security-relevant patterns
-- 🔐 **Android Permission Analysis** — Analyze permissions and exported activities
-- 📚 **Native (.so) Library Detection** — Detect native libraries bundled in the app
-- 🗂️ **File Inventory Generation** — Generate a complete file inventory report
-- 🤖 **Machine Learning-based Secret Classification** *(Highlighted Feature)* — ML-assisted confidence scoring for detected secrets to accelerate triage and reducing false positive in secrets finding
+- **OWASP MASVS Support** — Apkx-Hunter now includes comprehensive **OWASP MASVS** security scanning with **14+ categories** and **160+ detection patterns**: 
+- **JADX Decompilation** — Fast and deep decompilation modes
+- **APKTool Decompilation** — Full APKTool-based decompilation and scanning
+- **Archive Extraction** — Support for APK, AAB, APKM, APKS, XAPK, and ZIP formats
+- **Decompiled Folder Scanning** — Scan any already-decompiled JADX source directory
+- **APKTool Folder Scanning** — Scan any already-decompiled APKTool directory
+- **Secret Detection** — Discover API keys, tokens, passwords, and embedded secrets
+- **Endpoint Discovery** — Identify URLs, endpoints, and security-relevant patterns
+- **Android Permission Analysis** — Analyze permissions and exported activities
+- **Native (.so) Library Detection** — Detect native libraries bundled in the app
+- **File Inventory Generation** — Generate a complete file inventory report
+- **Machine Learning-based Secret Classification** *(Highlighted Feature)* — ML-assisted confidence scoring for detected secrets to accelerate triage and reducing false positive in secrets finding
 
 Machine Learning Model
 APKXHunter uses an offline machine learning classifier. `model.bin` contains only trained numerical weights used to calculate the confidence score of detected secrets.
@@ -67,8 +67,8 @@ It is NOT executable.
 It contains no code.
 It is loaded as binary data only.
 
-- 📡 **Offline ML Inference** — All model inference runs locally, with no cloud APIs or internet connection required
-- 📊 **Confidence Probability Scoring** — Each detected secret receives a confidence probability from the trained model
+- **Offline ML Inference** — All model inference runs locally, with no cloud APIs or internet connection required
+- **Confidence Probability Scoring** — Each detected secret receives a confidence probability from the trained model
 
 ---
 
@@ -83,9 +83,9 @@ Project Statistics
 
 ## Platform Support
 
-- ✅ Linux (Supported)
-- ❌ Windows (Not Supported)
-- ❌ macOS (Not Supported)
+- Linux (Supported)
+- Windows (Not Supported)
+- macOS (Not Supported)
 
 ---
 
@@ -120,7 +120,7 @@ Recommended:
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 APKXHunter ships with an automated installer that checks for and installs only the dependencies that are missing on your system.
 
@@ -136,7 +136,7 @@ chmod +x install.sh
 
 ---
 
-## 🚀 Usage
+## Usage
 
 ```
 USAGE
@@ -151,7 +151,7 @@ USAGE
 
 ---
 
-## 🎯 Scan Modes
+## Scan Modes
 
 ### Scanning Modes for JADX
 
@@ -183,7 +183,7 @@ USAGE
 
 ---
 
-## 📁 Folder Scan
+## Folder Scan
 
 | Flag | Description |
 |------|-------------|
@@ -205,7 +205,7 @@ USAGE
 
 ---
 
-## 🧩 Individual Scanners
+## Individual Scanners
 
 | Flag | Description |
 |------|-------------|
@@ -231,7 +231,7 @@ USAGE
 
 ---
 
-## 📄 Decompilation Only
+## Decompilation Only
 
 | Flag | Description |
 |------|-------------|
@@ -248,7 +248,7 @@ USAGE
 
 ---
 
-## 📦 Archive Extraction
+## Archive Extraction
 
 | Flag | Description |
 |------|-------------|
@@ -263,7 +263,7 @@ USAGE
 
 ---
 
-## 🤖 ML Secret Classification
+## ML Secret Classification
 
 APKXHunter integrates a lightweight **Machine Learning-based Secret Classification Engine**, written entirely in C, as part of its secret detection workflow. This is a statistical Machine Learning model — not a Large Language Model, ChatGPT, Generative AI, or Deep Learning system.
 
@@ -273,7 +273,7 @@ APKXHunter integrates a lightweight **Machine Learning-based Secret Classificati
 - The ML engine assists researchers in triaging findings faster.
 - The ML engine is designed to assist human analysis rather than replace manual verification.
 
-### ⚙️ How It Works
+### How It Works
 
 1. Detect potential secret.
 2. Extract statistical features (entropy, character distribution, length, uppercase/lowercase ratios, digits, symbols, and other statistical token characteristics).
@@ -282,13 +282,13 @@ APKXHunter integrates a lightweight **Machine Learning-based Secret Classificati
 5. Produce a confidence probability.
 6. Present results to the user for manual verification.
 
-### 🔒 Security Note
+### Security Note
 
 All Machine Learning inference is performed **locally** on the trained `model.bin` file. APKXHunter does not transmit scanned data, detected secrets, or any other analysis output externally — no cloud APIs are used, and no internet connection is required for ML inference.
 
 ---
 
-## 🗃️ Output Directories
+## Output Directories
 
 ### JADX Analysis
 
@@ -359,7 +359,7 @@ extracted_output_<package_name>/
 
 ---
 
-## 📑 Report Files
+## Report Files
 
 | File | Description |
 |------|-------------|
@@ -373,13 +373,13 @@ extracted_output_<package_name>/
 
 ---
 
-## 📦 Supported Formats
+## Supported Formats
 
 APK, AAB, APKM, APKS, XAPK, ZIP
 
 ---
 
-## 📋 Requirements
+## Requirements
 
 APKXHunter depends on the following external tools:
 
@@ -391,7 +391,7 @@ APKXHunter depends on the following external tools:
 
 ---
 
-## 💡 Example Commands
+## Example Commands
 
 ```bash
 ./apkxhunter app.apk --fast
@@ -415,39 +415,46 @@ APKXHunter depends on the following external tools:
 ./apkxhunter app.apkm --extract
 ```
 
-## 🚀 Next Update
+## Next Update (v2.5.0)
 
-The following features are planned for the next major release:
+The following features are planned for the next release:
 
-Advanced CLI with flexible command parsing.
-Automatic update checking from GitHub.
-One-click self-update (--update).
-Dependency compatibility verification for JADX and APKTool.
-Improved error handling and stability.
+- Recursive Multi-APK scanning for large-scale Android application analysis
+- Automatic analysis of extracted APKs from supported package formats (APKS, APKM, XAPK, AAB, ZIP, etc.).
+- Silent Batch Mode for cleaner terminal output during large-scale scans.
+- Duplicate APK detection to automatically skip identical packages during batch analysis.
+- Enhanced command-line argument parsing and flag validation.
+- Improved error handling memory management and overall framework stability.
+- Expanded static analysis rules and detection coverage.
+- End-of-scan statistics including:
+  - APKs scanned
+  - Duplicate APKs skipped
+  - Files analyzed
+  - Detection patterns loaded
 
 ---
 
-## 📬 Feedback & Support
+## Feedback & Support
 
 APKXHunter is an actively maintained open-source project.
 
 If you:
 
-- 🐞 Found a bug
-- 💡 Have a feature request
-- ⚙️ Want to suggest improvements
-- 🔒 Found a security issue
-- 📝 Have documentation suggestions
+- Found a bug
+- Have a feature request
+- Want to suggest improvements
+- Found a security issue
+- Have documentation suggestions
 
 Please open a GitHub Issue or contact me directly:
 
-📧 support@syscallx-18113.zendesk.com
+support@syscallx-18113.zendesk.com
 
 Your feedback helps improve APKXHunter for everyone.
 
 ---
 
-## ⚠️ Disclaimer
+## Disclaimer
 
 APKXHunter is intended strictly for:
 
