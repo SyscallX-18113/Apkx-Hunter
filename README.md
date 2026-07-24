@@ -448,7 +448,7 @@ If you:
 
 Please open a GitHub Issue or contact me directly:
 
-support@syscallx-18113.zendesk.com
+syscallx18113@gmail.com
 
 Your feedback helps improve APKXHunter for everyone.
 
