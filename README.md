@@ -422,15 +422,15 @@ The following features are planned for the next release:
 - Recursive Multi-APK scanning for large-scale Android application analysis
 - Automatic analysis of extracted APKs from supported package formats (APKS, APKM, XAPK, AAB, ZIP, etc.).
 - Silent Batch Mode for cleaner terminal output during large-scale scans.
-- Duplicate APK detection to automatically skip identical packages during batch analysis.
 - Enhanced command-line argument parsing and flag validation.
 - Improved error handling memory management and overall framework stability.
 - Expanded static analysis rules and detection coverage.
 - End-of-scan statistics including:
   - APKs scanned
-  - Duplicate APKs skipped
   - Files analyzed
-  - Detection patterns loaded
+  - Secrets Patterns Detected
+  - Patterns Detected
+  - MASVS Findings
 
 ---
 
