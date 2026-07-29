@@ -420,7 +420,7 @@ APKXHunter depends on the following external tools:
 The following features are planned for the next release:
 
 - Recursive Multi-APK scanning for large-scale Android application analysis
-- Automatic analysis of extracted APKs from supported package formats (APKS, APKM, XAPK, ZIP, etc.).
+- Automatic analysis of extracted APKs from supported package formats (APKS, APKM, XAPK, ZIP).
 - Silent Batch Mode for cleaner terminal output during large-scale scans.
 - Enhanced command-line argument parsing and flag validation.
 - Improved error handling memory management and overall framework stability.
