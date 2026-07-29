@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2026 Devesh Kachhawaha (SyscallX-18113)
+ *
+ * Licensed under the Apache License, Version 2.0.
+ * See the LICENSE file in the project root for license information.
+ */
+
 #ifndef SCAN_FILE_FUNC_H
 #define SCAN_FILE_FUNC_H
 
@@ -124,10 +131,6 @@ int scan_file_per(const char *filepath, FILE *for_permissions)
 
     char line[MAX_LINE];
     int line_no = 0;
-
-    
-
-    
 
     while (fgets(line, sizeof(line), f))
     {
