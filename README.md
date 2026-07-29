@@ -425,9 +425,7 @@ APKXHunter depends on the following external tools:
 
 ## Next Update (v2.6.0)
 
-The following features are planned for the next release:
-
-
+## Planned for Future Releases APKX-Hunter is actively under development. If there is a feature, improvement, or analysis capability you would like to see in a future release, we welcome your suggestions. Please submit your ideas through one of the support channels listed below. Community feedback helps shape the future development of APKX-Hunter.
 
 ---
 
