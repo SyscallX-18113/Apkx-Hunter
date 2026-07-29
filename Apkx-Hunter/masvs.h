@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2026 Devesh Kachhawaha (SyscallX-18113)
+ *
+ * Licensed under the Apache License, Version 2.0.
+ * See the LICENSE file in the project root for license information.
+ */
+
 #ifndef MASVS_H
 #define MASVS_H
 
@@ -22,16 +29,32 @@ int false_positives_count = sizeof(false_positives) / sizeof(false_positives[0])
 void scan_masvs_1(const char *filepath, FILE *for_masvs, char *line, int line_no)
 {
     int is_false_positive = 0;
-    
 
     for (int i = 0; i < masvs_count; i++)
     {
         if (strstr(line, masvs_patterns[i].pattern))
         {
-            fprintf(for_masvs,
-                    "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n", masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
+            for (int n = 0; n < false_positives_count; n++)
+            {
+                if (strstr(line, false_positives[n]) != NULL)
+                {
+                    is_false_positive = 1;
+                    break;
+                }
+            }
 
-            printf(LIGHT_YELLOW "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n" COLOR_RESET, masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
+            if (!is_false_positive)
+            {
+                fprintf(for_masvs,
+                        "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n", masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
+
+                    stats.masvs++;
+                if (silent_mode == 1)
+                {
+
+                    printf(LIGHT_YELLOW "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n" COLOR_RESET, masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
+                }
+            }
         }
     }
 
@@ -50,21 +73,21 @@ void scan_masvs_1(const char *filepath, FILE *for_masvs, char *line, int line_no
 
             if (!is_false_positive)
             {
-                fprintf(for_masvs,
-                        "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n", masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
+                fprintf(for_masvs, "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n", network_security_patterns[i].name, filepath, line_no, network_security_patterns[i].severity, network_security_patterns[i].description, line);
+                stats.masvs++;
 
-                printf(LIGHT_YELLOW "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n" COLOR_RESET, masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
+                if (silent_mode == 1)
+                {
+                    printf(LIGHT_YELLOW "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n" COLOR_RESET, network_security_patterns[i].name, filepath, line_no, network_security_patterns[i].severity, network_security_patterns[i].description, line);
+                }
             }
         }
     }
-
-   
 }
 
 void scan_masvs(const char *filepath, FILE *for_masvs, char *line, int line_no)
 {
     int is_false_positive = 0;
-    
 
     int bucket_count =
         sizeof(Bucket) / sizeof(Bucket[0]);
@@ -79,10 +102,25 @@ void scan_masvs(const char *filepath, FILE *for_masvs, char *line, int line_no)
     {
         if (strstr(line, masvs_patterns[i].pattern))
         {
-            fprintf(for_masvs,
-                    "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n", masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
+            for (int n = 0; n < false_positives_count; n++)
+            {
+                if (strstr(line, false_positives[n]) != NULL)
+                {
+                    is_false_positive = 1;
+                    break;
+                }
+            }
+            if (!is_false_positive)
+            {
+                fprintf(for_masvs,
+                        "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n", masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
 
-            printf(LIGHT_YELLOW "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n" COLOR_RESET, masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
+                        stats.masvs++;
+                if (silent_mode == 1)
+                {
+                    printf(LIGHT_YELLOW "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n" COLOR_RESET, masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
+                }
+            }
         }
     }
 
@@ -102,14 +140,16 @@ void scan_masvs(const char *filepath, FILE *for_masvs, char *line, int line_no)
             if (!is_false_positive)
             {
                 fprintf(for_masvs,
-                        "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n", masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
+                        "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n", network_security_patterns[i].name, filepath, line_no, network_security_patterns[i].severity, network_security_patterns[i].description, line);
 
-                printf(LIGHT_YELLOW "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n" COLOR_RESET, masvs_patterns[i].name, filepath, line_no, masvs_patterns[i].severity, masvs_patterns[i].description, line);
+                        stats.masvs++;
+                if (silent_mode == 1)
+                {
+                    printf(LIGHT_YELLOW "[%s]\nFilePath %s:%d \tSEVERITY = %s\nDESCRIPTION: %s\nFOUND: %s\n" COLOR_RESET, network_security_patterns[i].name, filepath, line_no, network_security_patterns[i].severity, network_security_patterns[i].description, line);
+                }
             }
         }
     }
-
-    
 }
 
 #endif
