@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2026 Devesh Kachhawaha (SyscallX-18113)
+ *
+ * Licensed under the Apache License, Version 2.0.
+ * See the LICENSE file in the project root for license information.
+ */
+
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 #define OPENSSL_SUPPRESS_DEPRECATED
@@ -17,18 +24,18 @@ void scan_buckets(const char *filepath, FILE *for_regex, char *line, int bucket_
 void scan_patterns(const char *filepath, FILE *for_patterns, char *line, int line_no);
 void scan_permissions(const char *filepath, FILE *for_permissions, char *line, int line_no);
 void cleanup_bucket_regexes(void);
-void init_bucket_regexes(void);
+int init_bucket_regexes(void);
 void scan_exported_activity(const char *filepath, FILE *for_permissions, char *line, int line_no);
 void print_files(const char *filepath, FILE *scan_files);
 void scan_strings_xml(const char *filepath, FILE *for_permissions, char *line, int line_no);
 void scan_native_libraries(const char *filepath, FILE *for_native_lib);
+int statics();
+int statics_1();
 
 int pattern_count = sizeof(patterns) / sizeof(patterns[0]);
 int permission_count = sizeof(permission) / sizeof(permission[0]);
 int manifest_count = sizeof(manifest_scan) / sizeof(manifest_scan[0]);
 int strings_count = sizeof(string_patterns) / sizeof(string_patterns[0]);
-
-
 
 regex_t bucket_regexes[sizeof(Bucket) / sizeof(Bucket[0])];
 regex_t secret_regexes[sizeof(secrets) / sizeof(secrets[0])];
@@ -39,6 +46,36 @@ regex_t secret_regexes[sizeof(secrets) / sizeof(secrets[0])];
 #include "file_making.h"
 #include "scan_dir_func.h"
 #include "scan_secrets.h"
+
+int statics()
+{
+    printf(HACKER_WHITE);
+    printf("\n===================================================\n");
+    printf("                  Statistics\n");
+    printf("=====================================================\n\n");
+    printf("APK(s) Scanned                               : %d\n", stats.apks_scanned);
+    printf("Files Analyzed                               : %d\n", stats.files_analyzed);
+    printf("\n===================================================\n\n");
+    printf("Secrets Patterns Detected                    : %d\n", stats.secrets);
+    printf("Patterns Detected                            : %d\n", stats.patterns);
+    printf("MASVS Findings                               : %d\n", stats.masvs);
+    printf("Permissions And Exported Activity Findings   : %d\n", stats.permissions);
+    printf("=====================================================\n\n");
+    printf(COLOR_RESET);
+    return 0;
+}
+
+int statics_1()
+{
+    printf(HACKER_WHITE);
+    printf("\n=====================================================\n");
+    printf("                  Statistics\n");
+    printf("=====================================================\n\n");
+    printf("APK(s) Scanned                               : %d\n", stats.apks_scanned);
+    printf("=====================================================\n\n");
+    printf(COLOR_RESET);
+    return 0;
+}
 
 void scan_buckets(const char *filepath, FILE *for_regex, char *line, int bucket_count, int line_no)
 {
@@ -74,27 +111,35 @@ void scan_buckets(const char *filepath, FILE *for_regex, char *line, int bucket_
 
             if (match[1].rm_so != -1)
             {
-                printf("FOUND: %s \nFile: %s:%d\n",
-                       found, filepath, line_no);
-                printf("\n");
+                if (silent_mode == 1)
+                {
+                    printf("FOUND: %s \nFile: %s:%d\n",
+                           found, filepath, line_no);
+                    printf("\n");
+                }
 
                 fprintf(for_regex,
                         "[Cloud_Bucket] %s:%d -> %s\n \t %s \n\n",
                         filepath,
                         line_no,
                         Bucket[i].name, found);
+                stats.secrets++;
             }
             else
 
             {
-                printf("FOUND: %s \nFile: %s:%d\n",
-                       found, filepath, line_no);
-                printf("\n");
+                if (silent_mode == 1)
+                {
+                    printf("FOUND: %s \nFile: %s:%d\n",
+                           found, filepath, line_no);
+                    printf("\n");
+                }
                 fprintf(for_regex,
                         "[Cloud_Bucket] %s:%d -> %s\n \t %s\n\n",
                         filepath,
                         line_no,
                         Bucket[i].name, found);
+                stats.secrets++;
             }
         }
         printf(COLOR_RESET);
@@ -113,8 +158,12 @@ void scan_patterns(const char *filepath, FILE *for_patterns, char *line, int lin
                     filepath,
                     line_no,
                     patterns[i], line);
+            stats.patterns++;
 
-            printf("[ENDPOINT_Found] %s:%d -> %s\n Line: %s\n", filepath, line_no, patterns[i], line);
+            if (silent_mode == 1)
+            {
+                printf("[ENDPOINT_Found] %s:%d -> %s\n Line: %s\n", filepath, line_no, patterns[i], line);
+            }
         }
     }
 }
@@ -132,17 +181,21 @@ void scan_permissions(const char *filepath, FILE *for_permissions, char *line, i
                     line_no,
                     permission[i].permission,
                     permission[i].definition);
+            stats.permissions++;
 
-            printf("[PERMISSION_FOUND]\n");
-            printf("File: %s:%d\n",
-                   filepath,
-                   line_no);
+            if (silent_mode == 1)
+            {
+                printf("[PERMISSION_FOUND]\n");
+                printf("File: %s:%d\n",
+                       filepath,
+                       line_no);
 
-            printf("Permission: %s\n",
-                   permission[i].permission);
+                printf("Permission: %s\n",
+                       permission[i].permission);
 
-            printf("Definition: %s\n\n",
-                   permission[i].definition);
+                printf("Definition: %s\n\n",
+                       permission[i].definition);
+            }
         }
     }
 }
@@ -160,8 +213,12 @@ void scan_exported_activity(const char *filepath, FILE *for_permissions, char *l
             {
                 fprintf(for_permissions,
                         "[MANIFEST_SCAN_Result]\nFilepath %s:%d -> %s\nFound: %s\n", filepath, line_no, manifest_scan[i].name, line);
+                stats.permissions++;
 
-                printf("[MANIFEST_SCAN_Result]\nFilepath %s:%d -> %s\nFound: %s\n", filepath, line_no, manifest_scan[i].name, line);
+                if (silent_mode == 1)
+                {
+                    printf("[MANIFEST_SCAN_Result]\nFilepath %s:%d -> %s\nFound: %s\n", filepath, line_no, manifest_scan[i].name, line);
+                }
             }
         }
     }
@@ -176,8 +233,6 @@ void scan_native_libraries(const char *filepath, FILE *for_native_lib)
 
         fprintf(for_native_lib,
                 "Filepath: %s\n", filepath);
-
-        
     }
 }
 
@@ -198,18 +253,18 @@ void scan_strings_xml(const char *filepath, FILE *for_regex, char *line, int lin
         {
             if (strstr(line, string_patterns[i].pattern))
             {
-                fprintf(for_regex,
-                        "[Strings Found Result]\nFilePath %s:%d -> %s\n FOUND: %s\n", filepath, line_no, string_patterns[i].name, line);
+                fprintf(for_regex, "[Strings Found Result]\nFilePath %s:%d -> %s\n FOUND: %s\n", filepath, line_no, string_patterns[i].name, line);
+                stats.secrets++;
 
-                printf("[Strings Found Result]\nFilePath %s:%d -> %s\n FOUND: %s\n", filepath, line_no, string_patterns[i].name, line);
+                if (silent_mode == 1)
+                {
+                    printf("[Strings Found Result]\nFilePath %s:%d -> %s\n FOUND: %s\n", filepath, line_no, string_patterns[i].name, line);
+                }
             }
         }
     }
     printf(COLOR_RESET);
 }
-
-
-
 
 void cleanup_bucket_regexes(void)
 {
@@ -230,7 +285,7 @@ void cleanup_bucket_regexes(void)
     }
 }
 
-void init_bucket_regexes(void)
+int init_bucket_regexes(void)
 {
     printf(HACKER_WHITE);
 
@@ -247,6 +302,7 @@ void init_bucket_regexes(void)
         if (ret != 0)
         {
             printf("FAILED TO COMPILE: %s\n", Bucket[i].name);
+            return 1;
         }
     }
 
@@ -262,6 +318,7 @@ void init_bucket_regexes(void)
         {
             printf("FAILED TO COMPILE: %s\n",
                    secrets[n].name);
+            return 1;
         }
     }
     printf(COLOR_RESET);
@@ -277,7 +334,6 @@ int is_apk(const char *filename)
     fread(header, 1, 4, f);
     fclose(f);
 
-    // APK = ZIP signature
     if (header[0] == 'P' && header[1] == 'K')
         return 1;
 
@@ -289,18 +345,20 @@ int check_apk(char *apk_path)
 
     if (!is_apk(apk_path))
     {
-        printf(HACKER_WHITE "Not a valid APK file: %s\n"COLOR_RESET, apk_path);
-        return 0;
+        printf(HACKER_WHITE "Not a valid APK file: %s\n" COLOR_RESET, apk_path);
+        not_valid_apk++;
+        return 1;
     }
     FILE *apk = fopen(apk_path, "rb");
 
     if (apk == NULL)
     {
-        printf(HACKER_WHITE "APK not found: %s\n"COLOR_RESET, apk_path);
-        return 0;
+        printf(HACKER_WHITE "APK not found: %s\n" COLOR_RESET, apk_path);
+        not_valid_apk++;
+        return 1;
     }
 
-    printf(HACKER_WHITE "APK found: %s\n"COLOR_RESET, apk_path);
+    printf(HACKER_WHITE "\n\n\nAPK found: %s\n" COLOR_RESET, apk_path);
 
     fseek(apk, 0, SEEK_END);
     long size_bytes = ftell(apk);
@@ -308,62 +366,73 @@ int check_apk(char *apk_path)
 
     double size_mb = (double)size_bytes / (1024 * 1024);
 
-    printf(HACKER_WHITE "APK Size: %.2f MB\n\n"COLOR_RESET, size_mb);
+    printf(HACKER_WHITE "APK Size: %.2f MB\n\n" COLOR_RESET, size_mb);
     return 1;
 }
 
-void compute_hashes(const char *filepath) {
-    FILE *file = fopen(filepath, "rb");
-    if (!file) {
-        perror("Error opening file");
-        return;
+int compute_hashes(const char *filepath)
+{
+    if (not_valid_apk == 0)
+    {
+
+        FILE *file = fopen(filepath, "rb");
+        if (!file)
+        {
+            perror("Error opening file");
+            return 1;
+        }
+
+        unsigned char md5_digest[MD5_DIGEST_LENGTH];
+        unsigned char sha1_digest[SHA_DIGEST_LENGTH];
+        unsigned char sha256_digest[SHA256_DIGEST_LENGTH];
+        unsigned char buffer[8192];
+        size_t bytes;
+        MD5_CTX md5_ctx;
+        SHA_CTX sha1_ctx;
+        SHA256_CTX sha256_ctx;
+
+        MD5_Init(&md5_ctx);
+        SHA1_Init(&sha1_ctx);
+        SHA256_Init(&sha256_ctx);
+
+        while ((bytes = fread(buffer, 1, sizeof(buffer), file)) > 0)
+        {
+            MD5_Update(&md5_ctx, buffer, bytes);
+            SHA1_Update(&sha1_ctx, buffer, bytes);
+            SHA256_Update(&sha256_ctx, buffer, bytes);
+        }
+
+        MD5_Final(md5_digest, &md5_ctx);
+        SHA1_Final(sha1_digest, &sha1_ctx);
+        SHA256_Final(sha256_digest, &sha256_ctx);
+
+        fclose(file);
+        printf(HACKER_WHITE);
+
+        printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+        printf("APK HASHES\n");
+
+        printf("MD5:    ");
+        for (int i = 0; i < MD5_DIGEST_LENGTH; i++)
+            printf("%02x", md5_digest[i]);
+        printf("\n");
+
+        printf("SHA-1:  ");
+        for (int i = 0; i < SHA_DIGEST_LENGTH; i++)
+            printf("%02x", sha1_digest[i]);
+        printf("\n");
+
+        printf("SHA-256:");
+        for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+            printf("%02x", sha256_digest[i]);
+        printf("\n");
+        printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
+        printf(COLOR_RESET);
     }
-
-    unsigned char md5_digest[MD5_DIGEST_LENGTH];
-    unsigned char sha1_digest[SHA_DIGEST_LENGTH];
-    unsigned char sha256_digest[SHA256_DIGEST_LENGTH];
-    unsigned char buffer[8192];
-    size_t bytes;
-    MD5_CTX md5_ctx;
-    SHA_CTX sha1_ctx;
-    SHA256_CTX sha256_ctx;
-
-    MD5_Init(&md5_ctx);
-    SHA1_Init(&sha1_ctx);
-    SHA256_Init(&sha256_ctx);
-
-    while ((bytes = fread(buffer, 1, sizeof(buffer), file)) > 0) {
-        MD5_Update(&md5_ctx, buffer, bytes);
-        SHA1_Update(&sha1_ctx, buffer, bytes);
-        SHA256_Update(&sha256_ctx, buffer, bytes);
+    else
+    {
+        return 1;
     }
-
-    MD5_Final(md5_digest, &md5_ctx);
-    SHA1_Final(sha1_digest, &sha1_ctx);
-    SHA256_Final(sha256_digest, &sha256_ctx);
-
-    fclose(file);
-    printf(HACKER_WHITE);
-
-    printf("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-    printf("APK HASHES\n");
-    
-    printf("MD5:    ");
-    for (int i = 0; i < MD5_DIGEST_LENGTH; i++)
-        printf("%02x", md5_digest[i]);
-    printf("\n");
-
-    printf("SHA-1:  ");
-    for (int i = 0; i < SHA_DIGEST_LENGTH; i++)
-        printf("%02x", sha1_digest[i]);
-    printf("\n");
-
-    printf("SHA-256:");
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
-        printf("%02x", sha256_digest[i]);
-    printf("\n");
-    printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
-    printf(COLOR_RESET);
 }
 
 #endif
