@@ -51,7 +51,7 @@ APKXHunter has been tested against the OWASP UnCrackable Level 4 application. Th
 - **OWASP MASVS Support** — Apkx-Hunter now includes comprehensive **OWASP MASVS** security scanning with **14+ categories** and **160+ detection patterns**: 
 - **JADX Decompilation** — Fast and deep decompilation modes
 - **APKTool Decompilation** — Full APKTool-based decompilation and scanning
-- **Archive Extraction** — Support for APK, AAB, APKM, APKS, XAPK, and ZIP formats
+- **Archive Extraction** — Support for APK, APKM, APKS, XAPK, and ZIP formats
 - **Decompiled Folder Scanning** — Scan any already-decompiled JADX source directory
 - **APKTool Folder Scanning** — Scan any already-decompiled APKTool directory
 - **Secret Detection** — Discover API keys, tokens, passwords, and embedded secrets
@@ -254,7 +254,7 @@ USAGE
 |------|-------------|
 | `--extract` | Extract supported Android packages before analysis and save extracted apk to folder `extracted_output_<apk_name>`. |
 
-**Supported Formats:** APK, AAB, APKM, APKS, XAPK, ZIP
+**Supported Formats:** APK, APKM, APKS, XAPK, ZIP
 
 **Example:**
 ```bash
@@ -375,7 +375,7 @@ extracted_output_<package_name>/
 
 ## Supported Formats
 
-APK, AAB, APKM, APKS, XAPK, ZIP
+APK, APKM, APKS, XAPK, ZIP
 
 ---
 
@@ -420,7 +420,7 @@ APKXHunter depends on the following external tools:
 The following features are planned for the next release:
 
 - Recursive Multi-APK scanning for large-scale Android application analysis
-- Automatic analysis of extracted APKs from supported package formats (APKS, APKM, XAPK, AAB, ZIP, etc.).
+- Automatic analysis of extracted APKs from supported package formats (APKS, APKM, XAPK, ZIP, etc.).
 - Silent Batch Mode for cleaner terminal output during large-scale scans.
 - Enhanced command-line argument parsing and flag validation.
 - Improved error handling memory management and overall framework stability.
