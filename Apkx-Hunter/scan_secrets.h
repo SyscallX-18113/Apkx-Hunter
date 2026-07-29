@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2026 Devesh Kachhawaha (SyscallX-18113)
+ *
+ * Licensed under the Apache License, Version 2.0.
+ * See the LICENSE file in the project root for license information.
+ */
+
 #ifndef SCAN_SECRETS_H
 #define SCAN_SECRETS_H
 
@@ -65,10 +72,6 @@ int scan_secrets(const char *filepath,
             {
                 return 1;
             }
-
-            
-
-            
 
             ai_model(filepath, for_regex, line_no, found, n);
         }
