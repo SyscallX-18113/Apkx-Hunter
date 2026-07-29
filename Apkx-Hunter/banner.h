@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2026 Devesh Kachhawaha (SyscallX-18113)
+ *
+ * Licensed under the Apache License, Version 2.0.
+ * See the LICENSE file in the project root for license information.
+ */
+
 #ifndef BANNER_H
 #define BANNER_H
 
@@ -66,22 +73,23 @@ void help_func()
     printf(HACKER_WHITE);
     printf(
         "\n"
-        "══════════════════════════════════════════════════════════════\n"
-        "                         APKX-Hunter v2.0.0\n\n"
+        "═════════════════════════════════════════════════════════════════════════════\n"
+        "                         APKX-Hunter v2.5.0\n\n"
         "           Github: https://github.com/SyscallX-18113/Apkx-Hunter\n\n"
-        "               - Android Static Analysis Framework written in C\n"
-        "══════════════════════════════════════════════════════════════\n"
+        "               - Android Static Analysis Framework written in C\n\n"
+        "         - Enhanced command-line argument parsing and flag validation\n"
+        "═════════════════════════════════════════════════════════════════════════════\n"
         "\n"
-        "USAGE\n"
+        "< USAGE >\n"
         "  ./apkx_hunter <package/folder> [options] [options]\n"
         "-------------------------------------------------------------\n"
         "\n"
-        "GENERAL OPTIONS:\n"
-        "  -h                     Show help message.\n"
+        "< GENERAL OPTIONS: >\n"
+        "  --help                     Show help message.\n"
         "-------------------------------------------------------------\n"
         "\n"
 
-        "SCANNING MODES FOR JADX:\n"
+        "< SCANNING MODES FOR JADX: > \n"
         "  --fast                 Perform a fast jadx decompilation and scan extracted folder.\n"
         "  --deep                 Perform a complete deep jadx decompilation and scan extracted folder.\n"
         "\n"
@@ -93,7 +101,7 @@ void help_func()
         "-------------------------------------------------------------\n"
         "\n"
         
-        "SCANNING MODES FOR APKTOOL:\n"
+        "< SCANNING MODES FOR APKTOOL: >\n"
         "  --apktool               Perform a apktool decompilation and scan extracted folder.\n"
         "\n"
         "Note: Use these flags only after giving apkfile name\n"
@@ -103,7 +111,27 @@ void help_func()
         "-------------------------------------------------------------\n"
         "\n"
 
-        "FOLDER ANALYSIS:\n"
+        "< MULTI APK SCANNING MODE FROM FOLDER: >\n"
+        "  --multi-apk             Perform a multi apk decompilation and scan extracted folder.\n"
+        "\n"
+        "Note: Use these flags only after giving apk_files_folder name\n"
+        "\n"
+        "Examples:\n"
+        "./apkxhunter Apks --multi-apk\n"
+        "-------------------------------------------------------------\n"
+        "\n"
+
+        "< APK PACKAGE SCANNNING MODE: >\n"
+        "  --extract-multi-apk    Extract package (APKS/APKM/XAPK/ZIP) and automatically analyze every extracted APK.\n"
+        "\n"
+        "Note: Use these flags only after giving apk_package_file name\n"
+        "\n"
+        "Examples:\n"
+        "./apkxhunter test.apkm --extract-multi-apk\n"
+        "-------------------------------------------------------------\n"
+        "\n"
+
+        "< FOLDER ANALYSIS: >\n"
         "  --folder-scan          Scan an already decompiled JADX source directory or any directory\n"
         "  --apktool-folder-scan  Scan an already decompiled Apktool directory use this flag only for scanning decompiled apk folder which is decompiled by APKTOOL.\n"
         "\n"
@@ -112,16 +140,11 @@ void help_func()
         "Examples:\n"
         "./apkxhunter <folder_name> --folder-scan\n"
         "./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan\n"
-        "./apkxhunter <folder_name> --folder-scan --secrets\n"
-        "./apkxhunter <folder_name> --folder-scan --permissions\n"
-        "./apkxhunter <folder_name> --folder-scan --masvs\n"
-        "./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --secrets\n"
-        "./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --files\n"
         "-------------------------------------------------------------\n"
         "\n"
         
 
-        "INDIVIDUAL SCANNERS:\n"
+        "< INDIVIDUAL SCANNERS: >\n"
         "  --secrets              Scan for API keys, tokens, passwords, and other embedded secrets.\n"
         "  --permissions          Analyze Android permissions or exported activity.\n"
         "  --endpoints            Discover URLs, endpoints, and patterns.\n"
@@ -132,8 +155,8 @@ void help_func()
         "\n"
         "Examples:\n"
         "./apkxhunter app.apk --deep --secrets\n"
-        "./apkxhunter app.apk --deep --permissions\n"
-        "./apkxhunter app.apk --deep --endpoints\n"
+        "./apkxhunter Apks_folder --deep --multi-apk --secrets\n"
+        "./apkxhunter test.apkm --extract-multi-apk --secrets\n"
         "./apkxhunter app.apk --deep --masvs\n"
         "./apkxhunter <folder_name> --folder-scan --secrets\n"
         "./apkxhunter <folder_name> --folder-scan --permissions\n"
@@ -143,7 +166,7 @@ void help_func()
         "\n"
         
 
-        "DECOMPILATION ONLY:\n"
+        "< DECOMPILATION ONLY: > \n"
         
         "  --decompile            Decompile APK using JADX or APKTOOL doesn't run folder scan after decompilation\n"
         "\n"
@@ -151,28 +174,26 @@ void help_func()
         "\n"
         "Examples:\n"
         "./apkxhunter app.apk --deep --decompile\n"
-        "./apkxhunter app.apk --fast --decompile\n"
-        "./apkxhunter app.apk --apktool --decompile\n"
         "-------------------------------------------------------------\n"
         "\n"
         
 
-        "ARCHIVE SUPPORT:\n"
+        "< ARCHIVE SUPPORT: >\n"
         "  --extract              Extract supported Android packages before analysis and save extracted apk to folder extracted_output_<apk_name>.\n"
         "Supported Formats:\n"
-        "  APK, AAB, APKM, APKS, XAPK, ZIP\n"
+        "  APK, APKM, APKS, XAPK, ZIP\n"
         "Example:\n"
         "./apkxhunter app.apkm --extract\n"
         "-------------------------------------------------------------\n"
         "\n\n"
-        "OUTPUT DIRECTORY STRUCTURE:\n"
+        "< OUTPUT DIRECTORY STRUCTURE: >\n"
         "\n"
         "JADX Analysis:\n"
         "    Jadx_output_<apk_name>/\n\n"
         " Findins Reports:\n"
         "    Result_Jadx_output_<apk_name>/\n"
         "      |- secrets_findings.txt      -> Embedded API keys, tokens, secrets\n"
-        "      |- permissions.txt           -> Android permission analysis\n"
+        "      |- permissions_findings.txt  -> Android permission analysis\n"
         "      |- pattern_findings.txt      -> URLs, endpoints and security patterns\n"
         "      |- files.txt                 -> File inventory report\n"
         "      |- native_library_files.txt  -> Detected native (.so) libraries\n"
@@ -181,9 +202,9 @@ void help_func()
         "Folder Scan Result:\n"
         "\n"
         " Findings Reports:\n"
-        "    Folder-scan_Result_<folder_name>/\n"
+        "    Folder-Scan_Result_<folder_name>/\n"
         "      |- secrets_findings.txt\n"
-        "      |- permissions.txt\n"
+        "      |- permissions_findings.txt\n"
         "      |- pattern_findings.txt\n"
         "      |- files.txt\n"
         "      |- native_library_files.txt\n"
@@ -197,7 +218,7 @@ void help_func()
         " Findings Reports:\n"
         "    Apktool_Result_<apk_name>/\n"
         "      |- secrets_findings.txt\n"
-        "      |- permissions.txt\n"
+        "      |- permissions_findings.txt\n"
         "      |- endpoint_findings.txt\n"
         "      |- files.txt\n"
         "      |- native_library_files.txt\n"
@@ -208,7 +229,7 @@ void help_func()
         " Findings Reports:\n"
         "    Apktool-folder-scan_Result_<folder_name>/\n"
         "      |- secrets_findings.txt\n"
-        "      |- permissions.txt\n"
+        "      |- permissions_findings.txt\n"
         "      |- endpoint_findings.txt\n"
         "      |- files.txt\n"
         "      |- native_library_files.txt\n"
@@ -221,11 +242,13 @@ void help_func()
         
         "\n"
         "══════════════════════════════════════════════════════════════\n"
-        "  APKX Hunter v2.0.0\n"
+        "  APKX Hunter v2.5.0\n"
         "  Developed by SyscallX-18113\n"
         "══════════════════════════════════════════════════════════════\n");
 
     printf(COLOR_RESET);
+
+    
 }
 
 #endif
