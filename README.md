@@ -162,9 +162,9 @@ APKXHunter ships with an automated installer that checks for and installs only t
 ```bash
 git https://github.com/SyscallX-18113/Apkx-Hunter.git
 cd Apkx-Hunter
-cd Apkx-Hunter
 chmod +x install.sh
 ./install.sh
+make
 ```
 
 `install.sh` automatically checks for and installs required dependencies — it will **not** reinstall anything already present on your system.
