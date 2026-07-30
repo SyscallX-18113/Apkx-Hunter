@@ -1,15 +1,13 @@
 CC = gcc
 
-CFLAGS = -Wall -Wextra -O2
-
-LIBS = -lm -lssl -lcrypto
-
 TARGET = apkxhunter
 
 SRC = Apkx-Hunter/main.c
 
+LIBS = -lm -lssl -lcrypto
+
 all:
-	$(CC) $(CFLAGS) $(SRC) -o $(TARGET) $(LIBS)
+	$(CC) $(SRC) -o $(TARGET) $(LIBS)
 
 clean:
 	rm -f $(TARGET)
