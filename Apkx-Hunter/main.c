@@ -24,6 +24,8 @@
 #include "extract.h"
 #include "multi_apk.h"
 #include "masvs.h"
+#define MODEL_PATH "/usr/share/apkx-hunter/model.bin"
+#define MODEL_PATH_1 "model.bin"
 
 int main(int argc, char *argv[])
 {
@@ -60,7 +62,7 @@ int main(int argc, char *argv[])
             fast_2 = 1;
 
         else if (strcmp(argv[i], EXTRACT_MULTI_APK) == 0)
-            extract_multi_apk_2 = 1;    
+            extract_multi_apk_2 = 1;
 
         else if (strcmp(argv[i], SECRETS) == 0)
             secrets_2 = 1;
@@ -104,13 +106,26 @@ int main(int argc, char *argv[])
     init_bucket_regexes();
     print_banner();
 
+    if (access(MODEL_PATH, F_OK) != 0 &&
+        access(MODEL_PATH_1, F_OK) != 0)
+    {
+        printf(HACKER_WHITE);
+        printf("\n[ERROR] AI model not found!\n");
+        printf("Expected location:\n");
+        printf("%s\n", MODEL_PATH);
+        printf("Or the current working directory.\n");
+        printf("Secret Detection cannot run without model.bin.\n\n");
+        printf(COLOR_RESET);
+
+        return 1;
+    }
+
     if (argc == 1)
     {
         printf(HACKER_WHITE "Usage: %s <apk|folder> --deep | --fast | --folder-scan OR %s --help \n" COLOR_RESET, argv[0], argv[0]);
         return 0;
     }
 
-    
     if (strcmp(argv[1], HELP) == 0)
     {
         help_func();
@@ -223,12 +238,11 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-
     if (strstr(argv[1], ".apk") != NULL && !extract_2)
     {
 
         char output_dir[256];
-        
+
         char *apk_name = argv[1];
         char *dot = strstr(apk_name, ".apk");
 
