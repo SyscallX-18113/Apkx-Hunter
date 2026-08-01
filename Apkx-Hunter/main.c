@@ -96,6 +96,9 @@ int main(int argc, char *argv[])
 
         else if (strcmp(argv[i], MASVS) == 0)
             masvs_2 = 1;
+
+        else if (strcmp(argv[i], INSTALL) == 0)
+            install = 1;    
     }
 
     if (multi_apk_2)
@@ -129,6 +132,13 @@ int main(int argc, char *argv[])
     if (strcmp(argv[1], HELP) == 0)
     {
         help_func();
+        return 0;
+    }
+
+    
+    if (strcmp(argv[1], INSTALL) == 0)
+    {
+        install_missing_dependencies();
         return 0;
     }
 
