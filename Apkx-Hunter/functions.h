@@ -435,4 +435,112 @@ int compute_hashes(const char *filepath)
     }
 }
 
+void install_missing_dependencies(void) {
+    char cmd[1024];
+    int has_sudo = (geteuid() != 0);
+ 
+    
+    if (system("command -v unzip >/dev/null 2>&1") != 0) {
+        printf(HACKER_WHITE "[*] Installing unzip..." COLOR_RESET "\n");
+        snprintf(cmd, sizeof(cmd), "%sapt-get update -qq && %sapt-get install -y -qq unzip",
+                 has_sudo ? "sudo " : "", has_sudo ? "sudo " : "");
+        if (system(cmd) != 0 || system("command -v unzip >/dev/null 2>&1") != 0) 
+        {
+            fprintf(stderr, LIGHT_RED "[FAIL] unzip installation failed. Check network/sudo access and try manually: apt-get install unzip" COLOR_RESET "\n");
+        } 
+        
+        else 
+        {
+            printf(GREEN "[OK] unzip installed" COLOR_RESET "\n");
+        }
+    } 
+    
+    else
+    {
+        printf(GREEN "[OK] unzip found" COLOR_RESET "\n");
+    }
+ 
+    
+    if (system("command -v jadx >/dev/null 2>&1") != 0) 
+    {
+        printf(HACKER_WHITE "[*] Installing JADX..." COLOR_RESET "\n");
+        snprintf(cmd, sizeof(cmd),
+            "URL=$(curl -fsSL https://api.github.com/repos/skylot/jadx/releases/latest "
+            "| grep -o '\"browser_download_url\": *\"[^\"]*jadx-[0-9][^\"]*\\.zip\"' "
+            "| head -n1 | cut -d'\"' -f4); "
+            "[ -n \"$URL\" ] || exit 1; "
+            "curl -fsSL -o /tmp/jadx.zip \"$URL\" || exit 2; "
+            "%smkdir -p /opt/jadx && %sunzip -oq /tmp/jadx.zip -d /opt/jadx || exit 3; "
+            "%schmod +x /opt/jadx/bin/jadx && %sln -sf /opt/jadx/bin/jadx /usr/local/bin/jadx",
+            has_sudo ? "sudo " : "", has_sudo ? "sudo " : "",
+            has_sudo ? "sudo " : "", has_sudo ? "sudo " : "");
+ 
+        int rc = system(cmd);
+        if (rc != 0) {
+            int code = rc / 256;
+            if (code == 1)      fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed: could not find a matching release asset on GitHub." COLOR_RESET "\n");
+            else if (code == 2) fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed: download from GitHub failed (check internet connection)." COLOR_RESET "\n");
+            else if (code == 3) fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed: could not extract the archive (unzip missing or corrupt zip)." COLOR_RESET "\n");
+            else                fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed for an unknown reason." COLOR_RESET "\n");
+        } 
+        
+        else if (system("command -v jadx >/dev/null 2>&1") != 0) 
+        {
+            fprintf(stderr, LIGHT_RED "[FAIL] JADX install ran but 'jadx' command still not found in PATH." COLOR_RESET "\n");
+        } 
+        
+        else 
+        {
+            printf(GREEN "[OK] JADX installed" COLOR_RESET "\n");
+        }
+    } 
+    
+    else 
+    {
+        printf(GREEN "[OK] JADX found" COLOR_RESET "\n");
+    }
+ 
+    
+    if (system("command -v apktool >/dev/null 2>&1") != 0) 
+    {
+        printf(HACKER_WHITE "[*] Installing APKTool..." COLOR_RESET "\n");
+        snprintf(cmd, sizeof(cmd), "URL=$(curl -fsSL https://api.github.com/repos/iBotPeaches/Apktool/releases/latest "
+            "| grep -o '\"browser_download_url\": *\"[^\"]*apktool_[0-9][^\"]*\\.jar\"' "
+            "| head -n1 | cut -d'\"' -f4); "
+            "[ -n \"$URL\" ] || exit 1; "
+            "curl -fsSL -o /tmp/apktool.jar \"$URL\" || exit 2; "
+            "curl -fsSL -o /tmp/apktool https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool || exit 2; "
+            "%sinstall -m 755 /tmp/apktool /usr/local/bin/apktool || exit 3; "
+            "%sinstall -m 644 /tmp/apktool.jar /usr/local/bin/apktool.jar || exit 3",
+            has_sudo ? "sudo " : "", has_sudo ? "sudo " : "");
+ 
+        int rc = system(cmd);
+        if (rc != 0) 
+        {
+            int code = rc / 256;
+            if (code == 1)      fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed: could not find a matching release asset on GitHub." COLOR_RESET "\n");
+            else if (code == 2) fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed: download failed (check internet connection)." COLOR_RESET "\n");
+            else if (code == 3) fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed: could not copy files to /usr/local/bin (check sudo access)." COLOR_RESET "\n");
+            else                fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed for an unknown reason." COLOR_RESET "\n");
+        }
+        
+        else if (system("command -v apktool >/dev/null 2>&1") != 0) 
+        {
+            fprintf(stderr, LIGHT_RED "[FAIL] APKTool install ran but 'apktool' command still not found in PATH." COLOR_RESET "\n");
+        } 
+        
+        else 
+        {
+            printf(GREEN "[OK] APKTool installed" COLOR_RESET "\n");
+        }
+    } 
+    
+    else 
+    {
+        printf(GREEN "[OK] APKTool found" COLOR_RESET "\n");
+    }
+}
+
+
+
 #endif
