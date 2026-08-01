@@ -1,4 +1,4 @@
-# APKX-Hunter v2.5.0             [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)   [![SyscallX-18113/Apkx-Hunter | Trendshift](https://trendshift.io/api/badge/trendshift/repositories/79601/daily?language=C)](https://trendshift.io/repositories/79601?utm_source=trendshift-badge&utm_medium=badge&utm_campaign=badge-trendshift-79601)
+# APKX-Hunter v2.6.0 — Debian Package Release             [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)   [![SyscallX-18113/Apkx-Hunter | Trendshift](https://trendshift.io/api/badge/trendshift/repositories/79601/daily?language=C)](https://trendshift.io/repositories/79601?utm_source=trendshift-badge&utm_medium=badge&utm_campaign=badge-trendshift-79601)
 
 
 **APKX-Hunter** is an open-source **Android Static Analysis Framework** written entirely in **C**, purpose-built for Android security assessments, reverse engineering, malware analysis, **OWASP MASVS** compliance scanning, bug bounty hunting, and penetration testing.
@@ -13,7 +13,7 @@ At the end of every scan, APKX-Hunter generates detailed scan statistics, includ
 
 - **GitHub:** https://github.com/SyscallX-18113/Apkx-Hunter
 - **Developed by:** SyscallX-18113
-- **Version:** v2.5.0
+- **Version:** v2.6.0
 
 ---
 ![Apkx-Hunter-Tool](./apkx-hunter_v2.5.0.JPG)
@@ -52,6 +52,7 @@ APKXHunter has been tested against the OWASP UnCrackable Level 4 application. Th
 
 ## Features
 
+- **Linux & Debian Integration** — Native Debian package (.deb), System-wide installation, Desktop application launcher, Application menu integration, Custom application icon, Automatic framework asset installation, Built-in dependency manager (--install-dependencies)
 - **OWASP MASVS Support** — Apkx-Hunter now includes comprehensive **OWASP MASVS** security scanning with **14+ categories** and **160+ detection patterns**: 
 - **JADX Decompilation** — Fast and deep decompilation modes
 - **APKTool Decompilation** — Full APKTool-based decompilation and scanning
@@ -157,17 +158,18 @@ All Machine Learning inference is performed **locally** on the trained `model.bi
 
 ## Installation
 
-APKXHunter ships with an automated installer that checks for and installs only the dependencies that are missing on your system.
+### Debian / Kali / Ubuntu
+
+Install the Debian package:
 
 ```bash
-git https://github.com/SyscallX-18113/Apkx-Hunter.git
-cd Apkx-Hunter
-chmod +x install.sh
-./install.sh
-make
+sudo dpkg -i apkx-hunter_2.6-1_amd64.deb
 ```
 
-`install.sh` automatically checks for and installs required dependencies — it will **not** reinstall anything already present on your system.
+Dependency Management:  Automatically check and install JADX, Apktool, Java, and other required tools.
+```bash
+--install-dependencies 
+```
 
 ---
 
@@ -175,7 +177,7 @@ make
 
 ```
 USAGE
-  ./apkxhunter <package/folder> [options] [options]
+apkxhunter <package/folder> [options] [options]
 ```
 
 ### General Options
@@ -199,8 +201,8 @@ USAGE
 
 **Examples:**
 ```bash
-./apkxhunter app.apk --fast
-./apkxhunter app.apk --deep
+apkxhunter app.apk --fast
+apkxhunter app.apk --deep
 ```
 
 ### Scanning Modes for APKTool
@@ -213,7 +215,7 @@ USAGE
 
 **Examples:**
 ```bash
-./apkxhunter app.apk --apktool
+apkxhunter app.apk --apktool
 ```
 ## MULTI APK SCANNING MODE FROM FOLDER
 
@@ -224,7 +226,7 @@ USAGE
 > **Note:** Use these flags only after giving apk_files_folder name                                                                                                                                            
 **Examples:**
 ```
-./apkxhunter Apks --multi-apk
+apkxhunter Apks --multi-apk
 ```
 
 ## APK PACKAGE SCANNNING MODE:  
@@ -237,7 +239,7 @@ USAGE
 
 **Examples:**
 ```
-./apkxhunter test.apkm --extract-multi-apk
+apkxhunter test.apkm --extract-multi-apk
 ```
 
 ## Folder Scan
@@ -251,13 +253,13 @@ USAGE
 
 **Examples:**
 ```bash
-./apkxhunter <folder_name> --folder-scan
-./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan
-./apkxhunter <folder_name> --folder-scan --secrets
-./apkxhunter <folder_name> --folder-scan --masvs 
-./apkxhunter <folder_name> --folder-scan --permissions
-./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --secrets
-./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --files
+apkxhunter <folder_name> --folder-scan
+apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan
+apkxhunter <folder_name> --folder-scan --secrets
+apkxhunter <folder_name> --folder-scan --masvs 
+apkxhunter <folder_name> --folder-scan --permissions
+apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --secrets
+apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --files
 ```
 
 ---
@@ -276,14 +278,14 @@ USAGE
 
 **Examples:**
 ```bash
-./apkxhunter app.apk --deep --secrets
-./apkxhunter Apks_folder --deep --multi-apk --secrets
-./apkxhunter test.apkm --extract-multi-apk --secrets
-./apkxhunter app.apk --deep --masvs
-./apkxhunter <folder_name> --folder-scan --secrets
-./apkxhunter <folder_name> --folder-scan --permissions
-./apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --endpoints
-./apkxhunter app.apk --deep --files
+apkxhunter app.apk --deep --secrets
+apkxhunter Apks_folder --deep --multi-apk --secrets
+apkxhunter test.apkm --extract-multi-apk --secrets
+apkxhunter app.apk --deep --masvs
+apkxhunter <folder_name> --folder-scan --secrets
+apkxhunter <folder_name> --folder-scan --permissions
+apkxhunter <folder_name_decompiled_by_apktool> --apktool-folder-scan --endpoints
+apkxhunter app.apk --deep --files
 ```
 
 ---
@@ -298,9 +300,9 @@ USAGE
 
 **Examples:**
 ```bash
-./apkxhunter app.apk --deep --decompile
-./apkxhunter app.apk --fast --decompile
-./apkxhunter app.apk --apktool --decompile
+apkxhunter app.apk --deep --decompile
+apkxhunter app.apk --fast --decompile
+apkxhunter app.apk --apktool --decompile
 ```
 
 ---
@@ -315,7 +317,7 @@ USAGE
 
 **Example:**
 ```bash
-./apkxhunter app.apkm --extract
+apkxhunter app.apkm --extract
 ```
 
 ---
@@ -411,19 +413,7 @@ APK, APKM, APKS, XAPK, ZIP
 
 ---
 
-## Requirements
-
-APKXHunter depends on the following external tools:
-
-- **JADX**
-- **APKTool**
-- **unzip**
-
-`install.sh` automatically checks for these dependencies and installs only the ones that are missing — existing installations are left untouched.
-
----
-
-## Next Update (v2.6.0)
+## Next Update
 
 APKX-Hunter is actively under development. If there is a feature, improvement, or analysis capability you would like to see in a future release, we welcome your suggestions. Please submit your ideas through one of the support channels listed below. Community feedback helps shape the future development of APKX-Hunter.
 
