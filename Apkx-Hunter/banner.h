@@ -64,6 +64,8 @@ void print_banner(void)
     printf("\t                                                              \n");
     printf("\t                 Developed by SyscallX-18113                     \n");
     printf("\t                                                              \n");
+    printf("\t                         v2.6.0                                     \n");
+    printf("\t                                                              \n");
     printf("\t═════════════════════════════════════════════════════════════════════════\n\n\n");
     printf(COLOR_RESET);
 }
@@ -74,7 +76,7 @@ void help_func()
     printf(
         "\n"
         "═════════════════════════════════════════════════════════════════════════════\n"
-        "                         APKX-Hunter v2.5.0\n\n"
+        "                         APKX-Hunter v2.6.0\n\n"
         "           Github: https://github.com/SyscallX-18113/Apkx-Hunter\n\n"
         "               - Android Static Analysis Framework written in C\n\n"
         "         - Enhanced command-line argument parsing and flag validation\n"
@@ -85,7 +87,10 @@ void help_func()
         "-------------------------------------------------------------\n"
         "\n"
         "< GENERAL OPTIONS: >\n"
-        "  --help                     Show help message.\n"
+        "  --help                     Show help message.\n\n"
+
+        "Dependency Management:\n"
+        "--install-dependencies     Automatically check and install JADX, Apktool, Java, and other required tools.\n"
         "-------------------------------------------------------------\n"
         "\n"
 
@@ -242,7 +247,7 @@ void help_func()
         
         "\n"
         "══════════════════════════════════════════════════════════════\n"
-        "  APKX Hunter v2.5.0\n"
+        "  APKX Hunter v2.6.0\n"
         "  Developed by SyscallX-18113\n"
         "══════════════════════════════════════════════════════════════\n");
 
