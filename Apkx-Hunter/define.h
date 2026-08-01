@@ -28,6 +28,8 @@
 #define ORANGE                "\033[38;2;255;165;0m"
 #define HACKER_WHITE          "\033[97m"
 
+ 
+
 //Other Defines
 
 #define MAX_LINE 2048
@@ -50,6 +52,7 @@
 #define EXTRACT "--extract"
 #define MASVS "--masvs"
 #define EXTRACT_MULTI_APK "--extract-multi-apk"
+#define INSTALL "--install-dependencies"
 
 int silent_mode = 1;
 int deep_2 = 0;
@@ -67,13 +70,14 @@ int multi_apk_2 = 0;
 int extract_2 = 0;
 int masvs_2 = 0;
 int extract_multi_apk_2 = 0;
+int install = 0;
 
 int not_valid_apk = 0;
 int apk_count = 0;
 
 const char *valid_flags[] =
 {
-    
+    INSTALL
     FAST,
     DEEP,
     EXTRACT_MULTI_APK,
@@ -103,7 +107,5 @@ typedef struct
 } ScanStats;
 
 ScanStats stats = {0};
-
-
 
 #endif
