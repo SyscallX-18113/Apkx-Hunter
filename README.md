@@ -7,7 +7,7 @@ The framework supports both single-application and large-scale Android applicati
 
 APKX-Hunter combines multiple static analysis techniques—including decompilation, AndroidManifest analysis, permission analysis, exported component detection, endpoint discovery, hardcoded secret detection, cloud configuration discovery, native library detection, and **OWASP MASVS** security checks—to uncover security-relevant information inside Android applications.
 
-APKX-Hunter also integrates a lightweight **Machine Learning-based Secret Classification Engine**, written entirely in **C**, which automatically classifies detected secrets by confidence and severity, helping security researchers prioritize high-value findings, reduce false positives, and accelerate vulnerability triage.
+APKX-Hunter also integrates a lightweight **Machine Learning-based Secret Classification Engine**, written entirely in **C**, which automatically classifies detected secrets by confidence and severity helping security researchers prioritize high-value findings, reduce false positives, and accelerate vulnerability triage.
 
 At the end of every scan, APKX-Hunter generates detailed scan statistics, including the number of APKs scanned, files analyzed, secrets detected, patterns detected, and MASVS findings, providing researchers with a comprehensive overview of the entire security assessment.
 
