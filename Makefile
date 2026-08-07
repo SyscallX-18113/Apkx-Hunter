@@ -1,43 +1,43 @@
-CC = gcc
-CFLAGS = -Iinclude
-LDFLAGS = -lssl -lcrypto -lm
+# APKX-Hunter Makefile
 
-TARGET = apkxhunter
+CC := gcc
 
-SRCS = Apkx-Hunter/src/main.c \
-       Apkx-Hunter/src/apktool.c \
-       Apkx-Hunter/src/banner.c \
-       Apkx-Hunter/src/extract.c \
-       Apkx-Hunter/src/file_making.c \
-       Apkx-Hunter/src/functions.c \
-       Apkx-Hunter/src/jadx.c \
-       Apkx-Hunter/src/main_ai.c \
-       Apkx-Hunter/src/masvs.c \
-       Apkx-Hunter/src/multi_apk.c \
-       Apkx-Hunter/src/run.c \
-       Apkx-Hunter/src/scan_dir_func.c \
-       Apkx-Hunter/src/scan_file_func.c \
-       Apkx-Hunter/src/scan_secrets.c \
-       Apkx-Hunter/src/patterns.c \
-       Apkx-Hunter/src/define.c
+TARGET := apkxhunter
 
 PREFIX ?= /usr
 
-all:
-	$(CC) $(SRCS) $(CFLAGS) $(LDFLAGS) -o $(TARGET)
+SRC_DIR := Apkx-Hunter/src
+INC_DIR := Apkx-Hunter/include
 
-clean:
-	rm -f $(TARGET)
+CFLAGS := -O2 -I$(INC_DIR)
+LDFLAGS := -lssl -lcrypto -lm
+
+SRCS := $(wildcard $(SRC_DIR)/*.c)
+OBJS := $(SRCS:.c=.o)
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(OBJS) $(LDFLAGS) -o $@
+
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 install: $(TARGET)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	install -m755 $(TARGET) $(DESTDIR)$(PREFIX)/bin/$(TARGET)
-	
-	mkdir -p $(DESTDIR)/usr/share/apkx-hunter
-	install -m644 assets/model.bin $(DESTDIR)/usr/share/apkx-hunter/model.bin 2>/dev/null || true
+
+	mkdir -p $(DESTDIR)$(PREFIX)/share/apkx-hunter
+	install -m644 model.bin $(DESTDIR)$(PREFIX)/share/apkx-hunter/model.bin
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/$(TARGET)
-	rm -f $(DESTDIR)/usr/share/apkx-hunter/model.bin
+	rm -rf $(DESTDIR)$(PREFIX)/share/apkx-hunter
 
-.PHONY: all clean install uninstall
+clean:
+	rm -f $(TARGET)
+	rm -f $(OBJS)
+
+rebuild: clean all
+
+.PHONY: all clean rebuild install uninstall
