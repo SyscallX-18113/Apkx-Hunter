@@ -16,7 +16,7 @@ At the end of every scan, APKX-Hunter generates detailed scan statistics, includ
 - **Version:** v2.7.0
 
 ---
-![Apkx-Hunter-Tool](./apkx-hunter_v2.6.0.JPG)
+![Apkx-Hunter-Tool](./apkx-hunter.JPG)
 
 ---
 
