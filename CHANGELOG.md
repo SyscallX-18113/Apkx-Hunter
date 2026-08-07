@@ -4,9 +4,37 @@ All notable changes to APKX-Hunter are documented in this file.
 
 ---
 
-# v2.6.0 
+## APKX-Hunter v2.7.0
 
-## Major Release – Native Debian Package Support
+### Added
+- Introduced a modular framework architecture for improved scalability.
+
+### Changed
+- Completely restructured the project into a professional multi-file framework.
+- Improved separation of source (`.c`) and header (`.h`) files.
+- Refactored internal modules for better maintainability and readability.
+- Simplified dependency management between framework components.
+- Improved the build process for easier compilation and packaging.
+
+### Fixed
+- Fixed multiple linker and compilation issues.
+- Resolved duplicate symbol and `extern` declaration problems.
+- Fixed internal dependency and include-related issues.
+- Improved overall framework stability and reliability.
+
+### Performance
+- Reduced code coupling between modules.
+- Improved maintainability for future feature development.
+- Prepared the framework for easier expansion and long-term support.
+
+
+---
+---
+---
+
+## v2.6.0 
+
+### Major Release – Native Debian Package Support
 
 ### Added
 
@@ -35,10 +63,6 @@ All notable changes to APKX-Hunter are documented in this file.
 ---
 ---
 ---
-
-# v2.5.0
-
-Previous stable release.
 
 ## v2.5.1
 
