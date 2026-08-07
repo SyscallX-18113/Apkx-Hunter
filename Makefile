@@ -1,29 +1,21 @@
-# APKX-Hunter Makefile
+CC = gcc
 
-CC := gcc
-
-TARGET := apkxhunter
+TARGET = apkxhunter
 
 PREFIX ?= /usr
 
-SRC_DIR := Apkx-Hunter/src
-INC_DIR := Apkx-Hunter/include
+SRC_DIR = Apkx-Hunter/src
+INC_DIR = Apkx-Hunter/include
 
-CFLAGS := -O2 -I$(INC_DIR)
-LDFLAGS := -lssl -lcrypto -lm
+CFLAGS = -O2 -I$(INC_DIR)
+LDFLAGS = -lssl -lcrypto -lm
 
-SRCS := $(wildcard $(SRC_DIR)/*.c)
-OBJS := $(SRCS:.c=.o)
+SRCS = $(wildcard $(SRC_DIR)/*.c)
 
-all: $(TARGET)
+all:
+	$(CC) $(SRCS) $(CFLAGS) $(LDFLAGS) -o $(TARGET)
 
-$(TARGET): $(OBJS)
-	$(CC) $(OBJS) $(LDFLAGS) -o $@
-
-$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-install: $(TARGET)
+install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	install -m755 $(TARGET) $(DESTDIR)$(PREFIX)/bin/$(TARGET)
 
@@ -36,7 +28,6 @@ uninstall:
 
 clean:
 	rm -f $(TARGET)
-	rm -f $(OBJS)
 
 rebuild: clean all
 
