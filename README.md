@@ -415,7 +415,7 @@ APK, APKM, APKS, XAPK, ZIP
 
 ## Next Update
 
-APKX-Hunter is actively under development. If there is a feature, improvement, or analysis capability you would like to see in a future release, we welcome your suggestions. Please submit your ideas through one of the support channels listed below. Community feedback helps shape the future development of APKX-Hunter.
+APKX-Hunter is actively maintained. If there is a feature, improvement, or analysis capability you would like to see in a future release, we welcome your suggestions. Please submit your ideas through one of the support channels listed below. Community feedback helps shape the future development of APKX-Hunter.
 
 ---
 
