@@ -121,13 +121,13 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+
     if (argc == 1)
     {
         printf(HACKER_WHITE "Usage: %s <apk|folder> --deep | --fast | --folder-scan OR %s --help \n" COLOR_RESET, argv[0], argv[0]);
         return 0;
     }
 
-    model_init();
 
     if (strcmp(argv[1], HELP) == 0)
     {
@@ -153,9 +153,10 @@ int main(int argc, char *argv[])
 
         if (stat(full_path, &st) != 0)
         {
-            printf("Not a directory ):\n");
+            printf(HACKER_WHITE "Not a directory ):\n" COLOR_RESET);
             return 0;
         }
+        model_init();
 
         scan_multi_apk(full_path, argc, argv);
 
@@ -182,6 +183,7 @@ int main(int argc, char *argv[])
             snprintf(output_dir, sizeof(output_dir),
                      "output_default");
         }
+        model_init();
         extract_apk_1(argc, argv, output_dir);
         return 0;
     }
@@ -205,12 +207,28 @@ int main(int argc, char *argv[])
             snprintf(output_dir, sizeof(output_dir),
                      "output_default");
         }
+        model_init();
         extract_apk(argv, output_dir);
         return 0;
     }
 
     if ((strstr(argv[1], ".apk") == NULL) && (folder_scan_2 == 1))
     {
+
+        char full_path[3000];
+        char cwd[1024];
+        getcwd(cwd, sizeof(cwd));
+
+        snprintf(full_path, sizeof(full_path), "%s/%s", cwd, argv[1]);
+
+        struct stat st;
+
+        if (stat(full_path, &st) != 0)
+        {
+            printf(HACKER_WHITE "Directory not found ):\n" COLOR_RESET);
+            return 0;
+        }
+        model_init();
         file_making(argv[1], argv, argc);
         cleanup_bucket_regexes();
         return 0;
@@ -218,6 +236,21 @@ int main(int argc, char *argv[])
 
     if ((strstr(argv[1], ".apk") == NULL) && (apktool_scan_2 == 1))
     {
+        char full_path[3000];
+        char cwd[1024];
+        getcwd(cwd, sizeof(cwd));
+
+        snprintf(full_path, sizeof(full_path), "%s/%s", cwd, argv[1]);
+
+        struct stat st;
+        
+        if (stat(full_path, &st) != 0)
+        {
+            printf(HACKER_WHITE "Directory not found ):\n" COLOR_RESET);
+            return 0;
+        }
+
+        model_init();
         file_making_for_apktool(argv[1], argv, argc);
         cleanup_bucket_regexes();
         return 0;
@@ -242,6 +275,7 @@ int main(int argc, char *argv[])
             snprintf(output_dir, sizeof(output_dir),
                      "output_default");
         }
+        model_init();
         run_apktool(argv, output_dir, argc);
         cleanup_bucket_regexes();
         return 0;
@@ -267,6 +301,7 @@ int main(int argc, char *argv[])
                      "output_default");
         }
 
+        model_init();
         run_jadx(argv, output_dir, argc);
         cleanup_bucket_regexes();
         return 0;
