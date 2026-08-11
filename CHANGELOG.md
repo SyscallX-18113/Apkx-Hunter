@@ -4,6 +4,24 @@ All notable changes to APKX-Hunter are documented in this file.
 
 ---
 
+## [2.7.1] 
+
+### Fixed
+
+* Fixed `model.bin` path resolution and loading issues.
+* Fixed model loading failures caused by incorrect model file placement.
+* Fixed repeated model-loading failures during large APK scans.
+* Fixed AI model initialization issues after the source-code restructuring.
+* Fixed linker errors related to model and model-path symbols.
+* Fixed malformed ANSI terminal escape sequences in scan output.
+* Fixed missing return statements in multiple non-void functions.
+* Improved logical-expression clarity to address compiler warnings.
+* Fixed build and packaging issues affecting the final binary.
+
+---
+---
+---
+
 ## APKX-Hunter v2.7.0
 
 ### Added
