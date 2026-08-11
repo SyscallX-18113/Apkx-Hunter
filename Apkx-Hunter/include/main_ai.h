@@ -16,11 +16,18 @@
 #include "run.h"
 #include "define.h"
 
+extern const char *model_path;
+extern Model m;
+
+int model_init(void);
+
 void classify_and_print(const Model *m, const char *value, const char *filepath,
-                               FILE *for_regex,
-                               int line_no, int n);
+                        FILE *for_regex,
+                        int line_no, int n);
 int ai_model(const char *filepath,
              FILE *for_regex,
              int line_no, const char *value, int n);
+
+
 
 #endif
