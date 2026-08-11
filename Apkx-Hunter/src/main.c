@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
             masvs_2 = 1;
 
         else if (strcmp(argv[i], INSTALL) == 0)
-            install = 1;    
+            install = 1;
     }
 
     if (multi_apk_2)
@@ -121,6 +121,8 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    model_init();
+
     if (argc == 1)
     {
         printf(HACKER_WHITE "Usage: %s <apk|folder> --deep | --fast | --folder-scan OR %s --help \n" COLOR_RESET, argv[0], argv[0]);
@@ -133,7 +135,6 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    
     if (strcmp(argv[1], INSTALL) == 0)
     {
         install_missing_dependencies();
@@ -152,7 +153,7 @@ int main(int argc, char *argv[])
 
         if (stat(full_path, &st) != 0)
         {
-            printf("Not a directory.\n");
+            printf("Not a directory ):\n");
             return 0;
         }
 
