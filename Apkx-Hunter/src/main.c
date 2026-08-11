@@ -121,13 +121,13 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    model_init();
-
     if (argc == 1)
     {
         printf(HACKER_WHITE "Usage: %s <apk|folder> --deep | --fast | --folder-scan OR %s --help \n" COLOR_RESET, argv[0], argv[0]);
         return 0;
     }
+
+    model_init();
 
     if (strcmp(argv[1], HELP) == 0)
     {
