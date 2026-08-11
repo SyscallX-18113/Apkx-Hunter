@@ -4,7 +4,7 @@ All notable changes to APKX-Hunter are documented in this file.
 
 ---
 
-## [2.7.1] 
+## Apkx-Hunter [2.7.1] 
 
 ### Fixed
 
