@@ -413,9 +413,26 @@ APK, APKM, APKS, XAPK, ZIP
 
 ---
 
-## Next Update
+## Upcoming Features 
 
-APKX-Hunter is actively maintained. If there is a feature, improvement, or analysis capability you would like to see in a future release, we welcome your suggestions. Please submit your ideas through one of the support channels listed below. Community feedback helps shape the future development of APKX-Hunter.
+Next Update will focus on making security findings **more accurate, organized, actionable, and easier to analyze**, while significantly reducing unnecessary false positives.
+
+### Improved Finding Analysis
+
+* Separate MASVS analysis by security category.
+* Improved organization of MASVS findings.
+* More precise MASVS detection rules.
+* Better evidence associated with each MASVS finding.
+* Improved severity classification.
+* Clear **Critical / High / Medium** severity levels.
+* Grouped findings by security category.
+* Per-file and per-line evidence.
+* Reduced false positives for common non-secret strings.
+* Better prioritization of high-confidence secrets.
+* Improved scalability for large APKs.
+* Better handling of large projects containing tens of thousands of files.
+* Additional error handling and validation.
+* New security detection patterns.
 
 ---
 
