@@ -30,7 +30,7 @@ int run_apktool(char *argv[], char *output_dir, int argc)
         if (argc == 3)
         {
 
-            snprintf(cmd, sizeof(cmd), "apktool -f d %s -o %s/%s", full_path, Half_path, output_dir);
+            snprintf(cmd, sizeof(cmd), "apktool d -f %s -o %s/%s", full_path, Half_path, output_dir);
 
             int ret = system(cmd);
 
@@ -63,7 +63,7 @@ int run_apktool(char *argv[], char *output_dir, int argc)
         else if (argc == 4 && ((secrets_2 == 1) || (permissions_2 == 1) || (patterns_2 == 1) || (extract_2 == 1) || (masvs_2 == 1) || (file_scan_2 == 1)))
         {
 
-            snprintf(cmd, sizeof(cmd), "apktool -f d %s -o %s/%s", full_path, Half_path, output_dir);
+            snprintf(cmd, sizeof(cmd), "apktool d -f %s -o %s/%s", full_path, Half_path, output_dir);
 
             int ret = system(cmd);
 
@@ -96,7 +96,7 @@ int run_apktool(char *argv[], char *output_dir, int argc)
         else if (argc == 4 && (decompile_2 == 1))
         {
 
-            snprintf(cmd, sizeof(cmd), "apktool -f d %s -o %s/%s", full_path, Half_path, output_dir);
+            snprintf(cmd, sizeof(cmd), "apktool d -f %s -o %s/%s", full_path, Half_path, output_dir);
 
             int ret = system(cmd);
 
@@ -156,7 +156,7 @@ int run_apktool_1(char *argv[], char *full_path, char *output_dir, int argc)
         if ((secrets_2 == 1) || (permissions_2 == 1) || (patterns_2 == 1) || (extract_2 == 1) || (masvs_2 == 1) || (file_scan_2 == 1) || (multi_apk_2 == 1) || (extract_multi_apk_2 == 1))
         {
 
-            snprintf(cmd, sizeof(cmd), "apktool -f d %s -o %s/%s", full_path, Half_path, output_dir);
+            snprintf(cmd, sizeof(cmd), "apktool d -f %s -o %s/%s", full_path, Half_path, output_dir);
 
             int ret = system(cmd);
 
@@ -189,7 +189,7 @@ int run_apktool_1(char *argv[], char *full_path, char *output_dir, int argc)
         else if (argc == 4 && ((decompile_2 == 1) || (multi_apk_2 == 1 || extract_multi_apk_2 == 1)))
         {
 
-            snprintf(cmd, sizeof(cmd), "apktool -f d %s -o %s/%s", full_path, Half_path, output_dir);
+            snprintf(cmd, sizeof(cmd), "apktool d -f %s -o %s/%s", full_path, Half_path, output_dir);
 
             int ret = system(cmd);
 
