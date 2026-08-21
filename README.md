@@ -1,4 +1,4 @@
-# APKX-Hunter v2.7.1 — Debian Package             [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)   [![SyscallX-18113/Apkx-Hunter | Trendshift](https://trendshift.io/api/badge/trendshift/repositories/79601/daily?language=C)](https://trendshift.io/repositories/79601?utm_source=trendshift-badge&utm_medium=badge&utm_campaign=badge-trendshift-79601)
+# APKX-Hunter v2.7.2 — Debian Package             [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)   [![SyscallX-18113/Apkx-Hunter | Trendshift](https://trendshift.io/api/badge/trendshift/repositories/79601/daily?language=C)](https://trendshift.io/repositories/79601?utm_source=trendshift-badge&utm_medium=badge&utm_campaign=badge-trendshift-79601)
 
 
 **APKX-Hunter** is an open-source **Android Static Analysis Framework** written entirely in **C**, purpose-built for Android security assessments, reverse engineering, malware analysis, **OWASP MASVS** compliance scanning, bug bounty hunting, and penetration testing.
@@ -13,7 +13,7 @@ At the end of every scan, APKX-Hunter generates detailed scan statistics, includ
 
 - **GitHub:** https://github.com/SyscallX-18113/Apkx-Hunter
 - **Developed by:** SyscallX-18113
-- **Version:** v2.7.1
+- **Version:** v2.7.2
 
 ---
 ![Apkx-Hunter-Tool](./apkx-hunter.JPG)
