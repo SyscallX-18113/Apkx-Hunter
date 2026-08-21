@@ -163,7 +163,7 @@ All Machine Learning inference is performed **locally** on the trained `model.bi
 Install the Debian package:
 
 ```bash
-sudo dpkg -i apkx-hunter_2.7.1-1_amd64.deb
+sudo dpkg -i apkx-hunter_2.7.2-1_amd64.deb
 ```
 
 Dependency Management:  Automatically check and install JADX, Apktool, Java, and other required tools.
