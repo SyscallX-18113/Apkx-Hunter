@@ -4,6 +4,20 @@ All notable changes to APKX-Hunter are documented in this file.
 
 ---
 
+## Apkx-Hunter [2.7.2]
+
+### Added
+* APKX Hunter now checks the installed JADX and Apktool versions against the required minimum versions before starting a scan.
+* Scanning is stopped when an incompatible dependency version is detected, with a message instructing the user to update the required tool.
+
+### Fixed
+* Fixed an Apktool 3.0.3 compatibility issue where APKX Hunter constructed the decode command with the -f option in the wrong position.
+* Corrected the Apktool decode command to use the proper argument ordering.
+
+---
+---
+---
+
 ## Apkx-Hunter [2.7.1] 
 
 ### Fixed
