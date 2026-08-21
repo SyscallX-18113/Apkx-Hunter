@@ -5,11 +5,8 @@
  * See the LICENSE file in the project root for license information.
  */
 
-
- #include "functions.h"
- #include "patterns.h"
-
-
+#include "functions.h"
+#include "patterns.h"
 
 int statics()
 {
@@ -232,12 +229,11 @@ void scan_strings_xml(const char *filepath, FILE *for_regex, char *line, int lin
 
 void cleanup_bucket_regexes(void)
 {
-    
+
     for (int i = 0; i < count_patterns; i++)
     {
         regfree(&bucket_regexes[i]);
     }
-
 
     for (int n = 0; n < count_secrets; n++)
     {
@@ -248,8 +244,6 @@ void cleanup_bucket_regexes(void)
 int init_bucket_regexes(void)
 {
     printf(HACKER_WHITE);
-
-    
 
     for (int i = 0; i < count_patterns; i++)
     {
@@ -278,6 +272,7 @@ int init_bucket_regexes(void)
         }
     }
     printf(COLOR_RESET);
+    return 0;
 }
 
 int is_apk(const char *filename)
@@ -389,111 +384,220 @@ int compute_hashes(const char *filepath)
     {
         return 1;
     }
+    return 0;
 }
 
-void install_missing_dependencies(void) {
+void install_missing_dependencies(void)
+{
     char cmd[1024];
     int has_sudo = (geteuid() != 0);
- 
-    
-    if (system("command -v unzip >/dev/null 2>&1") != 0) {
+
+    if (system("command -v unzip >/dev/null 2>&1") != 0)
+    {
         printf(HACKER_WHITE "[*] Installing unzip..." COLOR_RESET "\n");
         snprintf(cmd, sizeof(cmd), "%sapt-get update -qq && %sapt-get install -y -qq unzip",
                  has_sudo ? "sudo " : "", has_sudo ? "sudo " : "");
-        if (system(cmd) != 0 || system("command -v unzip >/dev/null 2>&1") != 0) 
+        if (system(cmd) != 0 || system("command -v unzip >/dev/null 2>&1") != 0)
         {
             fprintf(stderr, LIGHT_RED "[FAIL] unzip installation failed. Check network/sudo access and try manually: apt-get install unzip" COLOR_RESET "\n");
-        } 
-        
-        else 
+        }
+
+        else
         {
             printf(GREEN "[OK] unzip installed" COLOR_RESET "\n");
         }
-    } 
-    
+    }
+
     else
     {
         printf(GREEN "[OK] unzip found" COLOR_RESET "\n");
     }
- 
-    
-    if (system("command -v jadx >/dev/null 2>&1") != 0) 
+
+    if (system("command -v jadx >/dev/null 2>&1") != 0)
     {
         printf(HACKER_WHITE "[*] Installing JADX..." COLOR_RESET "\n");
         snprintf(cmd, sizeof(cmd),
-            "URL=$(curl -fsSL https://api.github.com/repos/skylot/jadx/releases/latest "
-            "| grep -o '\"browser_download_url\": *\"[^\"]*jadx-[0-9][^\"]*\\.zip\"' "
-            "| head -n1 | cut -d'\"' -f4); "
-            "[ -n \"$URL\" ] || exit 1; "
-            "curl -fsSL -o /tmp/jadx.zip \"$URL\" || exit 2; "
-            "%smkdir -p /opt/jadx && %sunzip -oq /tmp/jadx.zip -d /opt/jadx || exit 3; "
-            "%schmod +x /opt/jadx/bin/jadx && %sln -sf /opt/jadx/bin/jadx /usr/local/bin/jadx",
-            has_sudo ? "sudo " : "", has_sudo ? "sudo " : "",
-            has_sudo ? "sudo " : "", has_sudo ? "sudo " : "");
- 
+                 "URL=$(curl -fsSL https://api.github.com/repos/skylot/jadx/releases/latest "
+                 "| grep -o '\"browser_download_url\": *\"[^\"]*jadx-[0-9][^\"]*\\.zip\"' "
+                 "| head -n1 | cut -d'\"' -f4); "
+                 "[ -n \"$URL\" ] || exit 1; "
+                 "curl -fsSL -o /tmp/jadx.zip \"$URL\" || exit 2; "
+                 "%smkdir -p /opt/jadx && %sunzip -oq /tmp/jadx.zip -d /opt/jadx || exit 3; "
+                 "%schmod +x /opt/jadx/bin/jadx && %sln -sf /opt/jadx/bin/jadx /usr/local/bin/jadx",
+                 has_sudo ? "sudo " : "", has_sudo ? "sudo " : "",
+                 has_sudo ? "sudo " : "", has_sudo ? "sudo " : "");
+
         int rc = system(cmd);
-        if (rc != 0) {
+        if (rc != 0)
+        {
             int code = rc / 256;
-            if (code == 1)      fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed: could not find a matching release asset on GitHub." COLOR_RESET "\n");
-            else if (code == 2) fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed: download from GitHub failed (check internet connection)." COLOR_RESET "\n");
-            else if (code == 3) fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed: could not extract the archive (unzip missing or corrupt zip)." COLOR_RESET "\n");
-            else                fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed for an unknown reason." COLOR_RESET "\n");
-        } 
-        
-        else if (system("command -v jadx >/dev/null 2>&1") != 0) 
+            if (code == 1)
+                fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed: could not find a matching release asset on GitHub." COLOR_RESET "\n");
+            else if (code == 2)
+                fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed: download from GitHub failed (check internet connection)." COLOR_RESET "\n");
+            else if (code == 3)
+                fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed: could not extract the archive (unzip missing or corrupt zip)." COLOR_RESET "\n");
+            else
+                fprintf(stderr, LIGHT_RED "[FAIL] JADX install failed for an unknown reason." COLOR_RESET "\n");
+        }
+
+        else if (system("command -v jadx >/dev/null 2>&1") != 0)
         {
             fprintf(stderr, LIGHT_RED "[FAIL] JADX install ran but 'jadx' command still not found in PATH." COLOR_RESET "\n");
-        } 
-        
-        else 
+        }
+
+        else
         {
             printf(GREEN "[OK] JADX installed" COLOR_RESET "\n");
         }
-    } 
-    
-    else 
+    }
+
+    else
     {
         printf(GREEN "[OK] JADX found" COLOR_RESET "\n");
     }
- 
-    
-    if (system("command -v apktool >/dev/null 2>&1") != 0) 
+
+    if (system("command -v apktool >/dev/null 2>&1") != 0)
     {
         printf(HACKER_WHITE "[*] Installing APKTool..." COLOR_RESET "\n");
         snprintf(cmd, sizeof(cmd), "URL=$(curl -fsSL https://api.github.com/repos/iBotPeaches/Apktool/releases/latest "
-            "| grep -o '\"browser_download_url\": *\"[^\"]*apktool_[0-9][^\"]*\\.jar\"' "
-            "| head -n1 | cut -d'\"' -f4); "
-            "[ -n \"$URL\" ] || exit 1; "
-            "curl -fsSL -o /tmp/apktool.jar \"$URL\" || exit 2; "
-            "curl -fsSL -o /tmp/apktool https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool || exit 2; "
-            "%sinstall -m 755 /tmp/apktool /usr/local/bin/apktool || exit 3; "
-            "%sinstall -m 644 /tmp/apktool.jar /usr/local/bin/apktool.jar || exit 3",
-            has_sudo ? "sudo " : "", has_sudo ? "sudo " : "");
- 
+                                   "| grep -o '\"browser_download_url\": *\"[^\"]*apktool_[0-9][^\"]*\\.jar\"' "
+                                   "| head -n1 | cut -d'\"' -f4); "
+                                   "[ -n \"$URL\" ] || exit 1; "
+                                   "curl -fsSL -o /tmp/apktool.jar \"$URL\" || exit 2; "
+                                   "curl -fsSL -o /tmp/apktool https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool || exit 2; "
+                                   "%sinstall -m 755 /tmp/apktool /usr/local/bin/apktool || exit 3; "
+                                   "%sinstall -m 644 /tmp/apktool.jar /usr/local/bin/apktool.jar || exit 3",
+                 has_sudo ? "sudo " : "", has_sudo ? "sudo " : "");
+
         int rc = system(cmd);
-        if (rc != 0) 
+        if (rc != 0)
         {
             int code = rc / 256;
-            if (code == 1)      fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed: could not find a matching release asset on GitHub." COLOR_RESET "\n");
-            else if (code == 2) fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed: download failed (check internet connection)." COLOR_RESET "\n");
-            else if (code == 3) fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed: could not copy files to /usr/local/bin (check sudo access)." COLOR_RESET "\n");
-            else                fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed for an unknown reason." COLOR_RESET "\n");
+            if (code == 1)
+                fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed: could not find a matching release asset on GitHub." COLOR_RESET "\n");
+            else if (code == 2)
+                fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed: download failed (check internet connection)." COLOR_RESET "\n");
+            else if (code == 3)
+                fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed: could not copy files to /usr/local/bin (check sudo access)." COLOR_RESET "\n");
+            else
+                fprintf(stderr, LIGHT_RED "[FAIL] APKTool install failed for an unknown reason." COLOR_RESET "\n");
         }
-        
-        else if (system("command -v apktool >/dev/null 2>&1") != 0) 
+
+        else if (system("command -v apktool >/dev/null 2>&1") != 0)
         {
             fprintf(stderr, LIGHT_RED "[FAIL] APKTool install ran but 'apktool' command still not found in PATH." COLOR_RESET "\n");
-        } 
-        
-        else 
+        }
+
+        else
         {
             printf(GREEN "[OK] APKTool installed" COLOR_RESET "\n");
         }
-    } 
-    
-    else 
+    }
+
+    else
     {
         printf(GREEN "[OK] APKTool found" COLOR_RESET "\n");
     }
 }
 
+int compare_versions(const char *v1, const char *v2)
+{
+    int v1_major = 0, v1_minor = 0, v1_patch = 0;
+    int v2_major = 0, v2_minor = 0, v2_patch = 0;
+
+    sscanf(v1, "%d.%d.%d", &v1_major, &v1_minor, &v1_patch);
+    sscanf(v2, "%d.%d.%d", &v2_major, &v2_minor, &v2_patch);
+
+    if (v1_major != v2_major)
+        return v1_major - v2_major;
+    if (v1_minor != v2_minor)
+        return v1_minor - v2_minor;
+    return v1_patch - v2_patch;
+}
+
+int get_installed_version(const char *cmd, char *version_out, size_t out_size)
+{
+    FILE *fp;
+    char line[512];
+    int found = 0;
+
+    fp = popen(cmd, "r");
+    if (fp == NULL)
+    {
+        return 0;
+    }
+
+    while (fgets(line, sizeof(line), fp) != NULL)
+    {
+        int major, minor, patch;
+        char *p = line;
+
+        while (*p)
+        {
+            if (sscanf(p, "%d.%d.%d", &major, &minor, &patch) == 3)
+            {
+                snprintf(version_out, out_size, "%d.%d.%d", major, minor, patch);
+                found = 1;
+                break;
+            }
+            p++;
+        }
+
+        if (found)
+        {
+            break;
+        }
+    }
+
+    pclose(fp);
+    return found;
+}
+
+void check_apktool_jadx_versions(char *argv[])
+{
+    char apktool_version[64] = {0};
+    char jadx_version[64] = {0};
+
+    if(apktool_2 == 1)
+    {
+
+        if (!get_installed_version("apktool --version 2>&1", apktool_version, sizeof(apktool_version)))
+        {
+            printf(HACKER_WHITE "\n[ERROR] Could not detect installed apktool version.\n" COLOR_RESET);
+            printf(HACKER_WHITE "Install the latest apktool (%s) with:\n" COLOR_RESET, APKTOOL_VERSION);
+            printf(HACKER_WHITE "  sudo apt update && sudo apt install apktool\n" COLOR_RESET);
+            exit(1);
+        }
+
+        if (compare_versions(apktool_version, APKTOOL_VERSION) < 0)
+        {
+            printf(HACKER_WHITE "\n[ERROR] Outdated apktool detected (installed: %s, required: %s).\n" COLOR_RESET,
+                   apktool_version, APKTOOL_VERSION);
+            printf(HACKER_WHITE "Run the following command to upgrade apktool:\n" COLOR_RESET);
+            printf(HACKER_WHITE "  sudo apt update && sudo apt install --only-upgrade apktool\n" COLOR_RESET);
+            exit(1);
+        }
+    }
+
+    if (deep_2 == 1 || fast_2 == 1 || argv[2] == NULL)
+    {
+
+        if (!get_installed_version("jadx --version 2>&1", jadx_version, sizeof(jadx_version)))
+        {
+            printf(HACKER_WHITE "\n[ERROR] Could not detect installed jadx version.\n" COLOR_RESET);
+            printf(HACKER_WHITE "Install the latest jadx (%s) with:\n" COLOR_RESET, JADX_VERSION);
+            printf(HACKER_WHITE "  sudo apt update && sudo apt install jadx\n" COLOR_RESET);
+            exit(1);
+        }
+
+        if (compare_versions(jadx_version, JADX_VERSION) < 0)
+        {
+            printf(HACKER_WHITE "\n[ERROR] Outdated jadx detected (installed: %s, required: %s).\n" COLOR_RESET,
+                   jadx_version, JADX_VERSION);
+            printf(HACKER_WHITE "Run the following command to upgrade jadx:\n" COLOR_RESET);
+            printf(HACKER_WHITE "  sudo apt update && sudo apt install --only-upgrade jadx\n" COLOR_RESET);
+            exit(1);
+        }
+    }
+}
