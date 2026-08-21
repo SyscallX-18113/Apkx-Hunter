@@ -21,6 +21,8 @@
 #include <stddef.h>
 #include "patterns.h"
 
+#define APKTOOL_VERSION "3.0.2"
+#define JADX_VERSION    "1.5.5"
 
 //COLORS
 #define COLOR_MAGENTA         "\033[1;35m"
