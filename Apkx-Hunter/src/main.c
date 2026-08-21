@@ -27,6 +27,7 @@
 #define MODEL_PATH "/usr/share/apkx-hunter/model.bin"
 #define MODEL_PATH_1 "model/model.bin"
 
+
 int main(int argc, char *argv[])
 {
 
@@ -139,6 +140,11 @@ int main(int argc, char *argv[])
     {
         install_missing_dependencies();
         return 0;
+    }
+
+    if(multi_apk_2 == 1 || apktool_2 == 1 || deep_2 == 1 || fast_2 == 1 || strstr(argv[1], ".apk") != NULL){
+
+        check_apktool_jadx_versions(argv);
     }
 
     if ((strstr(argv[1], ".apk") == NULL) && (multi_apk_2 == 1))
