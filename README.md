@@ -1,5 +1,5 @@
 # APKX-Hunter v2.7.2 — Debian Package             [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)     <center>
-  <img src="./apkx-Hunter.png" alt="Apkx-Hunter-Tool" width="300">
+  <img src="./apkx-hunter.png" alt="Apkx-Hunter-Tool" width="300">
 </center>
 
 **APKX-Hunter** is an open-source **Android Static Analysis Framework** written entirely in **C**, purpose-built for Android security assessments, reverse engineering, malware analysis, **OWASP MASVS** compliance scanning, bug bounty hunting, and penetration testing.
