@@ -2,6 +2,10 @@
   <img src="./apkx-hunter.png" alt="Apkx-Hunter-Tool" width="300">
 </div>
 
+## APKX-Hunter has been selected for presentation at Black Hat Europe Arsenal 2026.
+
+[View APKX-Hunter on Black Hat Europe Arsenal](https://blackhat.com/europe/arsenal/schedule/#apkxhunter-advanced-android-static-analysis-framework-56751)
+
 **APKX-Hunter** is an open-source **Android Static Analysis Framework** written entirely in **C**, purpose-built for Android security assessments, reverse engineering, malware analysis, **OWASP MASVS** compliance scanning, bug bounty hunting, and penetration testing.
 
 The framework supports both single-application and large-scale Android application analysis by automatically extracting and analyzing supported Android package formats, including **APK, APKS, APKM, XAPK, and ZIP** archives. With **Recursive Multi-APK Scanning** and **Silent Batch Mode**, APKX-Hunter is designed to efficiently process large Android application collections while producing clean, organized, and actionable results.
