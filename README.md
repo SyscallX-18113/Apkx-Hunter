@@ -2,7 +2,7 @@
   <img src="./apkx-hunter.png" alt="Apkx-Hunter-Tool" width="300">
 </div>
 
-## APKX-Hunter has been selected for presentation at Black Hat Europe Arsenal 2026.
+## **APKX-Hunter at Black Hat Arsenal Europe 2026**
 
 [View APKX-Hunter on Black Hat Europe Arsenal](https://blackhat.com/europe/arsenal/schedule/#apkxhunter-advanced-android-static-analysis-framework-56751)
 
