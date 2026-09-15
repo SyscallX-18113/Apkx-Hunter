@@ -27,7 +27,7 @@ At the end of every scan, APKX-Hunter generates detailed scan statistics, includ
 
 ## OWASP MASVS Scanning Support
 
-Apkx-Hunter now includes **OWASP MASVS** security scanning with **15 categories** and **166 detection patterns**:
+Apkx-Hunter includes **OWASP MASVS** security scanning with **15 categories** and **166 detection patterns**:
 
 | # | Category | Patterns |
 | :--- | :--- | :--- |
