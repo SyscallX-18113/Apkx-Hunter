@@ -1,4 +1,6 @@
-# APKX-Hunter v3.0.0 -- Debian Package           [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)   
+# APKX-Hunter v3.0.0 -- Debian Package           [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-ff5e5b?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/S2Y5230RHH)  <div align="center">
+  <img src="./apkx-hunter.png" alt="Apkx-Hunter-Tool" width="300">
+</div>
 
 ## **APKX-Hunter at Black Hat Arsenal Europe 2026**
 
@@ -28,7 +30,7 @@ The framework generates **organized and structured output files** throughout the
 - **Version:** v3.0.0
 
 ---
-![Apkx-Hunter-Tool](./apkx-hunter_v3.0.0JPG)
+![Apkx-Hunter-Tool](./apkx-hunter.JPG)
 
 ---
 
