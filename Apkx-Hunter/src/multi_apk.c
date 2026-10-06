@@ -8,7 +8,7 @@
 #include "multi_apk.h"
 
 
-void scan_multi_apk(const char *directory, int argc, char *argv[])
+void scan_multi_apk(const char *directory, int shell_argc, char *shell_argv[])
 {
     DIR *dir;
     struct dirent *entry;
@@ -101,7 +101,7 @@ void scan_multi_apk(const char *directory, int argc, char *argv[])
        
         if (S_ISDIR(st.st_mode))
         {
-            scan_multi_apk(full_path, argc, argv);
+            scan_multi_apk(full_path, shell_argc, shell_argv);
         }
 
        
@@ -113,13 +113,13 @@ void scan_multi_apk(const char *directory, int argc, char *argv[])
             {
                 if (apktool_2 == 1)
                 {
-                    run_apktool_1(argv, full_path, output_dir_1, argc);
+                    run_apktool_1(shell_argv, full_path, output_dir_1, shell_argc);
                     
                     
                 }
                 else
                 {
-                    run_jadx_1(argv, full_path, output_dir, argc);
+                    run_jadx_1(shell_argv, full_path, output_dir, shell_argc);
                 
                     
                 }
