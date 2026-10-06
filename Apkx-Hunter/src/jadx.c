@@ -19,7 +19,7 @@ int directory_exists(const char *path)
     return 0;
 }
 
-int run_jadx(char *argv[], char *output_dir, int argc)
+int run_jadx(char *shell_argv[], char *output_dir, int shell_argc)
 {
 
     char cmd[10240];
@@ -29,7 +29,7 @@ int run_jadx(char *argv[], char *output_dir, int argc)
     char Half_path[4096];
     char gd[5000];
 
-    snprintf(full_path, sizeof(full_path), "%s/%s", cwd, argv[1]);
+    snprintf(full_path, sizeof(full_path), "%s/%s", cwd, shell_argv[1]);
     snprintf(Half_path, sizeof(Half_path), "%s", cwd);
     snprintf(gd, sizeof(gd), "%s/%s", Half_path, output_dir);
 
@@ -39,7 +39,8 @@ int run_jadx(char *argv[], char *output_dir, int argc)
     if (not_valid_apk == 0)
     {
 
-        if (argv[2] == NULL)
+        
+        if (shell_argv[2] == NULL || quiet_2 == 1)
         {
             snprintf(cmd, sizeof(cmd), "jadx -d %s/%s %s ", Half_path, output_dir, full_path);
 
@@ -73,7 +74,7 @@ int run_jadx(char *argv[], char *output_dir, int argc)
             sleep(4);
         }
 
-        else if ((secrets_2 == 1) || (permissions_2 == 1) || (patterns_2 == 1) || (masvs_2 == 1) || (file_scan_2 == 1))
+        else if ((secrets_2 == 1) || (permissions_2 == 1) || (patterns_2 == 1) || (masvs_2 == 1) || (file_scan_2 == 1) || quiet_2 == 1)
         {
             snprintf(cmd, sizeof(cmd), "jadx -d %s/%s %s ", Half_path, output_dir, full_path);
 
@@ -290,11 +291,11 @@ int run_jadx(char *argv[], char *output_dir, int argc)
         return 1;
     }
 
-    file_making(output_dir, argv, argc);
+    file_making(output_dir, shell_argv, shell_argc);
     return 0;
 }
 
-int run_jadx_1(char *argv[], char *full_path, char *output_dir, int argc)
+int run_jadx_1(char *shell_argv[], char *full_path, char *output_dir, int shell_argc)
 {
 
     char cmd[10240];
@@ -312,7 +313,7 @@ int run_jadx_1(char *argv[], char *full_path, char *output_dir, int argc)
     if (not_valid_apk == 0)
     {
 
-        if (argv[2] == NULL || (multi_apk_2 == 1) || (extract_multi_apk_2 == 1))
+        if (shell_argv[2] == NULL || (multi_apk_2 == 1) || (extract_multi_apk_2 == 1))
         {
             snprintf(cmd, sizeof(cmd), "jadx -d %s/%s %s ", Half_path, output_dir, full_path);
 
@@ -563,7 +564,7 @@ int run_jadx_1(char *argv[], char *full_path, char *output_dir, int argc)
         return 1;
     }
 
-    file_making(output_dir, argv, argc);
+    file_making(output_dir, shell_argv, shell_argc);
     return 0;
 }
 
