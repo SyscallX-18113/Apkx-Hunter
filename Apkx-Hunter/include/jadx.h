@@ -20,7 +20,7 @@
 #include "functions.h"
 
 int directory_exists(const char *path);
-int run_jadx(char *argv[], char *output_dir, int argc);
-int run_jadx_1(char *argv[], char *full_path, char *output_dir, int argc);
+int run_jadx(char *shell_argv[], char *output_dir, int shell_argc);
+int run_jadx_1(char *shell_argv[], char *full_path, char *output_dir, int shell_argc);
 
 #endif
