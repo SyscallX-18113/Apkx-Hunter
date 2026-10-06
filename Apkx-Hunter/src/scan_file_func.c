@@ -9,7 +9,7 @@
 #include "scan_file_func.h"
 
 
-int scan_file(const char *filepath, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, FILE *for_masvs)
+int scan_file(const char *filepath, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native)
 {
 
     FILE *f = fopen(filepath, "r");
@@ -31,11 +31,12 @@ int scan_file(const char *filepath, FILE *for_patterns, FILE *for_regex, FILE *f
         scan_permissions(filepath, for_permissions, line, line_no);
         scan_exported_activity(filepath, for_permissions, line, line_no);
         scan_strings_xml(filepath, for_regex, line, line_no);
-        scan_masvs_1(filepath, for_masvs, line, line_no);
+        scan_masvs_1(filepath, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native, line, line_no);
         
     }
 
     fclose(f);
+    return 0;
 }
 
 int scan_file_sec(const char *filepath, FILE *for_regex)
@@ -60,9 +61,10 @@ int scan_file_sec(const char *filepath, FILE *for_regex)
         }
 
     fclose(f);
+    return 0;
 }
 
-int scan_file_masvs(const char *filepath, FILE *for_masvs)
+int scan_file_masvs(const char *filepath, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native)
 {
 
     FILE *f = fopen(filepath, "r");
@@ -78,11 +80,12 @@ int scan_file_masvs(const char *filepath, FILE *for_masvs)
     {
         line_no++;
         
-        scan_masvs(filepath, for_masvs, line, line_no);
+        scan_masvs_1(filepath, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native, line, line_no);
         
     }
 
     fclose(f);
+    return 0;
 }
 
 int scan_file_per(const char *filepath, FILE *for_permissions)
@@ -105,6 +108,7 @@ int scan_file_per(const char *filepath, FILE *for_permissions)
     }
 
     fclose(f);
+    return 0;
 }
 
 int scan_file_pat(const char *filepath, FILE *for_patterns)
@@ -127,6 +131,7 @@ int scan_file_pat(const char *filepath, FILE *for_patterns)
     }
 
     fclose(f);
+    return 0;
 }
 
 int scan_file_files(const char *filepath, FILE *scan_files, FILE *for_native_lib)
@@ -143,11 +148,12 @@ int scan_file_files(const char *filepath, FILE *scan_files, FILE *for_native_lib
     scan_native_libraries(filepath, for_native_lib);
 
     fclose(f);
+    return 0;
 }
 
 
 
-int scan_file_for_apktool(FILE *scan_files, const char *filepath, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, FILE *for_masvs)
+int scan_file_for_apktool(FILE *scan_files, const char *filepath, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native)
 {
 
     FILE *f = fopen(filepath, "r");
@@ -160,7 +166,7 @@ int scan_file_for_apktool(FILE *scan_files, const char *filepath, FILE *for_patt
     int line_no = 0;
 
 
-    if (strstr(filepath, ".xml") != NULL || strstr(filepath, ".json") != NULL || strstr(filepath, ".properties") != NULL || strstr(filepath, ".txt") != NULL || strstr(filepath, ".conf") != NULL || strstr(filepath, ".ini") != NULL || strstr(filepath, ".yaml") != NULL || strstr(filepath, ".yml") != NULL || strstr(filepath, ".env") != NULL || strstr(filepath, ".db") != NULL || strstr(filepath, ".sqlite") != NULL || strstr(filepath, ".pem") != NULL || strstr(filepath, ".cer") != NULL || strstr(filepath, ".crt") != NULL || strstr(filepath, ".key") != NULL || strstr(filepath, ".p12") != NULL || strstr(filepath, ".jks") != NULL || strstr(filepath, ".keystore") != NULL)
+    if (strstr(filepath, ".smali") != NULL || strstr(filepath, ".xml") != NULL || strstr(filepath, ".json") != NULL || strstr(filepath, ".properties") != NULL || strstr(filepath, ".txt") != NULL || strstr(filepath, ".conf") != NULL || strstr(filepath, ".ini") != NULL || strstr(filepath, ".yaml") != NULL || strstr(filepath, ".yml") != NULL || strstr(filepath, ".env") != NULL || strstr(filepath, ".db") != NULL || strstr(filepath, ".sqlite") != NULL || strstr(filepath, ".pem") != NULL || strstr(filepath, ".cer") != NULL || strstr(filepath, ".crt") != NULL || strstr(filepath, ".key") != NULL || strstr(filepath, ".p12") != NULL || strstr(filepath, ".jks") != NULL || strstr(filepath, ".keystore") != NULL)
     {
         while (fgets(line, sizeof(line), f))
         {
@@ -171,12 +177,13 @@ int scan_file_for_apktool(FILE *scan_files, const char *filepath, FILE *for_patt
             scan_permissions(filepath, for_permissions, line, line_no);
             scan_exported_activity(filepath, for_permissions, line, line_no);
             scan_strings_xml(filepath, for_regex, line, line_no);
-            scan_masvs_1(filepath, for_masvs, line, line_no);
+            scan_masvs_1(filepath, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native, line, line_no);
         }
         print_files(filepath, scan_files);
     }
 
     fclose(f);
+    return 0;
 }
 
 
@@ -193,7 +200,7 @@ int scan_file_for_apktool_sec(const char *filepath, FILE *for_regex)
     int line_no = 0;
 
 
-    if (strstr(filepath, ".xml") != NULL || strstr(filepath, ".json") != NULL || strstr(filepath, ".properties") != NULL || strstr(filepath, ".txt") != NULL || strstr(filepath, ".conf") != NULL || strstr(filepath, ".ini") != NULL || strstr(filepath, ".yaml") != NULL || strstr(filepath, ".yml") != NULL || strstr(filepath, ".env") != NULL || strstr(filepath, ".db") != NULL || strstr(filepath, ".sqlite") != NULL || strstr(filepath, ".pem") != NULL || strstr(filepath, ".cer") != NULL || strstr(filepath, ".crt") != NULL || strstr(filepath, ".key") != NULL || strstr(filepath, ".p12") != NULL || strstr(filepath, ".jks") != NULL || strstr(filepath, ".keystore") != NULL)
+    if (strstr(filepath, ".smali") != NULL || strstr(filepath, ".xml") != NULL || strstr(filepath, ".json") != NULL || strstr(filepath, ".properties") != NULL || strstr(filepath, ".txt") != NULL || strstr(filepath, ".conf") != NULL || strstr(filepath, ".ini") != NULL || strstr(filepath, ".yaml") != NULL || strstr(filepath, ".yml") != NULL || strstr(filepath, ".env") != NULL || strstr(filepath, ".db") != NULL || strstr(filepath, ".sqlite") != NULL || strstr(filepath, ".pem") != NULL || strstr(filepath, ".cer") != NULL || strstr(filepath, ".crt") != NULL || strstr(filepath, ".key") != NULL || strstr(filepath, ".p12") != NULL || strstr(filepath, ".jks") != NULL || strstr(filepath, ".keystore") != NULL)
     {
         while (fgets(line, sizeof(line), f))
         {
@@ -207,9 +214,10 @@ int scan_file_for_apktool_sec(const char *filepath, FILE *for_regex)
     }
 
     fclose(f);
+    return 0;
 }
 
-int scan_file_for_apktool_masvs(const char *filepath, FILE *for_masvs)
+int scan_file_for_apktool_masvs(const char *filepath, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native)
 {
 
     FILE *f = fopen(filepath, "r");
@@ -221,18 +229,19 @@ int scan_file_for_apktool_masvs(const char *filepath, FILE *for_masvs)
     char line[MAX_LINE];
     int line_no = 0;
 
-    if (strstr(filepath, ".xml") != NULL || strstr(filepath, ".json") != NULL || strstr(filepath, ".properties") != NULL || strstr(filepath, ".txt") != NULL || strstr(filepath, ".conf") != NULL || strstr(filepath, ".ini") != NULL || strstr(filepath, ".yaml") != NULL || strstr(filepath, ".yml") != NULL || strstr(filepath, ".env") != NULL || strstr(filepath, ".db") != NULL || strstr(filepath, ".sqlite") != NULL || strstr(filepath, ".pem") != NULL || strstr(filepath, ".cer") != NULL || strstr(filepath, ".crt") != NULL || strstr(filepath, ".key") != NULL || strstr(filepath, ".p12") != NULL || strstr(filepath, ".jks") != NULL || strstr(filepath, ".keystore") != NULL)
+    if (strstr(filepath, ".smali") != NULL || strstr(filepath, ".xml") != NULL || strstr(filepath, ".json") != NULL || strstr(filepath, ".properties") != NULL || strstr(filepath, ".txt") != NULL || strstr(filepath, ".conf") != NULL || strstr(filepath, ".ini") != NULL || strstr(filepath, ".yaml") != NULL || strstr(filepath, ".yml") != NULL || strstr(filepath, ".env") != NULL || strstr(filepath, ".db") != NULL || strstr(filepath, ".sqlite") != NULL || strstr(filepath, ".pem") != NULL || strstr(filepath, ".cer") != NULL || strstr(filepath, ".crt") != NULL || strstr(filepath, ".key") != NULL || strstr(filepath, ".p12") != NULL || strstr(filepath, ".jks") != NULL || strstr(filepath, ".keystore") != NULL)
     {
         while (fgets(line, sizeof(line), f))
         {
             line_no++;
             
-            scan_masvs(filepath, for_masvs, line, line_no);
+            scan_masvs_1(filepath, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native, line, line_no);
         }
         
     }
 
     fclose(f);
+    return 0;
 }
 
 
@@ -247,7 +256,7 @@ int scan_file_for_apktool_per(const char *filepath, FILE *for_permissions)
     char line[MAX_LINE];
     int line_no = 0;
 
-    if (strstr(filepath, ".xml") != NULL || strstr(filepath, ".json") != NULL || strstr(filepath, ".properties") != NULL || strstr(filepath, ".txt") != NULL || strstr(filepath, ".conf") != NULL || strstr(filepath, ".ini") != NULL || strstr(filepath, ".yaml") != NULL || strstr(filepath, ".yml") != NULL || strstr(filepath, ".env") != NULL || strstr(filepath, ".db") != NULL || strstr(filepath, ".sqlite") != NULL || strstr(filepath, ".pem") != NULL || strstr(filepath, ".cer") != NULL || strstr(filepath, ".crt") != NULL || strstr(filepath, ".key") != NULL || strstr(filepath, ".p12") != NULL || strstr(filepath, ".jks") != NULL || strstr(filepath, ".keystore") != NULL)
+    if (strstr(filepath, ".smali") != NULL || strstr(filepath, ".xml") != NULL || strstr(filepath, ".json") != NULL || strstr(filepath, ".properties") != NULL || strstr(filepath, ".txt") != NULL || strstr(filepath, ".conf") != NULL || strstr(filepath, ".ini") != NULL || strstr(filepath, ".yaml") != NULL || strstr(filepath, ".yml") != NULL || strstr(filepath, ".env") != NULL || strstr(filepath, ".db") != NULL || strstr(filepath, ".sqlite") != NULL || strstr(filepath, ".pem") != NULL || strstr(filepath, ".cer") != NULL || strstr(filepath, ".crt") != NULL || strstr(filepath, ".key") != NULL || strstr(filepath, ".p12") != NULL || strstr(filepath, ".jks") != NULL || strstr(filepath, ".keystore") != NULL)
     {
         while (fgets(line, sizeof(line), f))
         {
@@ -259,6 +268,7 @@ int scan_file_for_apktool_per(const char *filepath, FILE *for_permissions)
     }
 
     fclose(f);
+    return 0;
 }
 
 int scan_file_for_apktool_pat(const char *filepath, FILE *for_patterns)
@@ -274,7 +284,7 @@ int scan_file_for_apktool_pat(const char *filepath, FILE *for_patterns)
     int line_no = 0;
 
 
-    if (strstr(filepath, ".xml") != NULL || strstr(filepath, ".json") != NULL || strstr(filepath, ".properties") != NULL || strstr(filepath, ".txt") != NULL || strstr(filepath, ".conf") != NULL || strstr(filepath, ".ini") != NULL || strstr(filepath, ".yaml") != NULL || strstr(filepath, ".yml") != NULL || strstr(filepath, ".env") != NULL || strstr(filepath, ".db") != NULL || strstr(filepath, ".sqlite") != NULL || strstr(filepath, ".pem") != NULL || strstr(filepath, ".cer") != NULL || strstr(filepath, ".crt") != NULL || strstr(filepath, ".key") != NULL || strstr(filepath, ".p12") != NULL || strstr(filepath, ".jks") != NULL || strstr(filepath, ".keystore") != NULL)
+    if (strstr(filepath, ".smali") != NULL || strstr(filepath, ".xml") != NULL || strstr(filepath, ".json") != NULL || strstr(filepath, ".properties") != NULL || strstr(filepath, ".txt") != NULL || strstr(filepath, ".conf") != NULL || strstr(filepath, ".ini") != NULL || strstr(filepath, ".yaml") != NULL || strstr(filepath, ".yml") != NULL || strstr(filepath, ".env") != NULL || strstr(filepath, ".db") != NULL || strstr(filepath, ".sqlite") != NULL || strstr(filepath, ".pem") != NULL || strstr(filepath, ".cer") != NULL || strstr(filepath, ".crt") != NULL || strstr(filepath, ".key") != NULL || strstr(filepath, ".p12") != NULL || strstr(filepath, ".jks") != NULL || strstr(filepath, ".keystore") != NULL)
     {
         while (fgets(line, sizeof(line), f))
         {
@@ -285,6 +295,7 @@ int scan_file_for_apktool_pat(const char *filepath, FILE *for_patterns)
     }
 
     fclose(f);
+    return 0;
 }
 
 int scan_file_for_apktool_files(const char *filepath, FILE *scan_files, FILE *for_native_lib)
@@ -300,5 +311,6 @@ int scan_file_for_apktool_files(const char *filepath, FILE *scan_files, FILE *fo
     scan_native_libraries(filepath, for_native_lib);
 
     fclose(f);
+    return 0;
 }
 
