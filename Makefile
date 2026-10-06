@@ -1,26 +1,26 @@
 CC = gcc
-CFLAGS = -Iinclude 
+CFLAGS = -IApkx-Hunter/include 
 LDFLAGS = -lssl -lcrypto -lm -lreadline
 
 TARGET = apkxhunter
 
-SRCS = src/main.c \
-       src/ah_shell_interface.c \
-       src/apktool.c \
-       src/banner.c \
-       src/extract.c \
-       src/file_making.c \
-       src/functions.c \
-       src/jadx.c \
-       src/main_ai.c \
-       src/masvs.c \
-       src/multi_apk.c \
-       src/run.c \
-       src/scan_dir_func.c \
-       src/scan_file_func.c \
-       src/scan_secrets.c \
-       src/patterns.c \
-       src/define.c
+SRCS = Apkx-Hunter/src/main.c \
+       Apkx-Hunter/src/ah_shell_interface.c \
+       Apkx-Hunter/src/apktool.c \
+       Apkx-Hunter/src/banner.c \
+       Apkx-Hunter/src/extract.c \
+       Apkx-Hunter/src/file_making.c \
+       Apkx-Hunter/src/functions.c \
+       Apkx-Hunter/src/jadx.c \
+       Apkx-Hunter/src/main_ai.c \
+       Apkx-Hunter/src/masvs.c \
+       Apkx-Hunter/src/multi_apk.c \
+       Apkx-Hunter/src/run.c \
+       Apkx-Hunter/src/scan_dir_func.c \
+       Apkx-Hunter/src/scan_file_func.c \
+       Apkx-Hunter/src/scan_secrets.c \
+       Apkx-Hunter/src/patterns.c \
+       Apkx-Hunter/src/define.c
 
 PREFIX ?= /usr
 
