@@ -448,6 +448,24 @@ APK, APKM, APKS, XAPK, ZIP
 
 ---
 
+## What's Next?
+
+APKX-Hunter v3.0.0 is officially released — but the development doesn't stop here.
+
+The next release is already in development.
+
+> **Something new is coming to APKX-Hunter.**
+>
+> Not revealing the details yet.
+>
+> **Consider the next release a surprise. 👀**
+
+More details will be revealed when the time is right.
+
+Stay tuned for the next chapter of APKX-Hunter. 
+
+---
+
 ## Feedback & Support
 
 APKXHunter is an actively maintained open-source project.
