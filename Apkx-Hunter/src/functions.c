@@ -52,6 +52,7 @@ void scan_buckets(const char *filepath, FILE *for_regex, char *line, int bucket_
                     match,
                     0) == 0)
         {
+
             char found[512];
 
             int len = match[0].rm_eo - match[0].rm_so;
@@ -554,12 +555,12 @@ int get_installed_version(const char *cmd, char *version_out, size_t out_size)
     return found;
 }
 
-void check_apktool_jadx_versions(char *argv[])
+void check_apktool_jadx_versions(char *shell_argv[])
 {
     char apktool_version[64] = {0};
     char jadx_version[64] = {0};
 
-    if(apktool_2 == 1)
+    if (apktool_2 == 1)
     {
 
         if (!get_installed_version("apktool --version 2>&1", apktool_version, sizeof(apktool_version)))
@@ -567,7 +568,6 @@ void check_apktool_jadx_versions(char *argv[])
             printf(HACKER_WHITE "\n[ERROR] Could not detect installed apktool version.\n" COLOR_RESET);
             printf(HACKER_WHITE "Install the latest apktool (%s) with:\n" COLOR_RESET, APKTOOL_VERSION);
             printf(HACKER_WHITE "  sudo apt update && sudo apt install apktool\n" COLOR_RESET);
-            exit(1);
         }
 
         if (compare_versions(apktool_version, APKTOOL_VERSION) < 0)
@@ -576,11 +576,10 @@ void check_apktool_jadx_versions(char *argv[])
                    apktool_version, APKTOOL_VERSION);
             printf(HACKER_WHITE "Run the following command to upgrade apktool:\n" COLOR_RESET);
             printf(HACKER_WHITE "  sudo apt update && sudo apt install --only-upgrade apktool\n" COLOR_RESET);
-            exit(1);
         }
     }
 
-    if (deep_2 == 1 || fast_2 == 1 || argv[2] == NULL)
+    if (deep_2 == 1 || fast_2 == 1 || shell_argv[2] == NULL)
     {
 
         if (!get_installed_version("jadx --version 2>&1", jadx_version, sizeof(jadx_version)))
@@ -588,7 +587,6 @@ void check_apktool_jadx_versions(char *argv[])
             printf(HACKER_WHITE "\n[ERROR] Could not detect installed jadx version.\n" COLOR_RESET);
             printf(HACKER_WHITE "Install the latest jadx (%s) with:\n" COLOR_RESET, JADX_VERSION);
             printf(HACKER_WHITE "  sudo apt update && sudo apt install jadx\n" COLOR_RESET);
-            exit(1);
         }
 
         if (compare_versions(jadx_version, JADX_VERSION) < 0)
@@ -597,7 +595,151 @@ void check_apktool_jadx_versions(char *argv[])
                    jadx_version, JADX_VERSION);
             printf(HACKER_WHITE "Run the following command to upgrade jadx:\n" COLOR_RESET);
             printf(HACKER_WHITE "  sudo apt update && sudo apt install --only-upgrade jadx\n" COLOR_RESET);
-            exit(1);
         }
     }
 }
+
+void search_folder(const char *folder_name, const char *search_string)
+{
+
+    char path[PATH_MAX];
+    DIR *dir;
+    struct dirent *entry;
+
+    char clean_string[4096];
+
+    size_t len = strlen(search_string);
+
+    if (len >= 2 &&
+        search_string[0] == '\'' &&
+        search_string[len - 1] == '\'')
+    {
+
+        len -= 2;
+
+        if (len >= sizeof(clean_string))
+            len = sizeof(clean_string) - 1;
+
+        memcpy(clean_string, search_string + 1, len);
+        clean_string[len] = '\0';
+
+        search_string = clean_string;
+    }
+
+    snprintf(path, sizeof(path), "%s", folder_name);
+
+    dir = opendir(path);
+
+    if (dir == NULL)
+    {
+        perror("opendir");
+        return;
+    }
+
+    while ((entry = readdir(dir)) != NULL)
+    {
+
+        if (strcmp(entry->d_name, ".") == 0 ||
+            strcmp(entry->d_name, "..") == 0)
+        {
+            continue;
+        }
+
+        char full_path[PATH_MAX];
+
+        snprintf(full_path,
+                 sizeof(full_path),
+                 "%s/%s",
+                 path,
+                 entry->d_name);
+
+        struct stat st;
+
+        if (stat(full_path, &st) != 0)
+            continue;
+
+        if (S_ISDIR(st.st_mode))
+        {
+
+            search_folder(full_path, search_string);
+        }
+
+        else if (S_ISREG(st.st_mode))
+        {
+
+            FILE *fp = fopen(full_path, "r");
+
+            if (fp == NULL)
+                continue;
+
+            char lines[7][4096];
+            int line_count = 0;
+            int line_number = 0;
+
+            while (fgets(lines[line_count % 7],
+                         sizeof(lines[0]),
+                         fp) != NULL)
+            {
+
+                line_number++;
+
+                int current = line_count % 7;
+
+                if (strstr(lines[current], search_string) != NULL)
+                {
+
+                    printf(HACKER_WHITE);
+                    printf("File: %s\n", full_path);
+                    printf("Line: %d\n\n", line_number);
+                    printf(COLOR_RESET);
+
+                    int start = line_count - 3;
+
+                    if (start < 0)
+                        start = 0;
+
+                    for (int i = start; i <= line_count; i++)
+                    {
+
+                        int index = i % 7;
+
+                        if (i == line_count)
+                            printf(">>> %5d | %s",
+                                   line_number,
+                                   lines[index]);
+                        else
+                            printf("    %5d | %s",
+                                   line_number - (line_count - i),
+                                   lines[index]);
+                    }
+                    char next_line[4096];
+
+                    for (int i = 1; i <= 3; i++)
+                    {
+
+                        if (fgets(next_line,
+                                  sizeof(next_line),
+                                  fp) == NULL)
+                            break;
+
+                        line_number++;
+
+                        printf("    %5d | %s",
+                               line_number,
+                               next_line);
+                    }
+
+                    printf("\n");
+                }
+
+                line_count++;
+            }
+
+            fclose(fp);
+        }
+    }
+
+    closedir(dir);
+}
+
+
