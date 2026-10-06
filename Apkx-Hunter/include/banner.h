@@ -13,6 +13,7 @@
 
 void print_banner(void);
 void help_func();
+void animation();
 
 
 #endif
