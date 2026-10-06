@@ -7,7 +7,7 @@
 
 #include "apktool.h"
 
-int run_apktool(char *argv[], char *output_dir, int argc)
+int run_apktool(char *shell_argv[], char *output_dir, int shell_argc)
 {
 
     char cmd[10240];
@@ -17,7 +17,7 @@ int run_apktool(char *argv[], char *output_dir, int argc)
     char Half_path[4096];
     char gd[5000];
 
-    snprintf(full_path, sizeof(full_path), "%s/%s", cwd, argv[1]);
+    snprintf(full_path, sizeof(full_path), "%s/%s", cwd, shell_argv[1]);
     snprintf(Half_path, sizeof(Half_path), "%s", cwd);
     snprintf(gd, sizeof(gd), "%s/%s", Half_path, output_dir);
 
@@ -27,7 +27,7 @@ int run_apktool(char *argv[], char *output_dir, int argc)
     if (not_valid_apk == 0)
     {
 
-        if (argc == 3)
+        if (shell_argc == 3 || quiet_2 == 1)
         {
 
             snprintf(cmd, sizeof(cmd), "apktool d -f %s -o %s/%s", full_path, Half_path, output_dir);
@@ -60,7 +60,7 @@ int run_apktool(char *argv[], char *output_dir, int argc)
             stats.apks_scanned++;
         }
 
-        else if (argc == 4 && ((secrets_2 == 1) || (permissions_2 == 1) || (patterns_2 == 1) || (extract_2 == 1) || (masvs_2 == 1) || (file_scan_2 == 1)))
+        else if (shell_argc == 4 && ((secrets_2 == 1) || (permissions_2 == 1) || (patterns_2 == 1) || (extract_2 == 1) || (masvs_2 == 1) || (file_scan_2 == 1) || quiet_2 == 1))
         {
 
             snprintf(cmd, sizeof(cmd), "apktool d -f %s -o %s/%s", full_path, Half_path, output_dir);
@@ -93,7 +93,7 @@ int run_apktool(char *argv[], char *output_dir, int argc)
             stats.apks_scanned++;
         }
 
-        else if (argc == 4 && (decompile_2 == 1))
+        else if (shell_argc == 4 && (decompile_2 == 1))
         {
 
             snprintf(cmd, sizeof(cmd), "apktool d -f %s -o %s/%s", full_path, Half_path, output_dir);
@@ -132,11 +132,11 @@ int run_apktool(char *argv[], char *output_dir, int argc)
         return 1;
     }
 
-    file_making_for_apktool(output_dir, argv, argc);
+    file_making_for_apktool(output_dir, shell_argv, shell_argc);
     return 0;
 }
 
-int run_apktool_1(char *argv[], char *full_path, char *output_dir, int argc)
+int run_apktool_1(char *shell_argv[], char *full_path, char *output_dir, int shell_argc)
 {
 
     char cmd[10240];
@@ -186,7 +186,7 @@ int run_apktool_1(char *argv[], char *full_path, char *output_dir, int argc)
             stats.apks_scanned++;
         }
 
-        else if (argc == 4 && ((decompile_2 == 1) || (multi_apk_2 == 1 || extract_multi_apk_2 == 1)))
+        else if (shell_argc == 4 && ((decompile_2 == 1) || (multi_apk_2 == 1 || extract_multi_apk_2 == 1)))
         {
 
             snprintf(cmd, sizeof(cmd), "apktool d -f %s -o %s/%s", full_path, Half_path, output_dir);
@@ -225,6 +225,6 @@ int run_apktool_1(char *argv[], char *full_path, char *output_dir, int argc)
         return 1;
     }
 
-    file_making_for_apktool(output_dir, argv, argc);
+    file_making_for_apktool(output_dir, shell_argv, shell_argc);
     return 0;
 }
