@@ -39,7 +39,9 @@ int compute_hashes(const char *filepath);
 void install_missing_dependencies(void);
 int compare_versions(const char *v1, const char *v2);
 int get_installed_version(const char *cmd, char *version_out, size_t out_size);
-void check_apktool_jadx_versions(char *argv[]);
+void check_apktool_jadx_versions(char *shell_argv[]);
+void search_folder(const char *folder_name, const char *search_string);
+
 
 
 
