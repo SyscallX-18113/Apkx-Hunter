@@ -15,7 +15,7 @@ All notable changes to APKX-Hunter are documented in this file.
 * **Categorized MASVS Findings** — MASVS security findings are now organized into dedicated security categories for easier investigation and reporting.
 * **Structured Analysis Output** — Improved organization of generated findings and analysis results into clear output categories.
 * **Interactive Framework Commands** — Added framework-level commands for analysis execution, help, terminal control, banner display, and exiting the framework.
-* **Quiet No Output On Terminal Mode** — Added improved control over normal framework output during automated and batch workflows.
+* **Quiet No Output On Terminal Mode** — Added improved control over normal framework output during automated workflows.
 * **Improved Scan Statistics** — Enhanced scan statistics and final analysis summaries.
 
 ---
