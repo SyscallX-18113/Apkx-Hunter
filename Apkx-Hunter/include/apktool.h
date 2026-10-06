@@ -19,7 +19,7 @@
 #include "functions.h"
 #include "jadx.h"
 
-int run_apktool(char *argv[], char *output_dir, int argc);
-int run_apktool_1(char *argv[], char *full_path, char *output_dir, int argc);
+int run_apktool(char *shell_argv[], char *output_dir, int shell_argc);
+int run_apktool_1(char *shell_argv[], char *full_path, char *output_dir, int shell_argc);
 
 #endif
