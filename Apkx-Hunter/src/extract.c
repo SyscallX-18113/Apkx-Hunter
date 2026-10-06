@@ -61,7 +61,7 @@ void count_apks(const char *folder)
     closedir(dir);
 }
 
-int extract_apk(char *argv[], char *output_dir)
+int extract_apk(char *shell_argv[], char *output_dir)
 {
     printf(HACKER_WHITE "\n[#] Extracting APK....\n\n");
     sleep(4);
@@ -72,7 +72,7 @@ int extract_apk(char *argv[], char *output_dir)
     getcwd(cwd, sizeof(cwd));
     char Half_path[4096];
     char Path[8192];
-    snprintf(full_path, sizeof(full_path), "%s/%s", cwd, argv[1]);
+    snprintf(full_path, sizeof(full_path), "%s/%s", cwd, shell_argv[1]);
     snprintf(Half_path, sizeof(Half_path), "%s", cwd);
     snprintf(Path, sizeof(Path), "%s/%s", Half_path, output_dir);
 
@@ -100,7 +100,7 @@ int extract_apk(char *argv[], char *output_dir)
     return 0;
 }
 
-int extract_apk_1(int argc, char *argv[], char *output_dir)
+int extract_apk_1(int shell_argc, char *shell_argv[], char *output_dir)
 {
     printf(HACKER_WHITE "\n[#] Extracting APK....\n\n");
     sleep(2);
@@ -115,7 +115,7 @@ int extract_apk_1(int argc, char *argv[], char *output_dir)
     char ch;
 
     
-    snprintf(full_path, sizeof(full_path), "%s/%s", cwd, argv[1]);
+    snprintf(full_path, sizeof(full_path), "%s/%s", cwd, shell_argv[1]);
     snprintf(Half_path, sizeof(Half_path), "%s", cwd);
     snprintf(folder_path, sizeof(folder_path), "%s/%s", Half_path, output_dir);
     snprintf(Path, sizeof(Path), "%s/%s", Half_path, output_dir);
@@ -149,7 +149,7 @@ int extract_apk_1(int argc, char *argv[], char *output_dir)
 
     if (ch == 'y' || ch == 'Y')
     {
-    scan_multi_apk(folder_path, argc, argv);
+    scan_multi_apk(folder_path, shell_argc, shell_argv);
     }
     else
     {
@@ -162,4 +162,5 @@ int extract_apk_1(int argc, char *argv[], char *output_dir)
     
     printf(COLOR_RESET);
 
+    return 0;
 }
