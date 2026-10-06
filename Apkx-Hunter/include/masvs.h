@@ -23,8 +23,9 @@
 #include "file_making.h"
 
 
-void scan_masvs_1(const char *filepath, FILE *for_masvs, char *line, int line_no);
-void scan_masvs(const char *filepath, FILE *for_masvs, char *line, int line_no);
+void scan_masvs_1(const char *filepath, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native, char *line, int line_no);
+
+
 
 
 #endif
