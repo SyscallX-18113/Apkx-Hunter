@@ -1,7 +1,25 @@
 # Changelog
 
 All notable changes to APKX-Hunter are documented in this file.
+---
 
+## Apkx-Hunter [3.0.0]
+
+**APKX-Hunter v3.0.0** introduces a major framework upgrade, expanding APKX-Hunter from an Android static-analysis tool into a more complete **interactive Android Application Static security analysis framework**.
+
+### Added
+
+* **Interactive Shell Integration** — Added a dedicated command-line shell for interacting with APKX-Hunter directly from the terminal.
+* **Code Search & Investigation** — Added recursive code searching across decompiled applications and project directories.
+* **Code Context Analysis** — Search results provide file paths, line numbers, matching source lines, and surrounding code context.
+* **Categorized MASVS Findings** — MASVS security findings are now organized into dedicated security categories for easier investigation and reporting.
+* **Structured Analysis Output** — Improved organization of generated findings and analysis results into clear output categories.
+* **Interactive Framework Commands** — Added framework-level commands for analysis execution, help, terminal control, banner display, and exiting the framework.
+* **Quiet No Output On Terminal Mode** — Added improved control over normal framework output during automated and batch workflows.
+* **Improved Scan Statistics** — Enhanced scan statistics and final analysis summaries.
+
+---
+---
 ---
 
 ## Apkx-Hunter [2.7.2]
