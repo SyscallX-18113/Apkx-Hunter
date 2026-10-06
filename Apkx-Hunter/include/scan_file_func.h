@@ -17,18 +17,18 @@
 #include <regex.h>
 #include <sys/types.h>
 
-int scan_file(const char *filepath, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, FILE *for_masvs);
+int scan_file(const char *filepath, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native);
 int scan_file_sec(const char *filepath, FILE *for_regex);
 int scan_file_per(const char *filepath, FILE *for_permissions);
 int scan_file_pat(const char *filepath, FILE *for_patterns);
 int scan_file_files(const char *filepath, FILE *scan_files, FILE *for_native_lib);
-int scan_file_for_apktool(FILE *scan_files, const char *filepath, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, FILE *for_masvs);
+int scan_file_for_apktool(FILE *scan_files, const char *filepath, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native);
 int scan_file_for_apktool_sec(const char *filepath, FILE *for_regex);
 int scan_file_for_apktool_per(const char *filepath, FILE *for_permissions);
 int scan_file_for_apktool_pat(const char *filepath, FILE *for_patterns);
 int scan_file_for_apktool_files(const char *filepath, FILE *scan_files, FILE *for_native_lib);
-int scan_file_masvs(const char *filepath, FILE *for_masvs);
-int scan_file_for_apktool_masvs(const char *filepath, FILE *for_masvs);
+int scan_file_masvs(const char *filepath, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native);
+int scan_file_for_apktool_masvs(const char *filepath, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native);
 
 #include "patterns.h"
 #include "define.h"
