@@ -23,8 +23,8 @@
 #include "functions.h"
 #include "scan_dir_func.h"
 
-int file_making(char *output_dir, char *argv[], int argc);
-int file_making_for_apktool(char *output_dir, char *argv[], int argc);
+int file_making(char *output_dir, char *shell_argv[], int shell_argc);
+int file_making_for_apktool(char *output_dir, char *shell_argv[], int shell_argc);
 
 
 #endif
