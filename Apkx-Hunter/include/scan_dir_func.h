@@ -17,18 +17,18 @@
 #include <regex.h>
 #include <sys/types.h>
 
-void scan_dir(const char *path, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, char *argv[], int argc, char *output_dir, FILE *for_masvs);
-void scan_dir_sec(const char *path, FILE *for_regex, char *argv[], int argc, char *output_dir);
-void scan_dir_per(const char *path, FILE *for_permissions, char *argv[], int argc, char *output_dir);
-void scan_dir_pat(const char *path, FILE *for_patterns, char *argv[], int argc, char *output_dir);
+void scan_dir(const char *path, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, char *shell_argv[], int shell_argc, char *output_dir, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native);
+void scan_dir_sec(const char *path, FILE *for_regex, char *shell_argv[], int shell_argc, char *output_dir);
+void scan_dir_per(const char *path, FILE *for_permissions, char *shell_argv[], int shell_argc, char *output_dir);
+void scan_dir_pat(const char *path, FILE *for_patterns, char *shell_argv[], int shell_argc, char *output_dir);
 void scan_dir_files(const char *path, FILE *scan_files, FILE *for_native_lib);
-void scan_dir_for_apktool(FILE *scan_files, const char *path, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, char *argv[], int argc, char *output_dir, FILE *for_masvs);
-void scan_dir_for_apktool_sec(const char *path, FILE *for_regex, char *argv[], int argc, char *output_dir);
-void scan_dir_for_apktool_per(const char *path, FILE *for_permissions, char *argv[], int argc, char *output_dir);
-void scan_dir_for_apktool_pat(const char *path, FILE *for_patterns, char *argv[], int argc, char *output_dir);
+void scan_dir_for_apktool(FILE *scan_files, const char *path, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, char *shell_argv[], int shell_argc, char *output_dir, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native);
+void scan_dir_for_apktool_sec(const char *path, FILE *for_regex, char *shell_argv[], int shell_argc, char *output_dir);
+void scan_dir_for_apktool_per(const char *path, FILE *for_permissions, char *shell_argv[], int shell_argc, char *output_dir);
+void scan_dir_for_apktool_pat(const char *path, FILE *for_patterns, char *shell_argv[], int shell_argc, char *output_dir);
 void scan_dir_for_apktool_files(const char *path, FILE *scan_files, FILE *for_native_lib);
-void scan_dir_masvs(const char *path, FILE *for_masvs, char *argv[], int argc, char *output_dir);
-void scan_dir_for_apktool_masvs(const char *path, FILE *for_masvs, char *argv[], int argc, char *output_dir);
+void scan_dir_masvs(const char *path, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native, char *shell_argv[], int shell_argc, char *output_dir);
+void scan_dir_for_apktool_masvs(const char *path, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native, char *shell_argv[], int shell_argc, char *output_dir);
 
 
 #include "patterns.h"
