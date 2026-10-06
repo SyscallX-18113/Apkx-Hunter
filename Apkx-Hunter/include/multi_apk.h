@@ -22,7 +22,7 @@
 #include "jadx.h"
 #include "apktool.h"
 
-void scan_multi_apk(const char *directory, int argc, char *argv[]);
+void scan_multi_apk(const char *directory, int shell_argc, char *shell_argv[]);
 
 
 #endif
