@@ -29,7 +29,7 @@
 #define COLOR_RESET           "\033[0m"
 #define GREEN                 "\033[32m"
 #define COLOR_RED             "\033[1;31m"
-#define COLOR_BLUE            "\033[1;34m"
+#define COLOR_BLUE            "\033[38;2;6;182;212m"
 #define _G                    "\033[38;5;46m"
 #define LIGHT_BLUE            "\033[96m"
 #define LIGHT_GREEN           "\033[92m"
@@ -43,6 +43,7 @@
 #define ORANGE                "\033[38;2;255;165;0m"
 #define HACKER_WHITE          "\033[97m"
 
+
  
 
 //Other Defines
@@ -52,29 +53,38 @@
 
 //Flags
 
-#define DEEP "--deep"
-#define FAST "--fast"
-#define SECRETS "--secrets"
-#define HELP "--help"
-#define FOLDER_SCAN "--folder-scan"
-#define PERMISSIONS "--permissions"
-#define PATTERNS "--endpoints"
-#define DECOMPILE "--decompile"
-#define FILE_SCAN "--files"
-#define APKTOOL "--apktool"
-#define APKTOOL_SCAN "--apktool-folder-scan"
-#define MULTI_APK "--multi-apk"
-#define EXTRACT "--extract"
-#define MASVS "--masvs"
-#define EXTRACT_MULTI_APK "--extract-multi-apk"
-#define INSTALL "--install-dependencies"
-
+#define DEEP "deep"
+#define FAST "fast"
+#define SECRETS "secrets"
+#define HELP "help"
+#define FOLDER_SCAN "folder-scan"
+#define PERMISSIONS "permissions"
+#define PATTERNS "endpoints"
+#define DECOMPILE "decompile"
+#define FILE_SCAN "files"
+#define APKTOOL "apktool"
+#define APKTOOL_SCAN "apktool-folder-scan"
+#define MULTI_APK "multi-apk"
+#define EXTRACT "extract"
+#define MASVS "masvs"
+#define EXTRACT_MULTI_APK "extract-multi-apk"
+#define INSTALL "install-dependencies"
+#define RUN "run"
+#define EXIT "exit"
+#define BANNER "banner"
+#define SEARCH "search"
+#define QUIET "quiet"
 
 extern int silent_mode;
 extern int deep_2;
+extern int run_2;
 extern int fast_2;
+extern int exit_2;
 extern int secrets_2;
+extern int quiet_2;
 extern int help_2;
+extern int banner_2;
+extern int search_2;
 extern int folder_scan_2;
 extern int permissions_2;
 extern int patterns_2;
@@ -92,6 +102,7 @@ extern int not_valid_apk;
 extern int apk_count;
 extern int valid_flag_count;
 
+
 extern const char *valid_flags[];
 
 typedef struct
@@ -104,6 +115,8 @@ typedef struct
     int masvs;
     int permissions;
 } ScanStats;
+
+void reset_command_state(void);
 
 extern ScanStats stats;
 
