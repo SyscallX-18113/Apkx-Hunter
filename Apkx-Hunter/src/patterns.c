@@ -33,7 +33,6 @@ const char *patterns[] = {
     "/admin",
     "/debug",
     "/staging",
-    "/dev",
     "/test",
     "/private",
     "/secret",
@@ -155,9 +154,6 @@ StringPattern string_patterns[] =
     {"Amazon S3", "amazonaws.com"},
     {"Amazon S3 URL", "s3.amazonaws.com"},
     {"Azure Blob Storage", "blob.core.windows.net"},
-    {"Passwd", "passwd"},
-    {"Secret", "secret"},
-    {"Token", "token"},
     {"API Key", "apikey"},
     {"API Key", "api_key"},
     {"Client Secret", "client_secret"},
@@ -165,9 +161,7 @@ StringPattern string_patterns[] =
     {"Access Token", "access_token"},
     {"Refresh Token", "refresh_token"},
     {"Bearer Token", "bearer"},
-    {"Admin", "admin"},
     {"JWT", "jwt"},
-    {"OAuth", "oauth"},
     {"Private Key", "private_key"},
     {"Public Key", "public_key"},
     {"PEM Private Key", "BEGIN PRIVATE KEY"},
@@ -346,242 +340,165 @@ permission_data permission[] = {
 };
 
 
-masvs_pattern masvs_patterns[] =
+masvs_pattern weak_networks[] =
 {
+ 
     { "Weak Hash Algorithm", "MessageDigest.getInstance(\"MD5\")", "HIGH", "MD5 is considered cryptographically broken." },
     { "Weak Hash Algorithm", "MessageDigest.getInstance(\"SHA-1\")", "HIGH", "SHA-1 is deprecated for security-sensitive applications." },
-    { "Weak Hash Algorithm", "MessageDigest.getInstance(\"MD2\")", "HIGH", "MD2 is an obsolete and insecure hash algorithm." },
     { "Weak Cipher Algorithm", "Cipher.getInstance(\"DES\")", "CRITICAL", "DES is a broken cipher with a trivially small key space." },
     { "Weak Cipher Algorithm", "Cipher.getInstance(\"DESede\")", "HIGH", "Triple DES (3DES) is deprecated and considered weak." },
-    { "Weak Cipher Algorithm", "Cipher.getInstance(\"RC2\")", "HIGH", "RC2 is a legacy weak block cipher." },
     { "Weak Cipher Algorithm", "Cipher.getInstance(\"RC4\")", "CRITICAL", "RC4 is a broken stream cipher, vulnerable to key-recovery attacks." },
     { "Insecure Cipher Mode", "Cipher.getInstance(\"AES/ECB", "HIGH", "ECB mode does not provide semantic security and leaks data patterns." },
-    { "Insecure Cipher Mode", "AES/ECB/PKCS5Padding", "HIGH", "ECB mode reveals patterns in encrypted data; use CBC/GCM instead." },
-    { "Insecure Cipher Mode", "AES/ECB/NoPadding", "HIGH", "ECB mode with no padding is insecure for block encryption." },
-    { "No Padding Used", "Cipher.getInstance(\"AES/CBC/NoPadding\")", "MEDIUM", "Missing padding scheme can lead to padding oracle or malleability issues." },
-    { "Hardcoded Encryption Key", "SecretKeySpec(", "HIGH", "Potential hardcoded key material passed to SecretKeySpec." },
-    { "Hardcoded IV", "IvParameterSpec(", "MEDIUM", "Static or hardcoded IVs undermine cipher security guarantees." },
-    { "Weak Random Number Generator", "new Random(", "HIGH", "java.util.Random is not cryptographically secure." },
-    { "Weak Random Number Generator", "Math.random(", "HIGH", "Math.random() is not suitable for security-sensitive operations." },
-    { "Predictable Seed", "setSeed(", "MEDIUM", "Setting an explicit seed can make random values predictable." },
-    { "Weak Key Generation", "KeyGenerator.getInstance(\"DES\")", "CRITICAL", "DES-based key generation is insecure." },
     { "Weak Key Size", "KeyPairGenerator.initialize(512", "CRITICAL", "512-bit RSA keys are trivially breakable." },
     { "Weak Key Size", "KeyPairGenerator.initialize(1024", "HIGH", "1024-bit RSA keys are considered weak by modern standards." },
     { "Insecure PBE Algorithm", "PBEWithMD5AndDES", "HIGH", "Password-based encryption using MD5/DES is weak." },
-    { "Weak KDF Iteration Count", "PBEKeySpec(", "MEDIUM", "Verify iteration count is sufficiently high to resist brute force." },
-    
-    { "Custom Crypto Implementation", "class MyCipher", "MEDIUM", "Custom cryptographic implementations are error-prone; prefer vetted libraries." },
-    
+    { "Insecure Cipher Mode", "Cipher.getInstance(\"AES\")", "HIGH", "Bare \"AES\" defaults to AES/ECB on Android, which leaks data patterns." },
+    { "Hardcoded Encryption Key", "new SecretKeySpec(\"", "HIGH", "Encryption key built from a hardcoded string literal." },
+    { "Hardcoded IV", "IvParameterSpec(new byte[", "HIGH", "Static/zero IV defeats CBC/GCM security guarantees." },
+    { "Weak Random Number Generator", "SecureRandom.getInstance(\"SHA1PRNG\")", "MEDIUM", "SHA1PRNG is deprecated and can be predictable when seeded manually." },
+ 
     { "Insecure SSLContext", "SSLContext.getInstance(\"SSL\")", "HIGH", "Legacy SSL protocol is insecure; use TLS 1.2+." },
     { "Insecure Protocol Version", "SSLContext.getInstance(\"TLSv1\")", "MEDIUM", "TLS 1.0 is deprecated and vulnerable to known attacks." },
     { "Insecure Protocol Version", "SSLContext.getInstance(\"TLSv1.1\")", "MEDIUM", "TLS 1.1 is deprecated." },
     { "Weak Signature Algorithm", "Signature.getInstance(\"MD5withRSA\")", "HIGH", "MD5-based signatures are vulnerable to collision attacks." },
-    { "Weak Signature Algorithm", "Signature.getInstance(\"SHA1withRSA\")", "MEDIUM", "SHA1-based signatures are deprecated." },
-    { "Kotlin Weak Hash", "MessageDigest.getInstance(\"MD5\").digest", "HIGH", "Kotlin usage of MD5 digest, cryptographically broken." },
-    
-// certificate_pinning_patterns
-    { "Missing Certificate Pinning", "X509TrustManager", "MEDIUM", "Custom TrustManager present; verify certificate pinning is enforced." },
-    { "Trust All Certificates", "checkServerTrusted", "HIGH", "Verify this does not blindly trust all server certificates." },
-    { "Trust All Certificates", "checkClientTrusted", "HIGH", "Verify this does not blindly trust all client certificates." },
-    { "Empty TrustManager Implementation", "public void checkServerTrusted(X509Certificate[] chain, String authType) {}", "CRITICAL", "Empty implementation disables certificate validation entirely." },
-    
-    { "OkHttp Pinning Disabled", "CertificatePinner.NONE", "CRITICAL", "Certificate pinning explicitly disabled in OkHttp." },
  
-    { "Debug Overrides Enabled", "<debug-overrides", "MEDIUM", "Debug overrides may allow user-added CAs, weakening pinning in debug builds." },
+    { "Empty TrustManager Implementation", "public void checkServerTrusted(X509Certificate[] chain, String authType) {}", "CRITICAL", "Empty implementation disables certificate validation entirely." },
     { "Cleartext Traffic Permitted", "cleartextTrafficPermitted=\"true\"", "HIGH", "Cleartext traffic permitted, bypassing TLS protections." },
-    { "AndroidManifest Cleartext Flag", "android:usesCleartextTraffic=\"true\"", "HIGH", "Application explicitly allows cleartext (unencrypted) traffic." },
-    { "Custom HostnameVerifier", "HostnameVerifier", "MEDIUM", "Custom hostname verifier present; verify it correctly validates hostnames." },
     { "Allow All Hostname Verifier", "ALLOW_ALL_HOSTNAME_VERIFIER", "CRITICAL", "Hostname verification is completely disabled." },
     { "Insecure Hostname Verifier", "setHostnameVerifier((hostname, session) -> true)", "CRITICAL", "Hostname verification lambda always returns true, disabling checks." },
-    { "OkHttp Unsafe Hostname Verifier", "HostnameVerifier() { public boolean verify(String hostname, SSLSession session) { return true; } }", "CRITICAL", "Hostname verifier unconditionally accepts all hostnames." },
-    
-    { "Certificate Transparency Bypass", "setCTEnabled(false)", "MEDIUM", "Certificate Transparency verification disabled." },
-    
-// root_detection_patterns
+    { "TrustAllSSLSocketFactory", "TrustAllSSLSocketFactory", "CRITICAL", "Custom socket factory named to trust all certificates unconditionally." },
+    { "Naive Trust Manager", "NaiveTrustManager", "CRITICAL", "Trust manager implementation name suggests unconditional trust." },
+    { "Allow All Hostname Verifier", "AllowAllHostnameVerifier", "CRITICAL", "Apache verifier that accepts every hostname." },
+    { "Allow All Hostname Verifier", "NoopHostnameVerifier", "CRITICAL", "Verifier that performs no hostname validation." },
+    { "Insecure SSL Socket Factory", "SSLCertificateSocketFactory.getInsecure(", "CRITICAL", "Returns a socket factory with no certificate validation." },
+    { "Global Hostname Verifier Override", "HttpsURLConnection.setDefaultHostnameVerifier(", "HIGH", "Overrides hostname verification for every HTTPS connection in the app." },
 
+    { "Weak Hash Algorithm", "MessageDigest.getInstance(\"SHA1\")", "HIGH", "SHA-1 (alias without hyphen) is deprecated for security-sensitive use." },
+    { "Insecure SSLContext", "SSLContext.getInstance(\"SSLv3\")", "HIGH", "SSLv3 is broken (POODLE); use TLS 1.2+." },
+    { "Trust Self-Signed Certificates", "TrustSelfSignedStrategy", "HIGH", "Apache HttpClient strategy that accepts self-signed certificates." },
+    { "Insecure RSA Padding", "Cipher.getInstance(\"RSA/ECB/NoPadding\")", "HIGH", "Textbook RSA without padding is insecure and malleable." },
+    { "Insecure RSA Padding", "Cipher.getInstance(\"RSA/ECB/PKCS1Padding\")", "MEDIUM", "PKCS#1 v1.5 padding is vulnerable to padding-oracle attacks; prefer OAEP." },
+    { "Predictable Seed", "setSeed(System.currentTimeMillis()", "HIGH", "Seeding a RNG with the current time makes output predictable." },
+    { "Global SSL Socket Factory Override", "HttpsURLConnection.setDefaultSSLSocketFactory(", "HIGH", "Replaces the SSL socket factory for every HTTPS connection in the app." },
+};
  
-    { "Dangerous Props Check", "ro.debuggable", "MEDIUM", "Checks debuggable system property, which should be 0 on production devices." },
-    { "Dangerous Props Check", "ro.secure", "MEDIUM", "Checks ro.secure system property for root/security posture." },
+masvs_pattern network_security_patterns[] =
+{
  
+    { "Cleartext HTTP URL", "http://", "MEDIUM", "Hardcoded cleartext HTTP URL detected; data transmitted is unencrypted." },
+    { "WebSocket Insecure Scheme", "ws://", "MEDIUM", "Unencrypted WebSocket connection (ws://) detected instead of wss://." },
+ 
+    { "OkHttp Body Logging", "HttpLoggingInterceptor.Level.BODY", "MEDIUM", "Full request/response body logging can leak tokens and personal data." },
+    { "Emulator Localhost URL", "http://10.0.2.2", "MEDIUM", "Leftover development endpoint pointing at the Android emulator host." },
+    { "Private Network URL", "http://192.168.", "MEDIUM", "Hardcoded internal network address; leaks infrastructure details." },
+};
+ 
+ 
+masvs_pattern platform_defenses[] =
+{
+ 
+
     { "Xposed Framework Detection", "de.robv.android.xposed", "MEDIUM", "Checks for Xposed Framework, which can hook and modify app behavior." },
-    { "Xposed Bridge Detection", "XposedBridge", "MEDIUM", "Detects presence of XposedBridge class used by Xposed modules." },
     { "Frida Detection", "frida-server", "MEDIUM", "Checks for Frida server process, a dynamic instrumentation toolkit." },
-    
     { "Runtime Exec Root Check", "Runtime.getRuntime().exec(\"su\")", "MEDIUM", "Executes su via Runtime.exec to test root access." },
- 
-    { "Su Binary Check", "/data/local/su", "MEDIUM", "Checks for su binary in /data/local, a common root indicator path." },
-    { "Su Binary Check", "/data/local/bin/su", "MEDIUM", "Checks for su binary in /data/local/bin, a common root indicator path." },
-    { "Su Binary Check", "/data/local/xbin/su", "MEDIUM", "Checks for su binary in /data/local/xbin, a common root indicator path." },
-    { "Su Binary Check", "/sbin/su", "MEDIUM", "Checks for su binary in /sbin, common on rooted devices." },
-    { "Su Binary Check", "/su/bin/su", "MEDIUM", "Checks for su binary under a dedicated /su mount point used by some root solutions." },
     { "Su Binary Check", "/system/bin/su", "MEDIUM", "Checks for su binary in /system/bin, the standard root indicator path." },
-    { "Su Binary Check", "/system/bin/.ext/su", "MEDIUM", "Checks for su binary hidden in /system/bin/.ext, used to evade basic root checks." },
-    { "Su Binary Check", "/system/bin/failsafe/su", "MEDIUM", "Checks for su binary in the failsafe boot path, an alternate root indicator." },
-    { "Su Binary Check", "/system/sd/xbin/su", "MEDIUM", "Checks for su binary on SD-mounted xbin path, a legacy root indicator." },
-    { "Su Binary Check", "/system/usr/we-need-root/su", "MEDIUM", "Checks for su binary in a known custom-ROM root placement path." },
     { "Su Binary Check", "/system/xbin/su", "MEDIUM", "Checks for su binary in /system/xbin, a standard root indicator path." },
-    { "Su Binary Check", "/cache/su", "MEDIUM", "Checks for su binary in /cache, an atypical but known root placement path." },
-    { "Su Binary Check", "/data/su", "MEDIUM", "Checks for su binary directly under /data, a root indicator path." },
-    { "Su Binary Check", "/dev/su", "MEDIUM", "Checks for su binary under /dev, an atypical root placement path." },
-// anti_debugging_patterns
-
+    { "Su Binary Check", "/sbin/su", "MEDIUM", "Checks for su binary in /sbin, common on rooted devices." },
  
+  
     { "Application Debuggable Flag", "ApplicationInfo.FLAG_DEBUGGABLE", "MEDIUM", "Checks the application's debuggable flag at runtime." },
-    { "Manifest Debuggable Flag", "android:debuggable=\"true\"", "CRITICAL", "Application is explicitly marked debuggable in the manifest." },
     { "Ptrace Anti-Debug", "ptrace(PTRACE_TRACEME", "MEDIUM", "Uses ptrace self-tracing to prevent a debugger from attaching." },
     { "TracerPid Check", "TracerPid", "MEDIUM", "Inspects /proc/self/status TracerPid field to detect debuggers." },
- 
-    { "JDWP Detection", "jdwp", "MEDIUM", "Checks for Java Debug Wire Protocol activity, indicating a debugger." },
-    { "Native Anti-Debug", "__ptrace_traceme", "MEDIUM", "Native-level ptrace anti-debugging technique." },
- 
     { "Anti Frida Detection", "gum-js-loop", "MEDIUM", "Checks for Frida's internal thread name used during instrumentation." },
     { "Anti Frida Detection", "frida_agent", "MEDIUM", "Checks for Frida agent library presence." },
-    { "Anti Frida Detection", "linjector", "MEDIUM", "Checks for linjector, a library injection tool used with Frida." },
-    
-//  anti_tamper_patterns
-
  
+   
     { "APK Signature Hash Check", "signatures[0].hashCode()", "MEDIUM", "Compares signature hash to detect resigned/tampered APKs." },
- 
     { "Hooking Framework Detection", "com.saurik.substrate", "MEDIUM", "Detects Cydia Substrate hooking framework." },
-    { "Hooking Framework Detection", "de.robv.android.xposed.XposedHelpers", "MEDIUM", "Detects Xposed hooking helper classes." },
  
-// sharedpreferences_patterns
-
-    { "World Readable Mode", "MODE_WORLD_READABLE", "CRITICAL", "Deprecated and insecure mode allowing any app to read preferences." },
-    { "World Writable Mode", "MODE_WORLD_WRITABLE", "CRITICAL", "Deprecated and insecure mode allowing any app to modify preferences." },
-    { "Plaintext SharedPreferences", "getSharedPreferences(", "MEDIUM", "Verify sensitive data is not stored in plaintext SharedPreferences." },
-    
+  
+    { "Root Detection Library", "com.scottyab.rootbeer", "MEDIUM", "RootBeer root-detection library in use." },
+    { "Play Integrity API", "com.google.android.play.core.integrity", "MEDIUM", "Play Integrity attestation in use; verify the verdict is checked server-side." },
+    { "Debugger Detection", "Debug.isDebuggerConnected()", "MEDIUM", "Runtime check for an attached Java debugger." },
+    { "Screenshot Protection", "FLAG_SECURE", "MEDIUM", "Window uses FLAG_SECURE to block screenshots and screen recording." },
+};
+ 
+masvs_pattern data_storages[] =
+{
+ 
+ 
+    { "World Readable Mode", "MODE_WORLD_READABLE", "CRITICAL", "Deprecated and insecure mode allowing any app to read preferences/files." },
+    { "World Writable Mode", "MODE_WORLD_WRITABLE", "CRITICAL", "Deprecated and insecure mode allowing any app to modify preferences/files." },
     { "Storing Sensitive Data", "putString(\"password\"", "CRITICAL", "Potential storage of a password in plaintext SharedPreferences." },
     { "Storing Sensitive Data", "putString(\"token\"", "HIGH", "Potential storage of an auth token in plaintext SharedPreferences." },
     { "Storing Sensitive Data", "putString(\"api_key\"", "HIGH", "Potential storage of an API key in plaintext SharedPreferences." },
     { "Storing Sensitive Data", "putString(\"secret\"", "HIGH", "Potential storage of a secret value in plaintext SharedPreferences." },
-    
-    { "Kotlin SharedPreferences", "getSharedPreferences(", "MEDIUM", "Verify Kotlin SharedPreferences usage does not store sensitive data." },
  
-// sqlite_patterns
-
-    { "SQL Injection Risk", "rawQuery(", "HIGH", "Raw SQL query usage; verify parameters are not concatenated unsafely." },
-    { "SQL Injection Risk", "execSQL(", "HIGH", "Direct SQL execution; verify inputs are parameterized to prevent injection." },
+   
     { "String Concatenation in Query", "\"SELECT * FROM \" +", "HIGH", "String concatenation in SQL queries is vulnerable to SQL injection." },
-    { "Unencrypted SQLite Database", "SQLiteDatabase.openOrCreateDatabase(", "MEDIUM", "Verify database is encrypted (e.g., via SQLCipher) if storing sensitive data." },
-    { "Unencrypted SQLite Database", "SQLiteOpenHelper", "MEDIUM", "SQLiteOpenHelper subclass; verify sensitive data is encrypted at rest." },
  
-    { "Hardcoded DB Password", "openOrCreateDatabase(", "MEDIUM", "Verify database password/key is not hardcoded in source." },
-    
-    { "Database Backup Enabled", "android:allowBackup=\"true\"", "MEDIUM", "Allows database files to be extracted via adb backup on unsecured devices." },
-    
-    { "Room Raw Query", "@RawQuery", "MEDIUM", "Room raw query annotation; verify inputs are not vulnerable to injection." },
-    
-    { "Database File World Readable", "MODE_WORLD_READABLE", "CRITICAL", "Database file created with insecure world-readable permissions." },
-
-// external_storage_patterns
-
+  
     { "External Storage Write", "getExternalStorageDirectory()", "HIGH", "Writing to external storage exposes data to any app with storage permission." },
-    { "External Files Dir", "getExternalFilesDir(", "MEDIUM", "Verify sensitive data is not written to app-specific external storage." },
-    { "External Cache Dir", "getExternalCacheDir(", "MEDIUM", "Verify sensitive data is not cached on external storage." },
-    { "Legacy External Storage", "requestLegacyExternalStorage=\"true\"", "MEDIUM", "Legacy external storage access bypasses scoped storage protections." },
-    { "Write External Storage Permission", "WRITE_EXTERNAL_STORAGE", "MEDIUM", "Permission allows writing to shared external storage." },
-    { "Read External Storage Permission", "READ_EXTERNAL_STORAGE", "MEDIUM", "Permission allows reading from shared external storage." },
     { "MANAGE_EXTERNAL_STORAGE Permission", "MANAGE_EXTERNAL_STORAGE", "HIGH", "Broad permission granting access to all files on external storage." },
     { "FileOutputStream to External Path", "FileOutputStream(\"/sdcard/", "HIGH", "Direct write to /sdcard path; verify no sensitive data is exposed." },
-    { "Hardcoded SD Card Path", "/storage/emulated/0/", "MEDIUM", "Hardcoded external storage path detected." },
+    { "World Readable File", "setReadable(true, false)", "HIGH", "Makes a file readable by every app on the device." },
+    { "Public External Storage", "getExternalStoragePublicDirectory(", "HIGH", "Writes to shared public storage readable by other apps." },
  
-    { "World Readable File Creation", "openFileOutput(", "MEDIUM", "Verify file mode does not use MODE_WORLD_READABLE/WRITEABLE." },
-    { "Scoped Storage Bypass", "Environment.isExternalStorageLegacy()", "MEDIUM", "Checks for legacy storage bypass of scoped storage restrictions." },
 
+    { "Storing Sensitive Data", "putString(\"pin\"", "CRITICAL", "Potential storage of a PIN in plaintext SharedPreferences." },
+    { "Storing Sensitive Data", "putString(\"access_token\"", "HIGH", "Potential storage of an access token in plaintext SharedPreferences." },
+    { "Storing Sensitive Data", "putString(\"refresh_token\"", "HIGH", "Potential storage of a refresh token in plaintext SharedPreferences." },
+    { "SQL Injection Risk", "= '\" +", "HIGH", "Quoted SQL value followed by string concatenation is vulnerable to injection." },
+    { "SQL Injection Risk", "LIKE '%\" +", "HIGH", "LIKE clause built with string concatenation is vulnerable to injection." },
+};
  
-// dynamic_code_loading_patterns
+masvs_pattern code_executions[] =
+{
+
     { "DexClassLoader Usage", "DexClassLoader(", "HIGH", "Dynamically loads external DEX code, a common malware/evasion technique." },
-    { "PathClassLoader Usage", "PathClassLoader(", "MEDIUM", "Loads classes from a specified path; verify source is trusted." },
-    { "InMemoryDexClassLoader Usage", "InMemoryDexClassLoader(", "HIGH", "Loads DEX bytecode directly from memory, evading static file analysis." },
     { "DexFile Loading", "DexFile.loadDex(", "HIGH", "Explicit dynamic loading of DEX files at runtime." },
-    { "DexFile Class Loading", "new DexFile(", "HIGH", "Instantiates a DexFile object for dynamic code loading." },
     { "Native Library Dynamic Load", "System.load(", "MEDIUM", "Loads a native library from an absolute path at runtime." },
-    
-    { "Runtime Class Definition", "defineClass(", "HIGH", "Defines a class dynamically from raw bytecode at runtime." },
-    { "Kotlin Dynamic Class Loading", "URLClassLoader(", "MEDIUM", "Loads classes dynamically from a URL, potential remote code execution vector." },
-    { "APK Patch Loading", "loadDex(", "HIGH", "Loads a DEX patch/plugin dynamically, potential hot-patching risk." },
-    
-    { "Plugin Framework Loading", "DL.loadApk(", "MEDIUM", "Dynamic plugin/APK loading framework usage detected." },
-
  
-// reflection_patterns
-
-    { "Reflection Accessibility Bypass", "setAccessible(true)", "HIGH", "Bypasses Java access control checks, allowing access to private members." },
-    { "Reflection Based Instantiation", "newInstance()", "MEDIUM", "Dynamically instantiates an object, potentially bypassing constructor checks." },
-    { "Hidden API Access via Reflection", "getDeclaredMethods()", "MEDIUM", "Enumerates all declared methods, sometimes used to access hidden APIs." },
     { "Reflection on System Classes", "Class.forName(\"android.os", "HIGH", "Reflective access to internal Android OS classes, often used to bypass restrictions." },
-
-// runtime_command_execution_patterns
+ 
     { "Runtime Exec Call", "Runtime.getRuntime().exec(", "HIGH", "Executes an OS-level command; verify inputs are not user-controlled." },
     { "ProcessBuilder Usage", "ProcessBuilder(", "HIGH", "Spawns a new OS process; verify command arguments are sanitized." },
     { "Shell Command Execution", "/system/bin/sh", "HIGH", "Directly invokes a shell, high risk of command injection if input is unsanitized." },
-    { "Shell Command Execution", "/bin/sh -c", "HIGH", "Invokes shell with -c flag to execute arbitrary command strings." },
-    { "Exec Native Function", "system(", "CRITICAL", "Native system() call; verify no untrusted input reaches the command string." },
-    { "Native Exec Function", "execve(", "HIGH", "Native execve() syscall for process execution." },
-    { "Native Popen Function", "popen(", "HIGH", "Native popen() call executes a command via shell, injection risk if unsanitized." },
-    { "Command Injection Risk", "exec(\"su -c", "CRITICAL", "Executes elevated shell commands via su, high risk if input is unsanitized." },
-    { "Kotlin Runtime Exec", "Runtime.getRuntime().exec(arrayOf(", "HIGH", "Kotlin usage of Runtime.exec with argument array." },
-
-// webview_security_patterns
-
-    { "JavaScript Enabled", "setJavaScriptEnabled(true)", "MEDIUM", "Enables JavaScript execution in WebView, increasing XSS attack surface." },
+    { "Mutable PendingIntent", "PendingIntent.FLAG_MUTABLE", "MEDIUM", "Mutable PendingIntents can be hijacked and redirected by other apps." },
+ 
+   
+    { "Intent Redirection", "Intent.parseUri(", "HIGH", "Builds an Intent from an untrusted URI string; risk of intent redirection." },
+    { "Sticky Broadcast", "sendStickyBroadcast(", "MEDIUM", "Sticky broadcasts are deprecated and readable by any app." },
+    { "Unsafe Memory Access", "sun.misc.Unsafe", "MEDIUM", "Direct memory access via sun.misc.Unsafe bypasses JVM safety." },
+    { "Chmod Command Execution", "exec(\"chmod", "HIGH", "Changes file permissions via shell; may create world-accessible files." },
+};
+ 
+masvs_pattern web_natives[] = 
+{
+ 
+   
     { "JavaScript Interface Exposure", "addJavascriptInterface(", "HIGH", "Exposes Java objects to JavaScript, risk of remote code execution pre-API 17." },
-    { "File Access Enabled", "setAllowFileAccess(true)", "MEDIUM", "Allows WebView to access local file system resources." },
     { "Universal File Access", "setAllowUniversalAccessFromFileURLs(true)", "CRITICAL", "Allows universal access from file URLs, a severe security risk." },
     { "File Access From File URLs", "setAllowFileAccessFromFileURLs(true)", "HIGH", "Allows file-scheme pages to access other file-scheme resources." },
     { "Mixed Content Allowed", "setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW)", "HIGH", "Allows insecure HTTP content to load within an HTTPS WebView page." },
     { "WebView Debugging Enabled", "setWebContentsDebuggingEnabled(true)", "MEDIUM", "Enables remote WebView debugging, should be disabled in production." },
-    { "Insecure SSL Error Handling", "onReceivedSslError", "HIGH", "Custom SSL error handler; verify it does not blindly proceed on errors." },
     { "Ignore SSL Errors", "handler.proceed()", "CRITICAL", "Proceeds despite SSL errors, bypassing certificate validation in WebView." },
     { "Load URL From Intent", "loadUrl(getIntent()", "HIGH", "Loads a URL sourced from an external Intent, potential injection vector." },
-    
     { "Safe Browsing Disabled", "setSafeBrowsingEnabled(false)", "MEDIUM", "Disables Google Safe Browsing protection in WebView." },
-    { "Kotlin WebView JS Interface", "addJavascriptInterface(this,", "HIGH", "Kotlin WebView exposes an interface object to JavaScript context." },
-    { "WebView Content Provider Access", "setAllowContentAccess(true)", "MEDIUM", "Allows WebView to access content:// URIs, verify provider exposure." },
-
-
-// ssl_validation_patterns
-    { "Custom TrustManager Bypass", "public void checkServerTrusted", "HIGH", "Custom server trust validation; verify it performs proper chain validation." },
-    { "SSLSocketFactory Override", "setSSLSocketFactory(", "MEDIUM", "Custom SSLSocketFactory; verify it does not weaken TLS validation." },
-    { "TrustAllSSLSocketFactory", "TrustAllSSLSocketFactory", "CRITICAL", "Custom socket factory named to trust all certificates unconditionally." },
-    { "SSL Error Ignored (WebView)", "SslErrorHandler", "HIGH", "Handles SSL errors; verify errors are not silently ignored." },
-    { "Insecure OkHttp SSL Config", "sslSocketFactory(", "MEDIUM", "Custom SSL socket factory configured in OkHttp; verify trust manager validity." },
-    { "Insecure Volley HurlStack", "HurlStack(null,", "MEDIUM", "Volley HurlStack with custom SSL factory, verify secure configuration." },
-    { "Naive Trust Manager", "NaiveTrustManager", "CRITICAL", "Trust manager implementation name suggests unconditional trust." },
-    { "Empty Certificate Chain Check", "return new X509Certificate[]{}", "HIGH", "Returns empty certificate chain, potentially bypassing validation logic." },
-    { "SSL Pinning Bypass Comment", "// TODO: implement SSL pinning", "MEDIUM", "Code comment indicates SSL pinning is not yet implemented." },
-    { "Apache SSL All Trusting", "SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER", "CRITICAL", "Apache HttpClient configured to trust all hostnames unconditionally." },
-
-// native_library_loading_patterns
-
-    { "Native Library Load By Path", "System.load(", "MEDIUM", "Loads a native library from an absolute file path at runtime." },
  
-    { "Dynamic Library Open (Native)", "dlopen(", "MEDIUM", "Native dynamic library loading via dlopen(); verify loaded library source." },
-    { "Dynamic Symbol Resolution", "dlsym(", "MEDIUM", "Resolves a symbol from a dynamically loaded library at runtime." },
-    
+ 
     { "Native Library From External Storage", "loadLibrary(\"/sdcard/", "CRITICAL", "Loads a native library from external storage, a severe code injection risk." },
  
+  
+    { "JavaScript URL Injection", "loadUrl(\"javascript:", "MEDIUM", "Executes JavaScript via loadUrl; verify no untrusted data is concatenated." },
+    { "WebView Loads External Storage", "loadUrl(\"file:///sdcard", "HIGH", "Loads content from external storage that other apps can modify." },
+    { "Load URL From Intent Extra", "loadUrl(getIntent().getStringExtra(", "HIGH", "Loads a URL taken from an Intent extra; open redirect / injection vector." },
+    { "WebView Save Password", "setSavePassword(true)", "HIGH", "WebView stores passwords in plaintext (deprecated and insecure)." },
+    { "JavaScript Interface Method", "@JavascriptInterface", "MEDIUM", "Method exposed to JavaScript; verify the WebView only loads trusted content." },
+    { "Intent URI Scheme", "Intent.URI_INTENT_SCHEME", "MEDIUM", "Parses intent: URIs from web content; risk of intent redirection." },
 };
 
-masvs_pattern network_security_patterns[] =
-{
 
-    { "Cleartext HTTP URL", "http://", "MEDIUM", "Hardcoded cleartext HTTP URL detected; data transmitted is unencrypted." },
- 
-    { "OkHttp Logging Interceptor", "HttpLoggingInterceptor", "MEDIUM", "Logging interceptor may leak sensitive request/response data in logs." },
-    { "OkHttp Logging Level Body", "Level.BODY", "MEDIUM", "Full request/response body logging risks exposing sensitive data." },
-    { "Retrofit Insecure Base URL", "http://", "MEDIUM", "Retrofit configured with a cleartext base URL." },
-    { "Apache HttpClient Usage", "DefaultHttpClient(", "MEDIUM", "Deprecated Apache HttpClient; verify secure configuration." },
-    { "Disabled Certificate Validation", "ALLOW_ALL_HOSTNAME_VERIFIER", "CRITICAL", "All-permissive hostname verifier disables TLS hostname validation." },
-    { "Insecure Socket Connection", "new Socket(", "MEDIUM", "Raw socket connection; verify TLS/SSL is used for sensitive data." },
-    { "Insecure Trust Manager Array", "new TrustManager[]{new X509TrustManager()", "CRITICAL", "Custom TrustManager array potentially bypassing certificate checks." },
-    
-    { "WebSocket Insecure Scheme", "ws://", "MEDIUM", "Unencrypted WebSocket connection (ws://) detected instead of wss://." },
-    
-    { "FTP Cleartext Protocol", "ftp://", "MEDIUM", "Unencrypted FTP protocol reference detected." },
-};
 
 
 char *false_positives[] = {
@@ -595,6 +512,7 @@ char *false_positives[] = {
     "http://java.sun.com/",
     "http://xml.org/sax/",
     "http://apache.org/xml/"
+    "http://schemas.android.com/apk/res-auto"
 };
 
 int pattern_count = sizeof(patterns) / sizeof(patterns[0]);
@@ -602,7 +520,11 @@ int permission_count = sizeof(permission) / sizeof(permission[0]);
 int manifest_count = sizeof(manifest_scan) / sizeof(manifest_scan[0]);
 int strings_count = sizeof(string_patterns) / sizeof(string_patterns[0]);
 
-int masvs_count = sizeof(masvs_patterns) / sizeof(masvs_patterns[0]);
+int weak_network = sizeof(weak_networks) / sizeof(weak_networks[0]);
+int platform_defense = sizeof(platform_defenses) / sizeof(platform_defenses[0]);
+int data_storage = sizeof(data_storages) / sizeof(data_storages[0]);
+int code_execution = sizeof(code_executions) / sizeof(code_executions[0]);
+int web_native = sizeof(web_natives) / sizeof(web_natives[0]);
 int masvs_network_security_patterns_count = sizeof(network_security_patterns) / sizeof(network_security_patterns[0]);
 int false_positives_count = sizeof(false_positives) / sizeof(false_positives[0]);
 
