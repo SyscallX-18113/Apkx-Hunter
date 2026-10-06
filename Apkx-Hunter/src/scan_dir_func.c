@@ -8,7 +8,7 @@
 
 #include "scan_dir_func.h"
 
-void scan_dir(const char *path, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, char *argv[], int argc, char *output_dir, FILE *for_masvs)
+void scan_dir(const char *path, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, char *shell_argv[], int shell_argc, char *output_dir, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native)
 {
 
     struct dirent *entry;
@@ -33,11 +33,11 @@ void scan_dir(const char *path, FILE *for_patterns, FILE *for_regex, FILE *for_p
 
         if (S_ISDIR(st.st_mode))
         {
-            scan_dir(fullpath, for_patterns, for_regex, for_permissions, argv, argc, output_dir, for_masvs); 
+            scan_dir(fullpath, for_patterns, for_regex, for_permissions, shell_argv, shell_argc, output_dir, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native); 
         }
         else
         {
-            scan_file(fullpath, for_patterns, for_regex, for_permissions, for_masvs);
+            scan_file(fullpath, for_patterns, for_regex, for_permissions, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native);
             stats.files_analyzed++;
         }
     }
@@ -46,7 +46,7 @@ void scan_dir(const char *path, FILE *for_patterns, FILE *for_regex, FILE *for_p
 }
 
 
-void scan_dir_sec(const char *path, FILE *for_regex, char *argv[], int argc, char *output_dir)
+void scan_dir_sec(const char *path, FILE *for_regex, char *shell_argv[], int shell_argc, char *output_dir)
 {
     
     struct dirent *entry;
@@ -71,7 +71,7 @@ void scan_dir_sec(const char *path, FILE *for_regex, char *argv[], int argc, cha
 
         if (S_ISDIR(st.st_mode))
         {
-            scan_dir_sec(fullpath, for_regex, argv, argc, output_dir); 
+            scan_dir_sec(fullpath, for_regex, shell_argv, shell_argc, output_dir); 
         }
         else
         {
@@ -83,7 +83,7 @@ void scan_dir_sec(const char *path, FILE *for_regex, char *argv[], int argc, cha
     closedir(dp);
 }
 
-void scan_dir_masvs(const char *path, FILE *for_masvs, char *argv[], int argc, char *output_dir)
+void scan_dir_masvs(const char *path, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native, char *shell_argv[], int shell_argc, char *output_dir)
 {
     
     struct dirent *entry;
@@ -108,11 +108,11 @@ void scan_dir_masvs(const char *path, FILE *for_masvs, char *argv[], int argc, c
 
         if (S_ISDIR(st.st_mode))
         {
-            scan_dir_masvs(fullpath, for_masvs, argv, argc, output_dir); 
+            scan_dir_masvs(fullpath, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native, shell_argv, shell_argc, output_dir); 
         }
         else
         {
-            scan_file_masvs(fullpath, for_masvs);
+            scan_file_masvs(fullpath, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native);
             stats.files_analyzed++;
         }
     }
@@ -122,7 +122,7 @@ void scan_dir_masvs(const char *path, FILE *for_masvs, char *argv[], int argc, c
 
 
 
-void scan_dir_per(const char *path, FILE *for_permissions, char *argv[], int argc, char *output_dir)
+void scan_dir_per(const char *path, FILE *for_permissions, char *shell_argv[], int shell_argc, char *output_dir)
 {
     
     struct dirent *entry;
@@ -147,7 +147,7 @@ void scan_dir_per(const char *path, FILE *for_permissions, char *argv[], int arg
 
         if (S_ISDIR(st.st_mode))
         {
-            scan_dir_per(fullpath, for_permissions, argv, argc, output_dir); 
+            scan_dir_per(fullpath, for_permissions, shell_argv, shell_argc, output_dir); 
         }
         else
         {
@@ -161,7 +161,7 @@ void scan_dir_per(const char *path, FILE *for_permissions, char *argv[], int arg
 
 
 
-void scan_dir_pat(const char *path, FILE *for_patterns, char *argv[], int argc, char *output_dir)
+void scan_dir_pat(const char *path, FILE *for_patterns, char *shell_argv[], int shell_argc, char *output_dir)
 {
     
     struct dirent *entry;
@@ -186,7 +186,7 @@ void scan_dir_pat(const char *path, FILE *for_patterns, char *argv[], int argc, 
 
         if (S_ISDIR(st.st_mode))
         {
-            scan_dir_pat(fullpath, for_patterns, argv, argc, output_dir); 
+            scan_dir_pat(fullpath, for_patterns, shell_argv, shell_argc, output_dir); 
         }
         else
         {
@@ -236,7 +236,7 @@ void scan_dir_files(const char *path, FILE *scan_files, FILE *for_native_lib)
 }
 
 
-void scan_dir_for_apktool(FILE *scan_files, const char *path, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, char *argv[], int argc, char *output_dir, FILE *for_masvs)
+void scan_dir_for_apktool(FILE *scan_files, const char *path, FILE *for_patterns, FILE *for_regex, FILE *for_permissions, char *shell_argv[], int shell_argc, char *output_dir, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native)
 {
 
     struct dirent *entry;
@@ -261,11 +261,11 @@ void scan_dir_for_apktool(FILE *scan_files, const char *path, FILE *for_patterns
 
         if (S_ISDIR(st.st_mode))
         {
-            scan_dir_for_apktool(scan_files, fullpath, for_patterns, for_regex, for_permissions, argv, argc, output_dir, for_masvs);
+            scan_dir_for_apktool(scan_files, fullpath, for_patterns, for_regex, for_permissions, shell_argv, shell_argc, output_dir, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native);
         }
         else
         {
-            scan_file_for_apktool(scan_files, fullpath, for_patterns, for_regex, for_permissions, for_masvs);
+            scan_file_for_apktool(scan_files, fullpath, for_patterns, for_regex, for_permissions, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native);
             stats.files_analyzed++;
         }
     }
@@ -275,7 +275,7 @@ void scan_dir_for_apktool(FILE *scan_files, const char *path, FILE *for_patterns
 
 
 
-void scan_dir_for_apktool_sec(const char *path, FILE *for_regex, char *argv[], int argc, char *output_dir)
+void scan_dir_for_apktool_sec(const char *path, FILE *for_regex, char *shell_argv[], int shell_argc, char *output_dir)
 {
     
     struct dirent *entry;
@@ -300,7 +300,7 @@ void scan_dir_for_apktool_sec(const char *path, FILE *for_regex, char *argv[], i
 
         if (S_ISDIR(st.st_mode))
         {
-            scan_dir_for_apktool_sec(fullpath, for_regex, argv, argc, output_dir); 
+            scan_dir_for_apktool_sec(fullpath, for_regex, shell_argv, shell_argc, output_dir); 
         }
         else
         {
@@ -312,7 +312,7 @@ void scan_dir_for_apktool_sec(const char *path, FILE *for_regex, char *argv[], i
     closedir(dp);
 }
 
-void scan_dir_for_apktool_masvs(const char *path, FILE *for_masvs, char *argv[], int argc, char *output_dir)
+void scan_dir_for_apktool_masvs(const char *path, FILE *for_weak_network, FILE *for_platform_defense, FILE *for_data_storage, FILE *for_code_execution, FILE *for_web_native, char *shell_argv[], int shell_argc, char *output_dir)
 {
     
     struct dirent *entry;
@@ -337,11 +337,11 @@ void scan_dir_for_apktool_masvs(const char *path, FILE *for_masvs, char *argv[],
 
         if (S_ISDIR(st.st_mode))
         {
-            scan_dir_for_apktool_masvs(fullpath, for_masvs, argv, argc, output_dir); 
+            scan_dir_for_apktool_masvs(fullpath, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native, shell_argv, shell_argc, output_dir); 
         }
         else
         {
-            scan_file_for_apktool_masvs(fullpath, for_masvs);
+            scan_file_for_apktool_masvs(fullpath, for_weak_network, for_platform_defense, for_data_storage, for_code_execution, for_web_native);
             stats.files_analyzed++;
         }
     }
@@ -352,7 +352,7 @@ void scan_dir_for_apktool_masvs(const char *path, FILE *for_masvs, char *argv[],
 
 
 
-void scan_dir_for_apktool_per(const char *path, FILE *for_permissions, char *argv[], int argc, char *output_dir)
+void scan_dir_for_apktool_per(const char *path, FILE *for_permissions, char *shell_argv[], int shell_argc, char *output_dir)
 {
     
     struct dirent *entry;
@@ -377,7 +377,7 @@ void scan_dir_for_apktool_per(const char *path, FILE *for_permissions, char *arg
 
         if (S_ISDIR(st.st_mode))
         {
-            scan_dir_for_apktool_per(fullpath, for_permissions, argv, argc, output_dir);
+            scan_dir_for_apktool_per(fullpath, for_permissions, shell_argv, shell_argc, output_dir);
             
         }
         else
@@ -392,7 +392,7 @@ void scan_dir_for_apktool_per(const char *path, FILE *for_permissions, char *arg
 
 
 
-void scan_dir_for_apktool_pat(const char *path, FILE *for_patterns, char *argv[], int argc, char *output_dir)
+void scan_dir_for_apktool_pat(const char *path, FILE *for_patterns, char *shell_argv[], int shell_argc, char *output_dir)
 {
     
     struct dirent *entry;
@@ -417,7 +417,7 @@ void scan_dir_for_apktool_pat(const char *path, FILE *for_patterns, char *argv[]
 
         if (S_ISDIR(st.st_mode))
         {
-            scan_dir_for_apktool_pat(fullpath, for_patterns, argv, argc, output_dir);
+            scan_dir_for_apktool_pat(fullpath, for_patterns, shell_argv, shell_argc, output_dir);
         }
         else
         {
