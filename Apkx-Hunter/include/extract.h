@@ -23,8 +23,8 @@
 
 int folder(const char *path);
 void count_apks(const char *folder);
-int extract_apk(char *argv[], char *output_dir);
-int extract_apk_1(int argc, char *argv[], char *output_dir);
+int extract_apk(char *shell_argv[], char *output_dir);
+int extract_apk_1(int shell_argc, char *shell_argv[], char *output_dir);
 
 
 #endif
