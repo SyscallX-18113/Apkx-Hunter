@@ -487,8 +487,7 @@ Your feedback helps improve APKXHunter for everyone.
 ---
 
 ## Development & Contributions
-APKX-Hunter is currently maintained solely by its author. External code contributions are not being accepted at this time. Suggestions, bug reports, and security-related feedback are still welcome.
-
+APKX-Hunter is currently maintained solely by its author. External code contributions are Welcome
 ---
 
 ## Disclaimer
